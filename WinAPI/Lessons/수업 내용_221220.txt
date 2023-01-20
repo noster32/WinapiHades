@@ -1,0 +1,82 @@
+// 초기식이 밖에 있으면 델리게이트나 람다식으로 실행이 불가함. 비표준이기 때문.
+	_viBullet = _vBullet.begin();
+	for (; _viBullet != _vBullet.end(); ++_viBullet)
+	{
+		SAFE_DELETE(_viBullet->img);
+	}
+
+	// 현업에서는 아래와 같이 반복을 돌림.
+	// 현업에서 auto는 사용하지 않음.
+	/*iterBullet iterBullet = _vBullet.begin();
+	for (; iterBullet != _vBullet.end(); ++iterBullet)
+	{
+		SAFE_DELETE(iterBullet->img);
+	}*/
+
+	// 컨테이너 기반 for문. 현업에서 많이 쓰임.
+	/*for (auto iter : _vBullet)
+	{
+		SAFE_DELETE(iter.img);
+	}*/
+
+	// 알고리즘 함수이기에 매우 무거움.
+	/*for each (auto iter in _vBullet)
+	{
+		SAFE_DELETE(iter.img); ▶ 정적. 시작과 끝점을 모르기에 스택 영역에 놓고 돌림.
+	}*/
+
+	// C++ 17에서 기능 확장.
+	// 반복자의 시작과 끝, 함수를 파라미터로 받는다.
+	// 재귀함수: 함수에서 자기 자신을 호출하는 것.
+	/*for_each(_vBullet.begin(), _vBullet.end(), update);
+	{
+
+	}
+
+	int Value = 0;
+	for_each(_vBullet.begin(), _vBullet.end(), [&Value](auto& number)
+		{
+			Value += number;
+		});*/
+
+	/*
+		[] () {} ()
+
+		- [캡처] (매개 변수) {(반환)함수 동작} (호출 인자(생략 가능))
+
+		[] (int numA, int numB) { cout << numA + bumB << endl; } (10, 20)
+		[] (int numA, int numB) { return numA + numB } (10, 20)
+	*/
+
+	/*int numberA = 10;
+	int numberB = 10;
+
+	auto resultA = [](int numA, int numB) {return numA + numB;} (10, 10);
+	auto resultB = [&]()->int {return numberA + numberB;} ();
+	auto resultC = [=, &numberA]()->int {return numberA + numberB;} ();*/
+
+	/*
+		[]: 같은 영역에 있는 모든 변수에 접근 불가
+		[&]: 같은 영역에 있는 모든 변수를 참조로 캡처.
+		[=]: 같은 영역에 있는 모든 변수를 값으로 캡처.
+		[=, &변수A]: 같은 영역에 있는 모든 변수를 값으로 캡처하겠다. 단, 변수A만 참조.
+	*/
+
+	/*
+		델리게이트(이벤트) > 실행자 > 대리자(핸들러)
+		사용하기 위함 함수를 실행자에 등록. 델리게이트가 호출 되면 실행자가 함수를 고름. 그 함수를
+		대리자가 실행 후 델리게이트에게 완료 보고. 그 후 함수들의 내용 교환을 적용 시킴.
+		함수들을 체인으로 묶을 수 있음. 상위 함수만 끊어도 하위 함수들이 알아서 끊김. 객체지향의 장점.
+	*/
+
+	// transform은 엔진에서 정의되어 있는 것과 transform 반복 함수가 있음.
+	// transform: 반복자를 이용한 반복문 (결과를 다른 컨테이너에 저장)
+	//  ㄴ 원본도 가능
+	//vector<int> vBulletReload;
+
+	//// vBulletReload에 _vBullet의 시작부터 끝까지 넣어줌.
+	//transform(_vBullet.begin(), _vBullet.end(), vBulletReload.begin(),
+	//	update);
+
+	//transform(_vBullet.begin(), _vBullet.end(), vBulletReload.begin(),
+	//	[](__int64 numA)-> auto {return numA;});

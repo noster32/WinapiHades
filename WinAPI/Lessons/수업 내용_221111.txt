@@ -1,0 +1,151 @@
+// Stdafx.h
+
+#pragma once
+// 경고 무시 4005: DXGI 등 그래픽 인터페이스에서 매크로 관련하여 많이 출력되는 경고
+// 프로젝트 - 속성 - C/C++ - 고급 - 특정 경고 사용 안 함 - 추가 가능
+#pragma warning(disable : 4005)
+
+// SDKDDKVer.h는 프로그램에서 지원할 OS에 따라서 Windows 헤더에서 코드에 포함될 함수,
+// 상수 등을 제어하는데 사용이 된다. 다른 프로그래밍 언어의 기본적 함수 컨버팅 가능.
+#include <SDKDDKVer.h>
+
+// 거의 사용되지 않는 내용을 Windows 헤더에서 제외
+#define WIN32_LEAN_AND_MEAN
+// GDI+를 사용하려면 헤더파일 꺼내와야 한다.
+//  ㄴ <ole2.h>
+
+// ! Windows 헤더 파일
+#include <Windows.h>
+
+// ! C 런타임 헤더 파일
+#include <stdio.h>
+#include <stdlib.h>
+// 동적 할당 등 메모리 관련
+#include <malloc.h>
+#include <memory.h>
+// 프로젝트의 문자셋 설정에 따라 자동적으로 type casting 되는 중간 매크로 자료형.
+#include <tchar.h>
+
+// ! C++ 런타임 헤더 파일
+#include <iostream>
+/*
+	C++ 11에서 추가된 시간 관련 라이브러리 (STL)
+	 ㄴ 기존 C 러타임에서 제공하는 time 함수보다 다양하고 확장된 기능을 지원
+	 - 장점:
+	  ㄴ 정밀도가 높다 (나노 밀리 초 단위)
+	   ㄴ time 함수는 초 단위의 값만 측정 가능
+	 - OS와 독립적으로 동작한다.
+*/
+#include <chrono>
+// 메르센 트위스터 관련 난수 생성 엔진
+#include <random>
+#include <vector>
+// 레드블랙트리에 기반한 키, 값의 자료형
+#include <map>
+/*
+	unordered_map: Hash 자료구조. 키와 밸류가 있음.
+	단일 매칭이기에 재할당 없음. 키 하나에 무조건 밸류 하나. 안 바뀜.
+	 ㄴ 일반적 상황에서는 map보다 검색 속도가 더 빠르다.
+	 ㄴ 중복된 데이터를 허용하지 않는다.
+	 ㄴ 단, 유사 데이터가 많을 시 (key) 해쉬 충돌이 발생해 성능이 저하된다.
+*/
+#include <unordered_map>
+#include <string>
+// 나중에 설명 예정
+//#include <cassert>
+
+// ! 사용자 정의 헤더 파일
+#include "CommonMacroFunction.h"
+#include "TwoRectMoving.h"
+
+/*
+
+
+
+// ! D2D/D3D 헤더 파일
+#include <D2D1.h>
+#include <d2d1helper.h>
+// 관련 sdk를 설치해야 경고가 없어짐.
+#include <d3dx9.h>
+#include <D3DX11.h>
+#include <d3d11shader.h>
+#include <dinput.h>
+
+// 헤더 파일과 라이브러리도 함께 링크해야 사용 가능.
+#pragma comment(lib, "d2d1.lib")
+#pragma comment(lib, "d3d9.lib")
+#pragma comment(lib, "d3dx9.lib")
+#pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "d3dx11.lib")
+#pragma comment(lib, "dinput8.lib")
+#pragma comment(lib, "dxguid.lib")
+
+// D2D를 사용하는 우회 방식. 정석 방식이 아님.
+ID2D1Factory*			_ID2DFactory = nullptr;
+ID2D1HwndRenderTarget*	_ID2DRenderTarget = nullptr;
+*/
+
+
+
+
+
+
+
+
+
+
+// CommonMacroFunc.h
+
+#pragma once
+
+// POINT: x와 y로 이루어진 구조체
+inline POINT PointMake(int x, int y)
+{
+	POINT pt = {x, y};
+	return pt;
+}
+
+// 선 그리기
+inline void LineMake(HDC hdc, int startX, int startY, int endX, int endY)
+{
+	MoveToEx(hdc, startX, startY, NULL);
+	LineTo(hdc, endX, endY);
+}
+
+// RECT 만들기
+inline RECT RectMake(int x, int y, int width, int height)
+{
+	RECT rc = { x, y, x + width, y + height };
+	return rc;
+}
+
+// 사각형 그리기 (랙탱글 함수 사용)
+inline void DrawRectMake(HDC hdc, RECT rc)
+{
+	Rectangle(hdc, rc.left, rc.top, rc.right, rc.bottom);
+}
+
+// RECT 중심점에 만들기
+inline RECT RectMakeCenter(int x, int y, int width, int height)
+{
+	RECT rc = { x - width / 2, y - height / 2, x + width / 2, y + height / 2 };
+	return rc;
+}
+
+// 사각형 그리기 (랙탱글 함수 사용)
+inline void RectangleMake(HDC hdc, int x, int y, int width, int height)
+{
+	Rectangle(hdc, x, y, width, height);
+}
+
+// 타원 그리기 (일립스 함수 사용)
+inline void EllipseMake(HDC hdc, int x, int y, int width, int height)
+{
+	Ellipse(hdc, x, y, x + width, y + height);
+}
+
+// 타원 센터점 중심으로 그리기 (일립스 함수 사용)
+inline void EllipseMakeCenter(HDC hdc, int x, int y, int width, int height)
+{
+	Ellipse(hdc, x - width / 2, y - height / 2, x + width / 2, y + height / 2);
+}

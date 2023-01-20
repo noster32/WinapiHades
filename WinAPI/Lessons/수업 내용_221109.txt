@@ -1,0 +1,253 @@
+#include <Windows.h>
+#include <tchar.h>
+
+// 전역 변수
+HINSTANCE _hInstance;
+
+// 윈도우 핸들: 윈도우 창
+HWND _hWnd;
+
+LPTSTR _lpszClass = TEXT("Windows API");
+
+// 콜백
+LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+
+/*
+hInstance: 프로그램 인스턴스 핸들
+hPrevInstance: 이전에 실행된 인스턴스 핸들
+IpszCmdParam: 명령형으로 입력된 프로그램 인수(자)
+nCcmdShow: 프로그램이 시작될 형태 (최소화 or 보통 크기 등등..)
+*/
+
+/* 이게 맞다.
+int WINAPI _tWinMain(HINSTANCE hInstance,
+	                 HINSTANCE hPrevInstance,
+	                 TCHAR*    lpszCmdParam,
+	                 int       nCmdShow)
+{
+
+}
+*/
+
+// 윈도우 메인함수
+int APIENTRY WinMain(HINSTANCE hInstance,
+                     HINSTANCE hPrevInstance,
+                     LPSTR     lpszCmdParam,
+                     int       nCmdShow)
+{
+    // 해당되는 인스턴스를 전역변수에 담는다. 확장성 염두.
+    _hInstance = hInstance;
+
+    /*
+    ▶ WinMain의 역할
+
+    1. 윈도우 창을 셋팅 후 화면에 띄우기
+        ㄴ 화면에 창을 띄우기 위해서는 4가지를 모두 처리해야 한다.
+
+    2. 메세지 루프
+    */
+
+    // 1-1. 윈도우창 구조체 선언 및 초기화
+    WNDCLASS wndClass; // 클래스 구조체 EXW 
+    wndClass.cbClsExtra = 0;                                        // 클래스 여분 메모리
+    wndClass.cbWndExtra = 0;                                        // 윈도우 여분 메모리
+    wndClass.hbrBackground = (HBRUSH)GetStockObject (WHITE_BRUSH);  // 백그라운드
+    wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);                 // 마우스 커서
+    wndClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);               // 아이콘
+    wndClass.hInstance = hInstance;                                 // 윈도우를 소요한 프로그램의 식별자 정보
+    wndClass.lpfnWndProc = (WNDPROC)WndProc;                        // 윈도우 프로시져
+    wndClass.lpszClassName = _lpszClass;                            // 클래스 이름 (윈도우 클래스 식별자)
+    wndClass.lpszMenuName = NULL;                                   // 메뉴 이름
+    wndClass.style = CS_HREDRAW | CS_VREDRAW;                       // 윈도우 스타일 (윈도우 다시 그리기 정보)
+
+    // 1-2. 윈도우 클래스 등록
+    RegisterClass(&wndClass);
+
+    // 1-3. 화면에 보여줄 윈도우 창 생성
+    _hWnd = CreateWindow
+    (
+        _lpszClass,                                // 윈도우 클래스 식별자
+        _lpszClass,                                // 윈도우 타이틀 바 이름
+        WS_OVERLAPPEDWINDOW,                       // 윈도우 스타일
+        400,                                       // 윈도우 화면 X좌표
+        100,                                       // 윈도우 화면 Y좌표
+        800,                                       // 윈도우 화면 가로크기
+        800,                                       // 윈도우 화면 세로크기
+        NULL,                                      // 부모 윈도우 GetDesktopWindow()
+        (HMENU)NULL,                               // 메뉴 핸들
+        hInstance,                                 // 인스턴스 지정
+        NULL                                       // 윈도우의 자식 윈도우를 생성하면 지정하고 아니라면 NULL
+                                                   //  ㄴ 필요에 의해 사용하지만 지금은 NULL
+    );
+
+    // 1-4. 화면에 윈도우창 보여주기
+    ShowWindow(_hWnd, nCmdShow);
+
+    //UpdateWindow(_hWnd);
+
+    // MSG: 운영체제에서 발생하는 메세지 정보를 저장하기 위한 구조체
+    MSG message;
+    //ZeroMemory(&msg, sizeof(msg));
+
+    // 2. 메시지 루프
+  
+    /*
+    게임용: PM_REMOVE는 정수 1을 16진수로 변경시켜 놓은 것. 속도를 위해서!
+    PeekMessage는 소통 메시지가 없어도 계속 확인을 하는 것.
+    GetMessage는 소통 메시지가 없으면 확인을 안 함.
+
+    while (true)
+    {
+        if (PeekMessage(&message, NULL, 0, 0, PM_REMOVE))
+        {
+            if (message.message == WM_QUIT) break;
+            TranslateMessage(&message);
+            DispatchMessageW(&message);
+        }
+    }
+    */
+    
+    // 일반 프로그래밍용
+
+    while (GetMessage(&message, 0, 0, 0))
+    {
+            TranslateMessage(&message);
+            DispatchMessage(&message);
+    }
+
+    return message.wParam;
+}
+
+// 윈도우 프로시져
+LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
+{
+    HDC hdc;            // 핸들 DC. HDC는 GDI 안에 있는 것. GDI는 bmp를 사용. 행렬 연산 불가.
+                        // GDI+는 bmp, png 사용 가능. 회전 행렬 함수도 있음.
+                        // 다만, png를 사용하면 무압축 이미지를 써서 프레임 망가짐. 최적화 예외처리가 필요.
+                        // GDI+ 이후에 D2D가 나옴. 위 모든 기능 포함. 다만, 어려움.
+
+    PAINTSTRUCT ps;     // 페인트 구조체
+
+    char str[] = "그래";
+
+    /*
+        char[]: 수정 가능.
+        char*: 수정 불가.
+    */
+
+	switch (iMessage)
+	{
+
+	case WM_CREATE:               // 생성자
+		break;
+
+    case WM_PAINT:              // 출력에 관한 모든 것을 담당 (문자, 그림, 도형 등 화면의 모든 것)
+        hdc = BeginPaint(hWnd, &ps);
+        // 이곳에 출력에 관한 코딩을 하면 된다.
+
+        /*
+            strcpu(x, y): y를 x에 복사
+            strcat(x, y): x + y 문자열
+            strlen(x, y): 문자열 길이
+            strcmp(x, y): 두 문자열이 같은지 확인
+             ㄴ x, y 동일     → 0 리턴
+             ㄴ x < y        → -1 리턴
+             ㄴ x > y        → 1 리턴
+
+             strlen -> wcslen -> _tcslen    (문자열 길이)
+             strcpy -> wcsxpy -> _tcscpy    (문자열 복사)
+             strcmp -> wcscmp -> _tcscmp    (문자열 비교)
+             strcat -> wsscat -> _tcscat    (문자열 이어 붙이기)
+             strtok -> scstok -> _tcstok    (문자열 자르기)
+             strchr -> scschr -> _tcschr    (문자 찾기)
+             strstr -> scsstr -> _tcsstr    (문자열 찾기)
+        */
+
+        // 문자 출력
+        //  ㄴ TextOut(hdc, x, y, 문자열, 문자열 길이)
+        TextOut(hdc, 300, 300, "과제가 너무 재밌다^^", strlen("과제가 너무 재밌다^^"));
+        // 프로젝트 - 속성 - 문자집합을 멀티바이트 사용으로 변경.
+        //  ㄴ strlen는 할당받은 메모리에 바인딩 된 문자열에서 NULL값을 제외한 문자열 길이.
+
+        SetTextColor(hdc, RGB(255, 0, 0));
+        TextOut(hdc, 300, 400, "과제 좀 더 내주세요", strlen("과제 좀 더 내주세요"));
+
+        // 선 그리기
+        MoveToEx(hdc, 400, 400, NULL);  // 시작점
+        LineTo(hdc, 200, 400);          // 끝점
+
+        MoveToEx(hdc, 400, 400, NULL);
+        LineTo(hdc, 200, 200);
+
+        EndPaint(hWnd, &ps);
+        break;
+
+    case WM_LBUTTONDOWN:            // 마우스 왼쪽 버튼이 눌렸을 때 메시지 발생
+        hdc = GetDC(hWnd);
+
+        SetTextColor(hdc, RGB(0, 0, 255));
+        TextOut(hdc, 350, 500, str, strlen(str));
+
+        ReleaseDC(hWnd, hdc);
+        break;
+
+    case WM_KEYDOWN:                // 키보드가 눌렸을 때 메시지 발생 
+        switch (wParam)
+        {
+        case VK_LEFT:
+            break;
+
+        case VK_RIGHT:
+            break;
+
+        case VK_ESCAPE:
+            PostMessage(hWnd, WM_DESTROY, 0, 0);
+            break;
+        }
+        break;
+
+	case WM_DESTROY:                // 소멸자
+        /*
+        ProtQuitMessage 함수는 메세지 큐에 Quit 메세지를 보내는 역할을 한다.
+        즉, Quit 메세지를 수신하는 순간 GetMessage 함수가 FALSE를 반환함으로서
+        메세지 루프가 종료된다.
+        */
+		PostQuitMessage(0);
+		return 0;
+
+	}
+
+    // 윈도우 프로시저에서 처리되지 않은 나머지 메세지를 처리해준다.
+	return (DefWindowProc(hWnd, iMessage, wParam, lParam));
+}
+
+/*
+    과제 1. 구구단
+
+     - 마우스 왼쪽 클릭을 했을 시 1단씩 생기고, 우클릭을 하면 1단씩 지워진다.
+
+     - 예외처리: 구구단의 본질 (2단부터 9단까지)
+
+     - 3개단씩 내려서 출력한다.
+
+     - 지워지는 구구단이 생기면 새롭게 추가될 때 빨간색으로 출력된다.
+
+
+    과제 2. winAPI 출력
+
+     - 자기 이름 출력
+
+     - MoveToEx()와 LineTo()를 이용한다.
+
+     - 크기는 최소 화면을 반 정도 덮을 정도로. 원 그리는 함수 안 됨. 반복문이나 삼각함수 사용하기.
+
+
+    한 줄 조사
+
+     - SetTimer
+
+     - KillTimer
+
+     ★ 화면 갱신 기능을 위해 먼저 공부 할 것.
+     - InvalidateRect
+*/

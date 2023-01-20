@@ -1,0 +1,410 @@
+MainGame.h
+==================================================================
+
+#pragma once
+#include "GameNode.h"
+#include "StartScene.h"
+#include "SecondScene.h"
+
+class MainGame : public GameNode
+{
+private:
+	StartScene* _start;
+	SecondScene* _second;
+
+	GameNode* _currentScene;
+
+public:
+	HRESULT init(void);
+	void release(void);
+	void update(void);
+	void render(void);
+
+	MainGame() : _currentScene(nullptr) {}
+	~MainGame() {}
+};
+
+==================================================================
+
+
+MainGame.cpp
+==================================================================
+#include "Stdafx.h"
+#include "MainGame.h"
+
+HRESULT MainGame::init(void)
+{
+	GameNode::init(TRUE);
+
+	_start = new StartScene;
+	_start->init();
+
+	_second = new SecondScene;
+	_second->init();
+
+	// 핵심
+	_currentScene = _start;
+
+	// <-> or <!-!>
+	assert(_currentScene != nullptr);
+
+	/*
+		▶ assert (면접 질문)
+
+		 - "디버깅 모드"에서 동작하는 오류 검출용 함수
+		  ㄴ 릴리즈 모드에서는 동작하지 않난다.
+
+		 - assert 함수에 걸리게 되면 버그의 발생 위치와 콜 스택,
+		   그리고 변수에 대한 잘못된 참조값을 볼 수 있다. (프로그래머가 예외처리를 했으면)
+
+		 - 동작 방식
+		  ㄴ Expression -> false -> assert error
+
+		  ※ 대부분의 문법이 true일ㄸ 동작하게 설계되어 있지만,
+		  assert는 거짓일 때 동작한다. 일어나면 안 되는 조건이 아니라 꼭 일어나야 하는 조건을 명시
+
+		  ex) assert(A != NULL)
+		   ㄴ A가 NULL이 아니면 true가 나오게 되므로 pass
+		   ㄴ A가 NULL이 맞다면 false가 나오게 되므로 assert error
+
+		  assert(): [C] 컴파일 타임을 지나 프로그램을 실행시키고 문제를 파악 (런 타임)
+		  static_assert(): [C++] 컴파일 중에 문제를 파악 (컴파일 타임) -> (컴파일 타임 -> 상수)
+	*/
+
+	return S_OK;
+}
+
+void MainGame::release(void)
+{
+	GameNode::release();
+
+	SAFE_DELETE(_start);
+	SAFE_DELETE(_second);
+}
+
+void MainGame::update(void)
+{
+	GameNode::update();
+
+	_currentScene->update();
+
+	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT)) _currentScene = _second;
+	if (KEYMANAGER->isOnceKeyDown(VK_MBUTTON)) _currentScene = _start;
+}
+
+void MainGame::render(void)
+{
+	PatBlt(getMemDC(), 0, 0, WINSIZE_X, WINSIZE_Y, BLACKNESS);
+
+	_currentScene->render();
+
+	this->getBackBuffer()->render(getHDC());
+}
+
+==================================================================
+
+
+StartScene.h
+==================================================================
+#pragma once
+#include "GameNode.h"
+
+class StartScene : public GameNode
+{
+private:
+	float _alpha;
+	float _bgAlpha;
+
+public:
+	HRESULT init(void);
+	void release(void);
+	void update(void);
+	void render(void);
+
+	StartScene() {}
+	~StartScene() {}
+};
+
+==================================================================
+
+
+StartScene.cpp
+==================================================================
+#include "Stdafx.h"
+#include "StartScene.h"
+
+HRESULT StartScene::init(void)
+{
+	IMAGEMANAGER->addImage("시작화면", "Resources/Images/Background/StartBG.bmp"
+		, WINSIZE_X, WINSIZE_Y);
+
+	IMAGEMANAGER->addImage("텍스트 알파", "Resources/Images/Object/StartText.bmp"
+		, 1000, 100, true, RGB(255, 0, 255));
+
+	_alpha = _bgAlpha = 0;
+
+	return S_OK;
+}
+
+void StartScene::release(void)
+{
+}
+
+void StartScene::update(void)
+{
+	_alpha -= 3.0f;
+	if (_alpha <= 0) _alpha = 255;
+
+	_bgAlpha += 0.5f;
+	if (_bgAlpha >= 255) _bgAlpha = 255;
+}
+
+void StartScene::render(void)
+{
+	IMAGEMANAGER->alphaRender("시작화면", getMemDC(), 0, 0, _bgAlpha);
+
+	IMAGEMANAGER->alphaRender("텍스트 알파", getMemDC(), 100, 600, _alpha);
+}
+
+==================================================================
+
+
+SecondScene.h
+==================================================================
+#pragma once
+#include "GameNode.h"
+
+class SecondScene : public GameNode
+{
+private:
+	int _offsetX;
+	int _offsetY;
+
+	int _bgSpeed;
+
+public:
+	HRESULT init(void);
+	void release(void);
+	void update(void);
+	void render(void);
+
+	SecondScene() {}
+	~SecondScene() {}
+};
+
+==================================================================
+
+
+SecondScene.cpp
+==================================================================
+#include "Stdafx.h"
+#include "SecondScene.h"
+
+HRESULT SecondScene::init(void)
+{
+	IMAGEMANAGER->addImage("배경루프", "Resources/Images/Background/Repeating_Background.bmp"
+	, 1570, WINSIZE_Y);
+
+	_offsetX = _offsetY = 0;
+	_bgSpeed = 0;
+
+	return S_OK;
+}
+
+void SecondScene::release(void)
+{
+}
+
+void SecondScene::update(void)
+{
+	_bgSpeed += 3;
+}
+
+void SecondScene::render(void)
+{
+	IMAGEMANAGER->loopRender("배경루프", getMemDC()
+		, &RectMake(0, 0, WINSIZE_X, WINSIZE_Y), _bgSpeed, 0);
+
+	// SetBkMode(): 투명하게 해주는 함수
+	//  ㄴ 글자 뒤로 배경이 보이게 한다.
+	SetBkMode(getMemDC(), TRANSPARENT);
+
+	char str[128];
+	wsprintf(str, "기존 폰트");
+	TextOut(getMemDC(), 230, 350, str, strlen(str));
+
+	HFONT font;
+	HFONT oldfont;
+
+	/*
+		font = CreateFont
+		(
+			1. 크기, 폭, 기울기, 방향, 굵기, 
+			기울기 (true, false), 밑줄, 취소선,
+			2. 세팅, 출력 정확도, 클리핑 정확도,
+			출력의 질, 자간,
+			3. 폰트
+		)
+	*/
+
+	font = CreateFont
+	(
+		70, 0, 0, 0, 600,
+		0, 0, 1,
+		HANGEUL_CHARSET, 0, 0, 0, 0, TEXT("휴먼굴림")
+	);
+
+	oldfont = (HFONT)SelectObject(getMemDC(), font);
+
+	wsprintf(str, "새로운 폰트");
+	TextOut(getMemDC(), 100, 400, str, strlen(str));
+
+	SelectObject(getMemDC(), oldfont);
+	DeleteObject(font);
+}
+
+==================================================================
+
+
+픽셀 충돌
+==================================================================
+_probeY = _y + _pixelTank->getHeight() / 2;
+
+	for (int i = _probeY - 30; i < _probeY + 30; i++)
+	{
+		// GetPixel(): 지정된 좌표의 색상을 얻어온다.
+		// ㄴ hdc, x, y가 들어온다.
+		COLORREF color = GetPixel(IMAGEMANAGER->findImage("울퉁불퉁")->getMemDC(), _x, i);
+
+		// 각각의 RGB 색상을 가져온다.
+		int r = GetRValue(color);
+		int g = GetGValue(color);
+		int b = GetBValue(color);
+
+		if (!(r == 255 && g == 0 && b == 255))
+		{
+			_y = i - _pixelTank->getHeight() / 2;
+			break;
+		}
+	}
+
+	// 사각형 갱신
+	_rc = RectMakeCenter(_x, _y, _pixelTank->getWidth(), _pixelTank->getHeight());
+
+
+
+
+
+
+
+
+
+/*
+
+   ▶ 삼각함수란?
+
+   - 수학에서의 삼각함수는 직각 삼각형의 각을 직각 삼각형 번들의 길이 바로 나타내는 함수
+
+   - 게임 개발을 하는 관점에서는 각도를 이용할때 삼각함수를 이용하면 아주 좋다.
+      ㄴ EX: 발사체의 각도 / 캐릭터의 대각선 이동 / 스킬 범위 설정 등등
+
+   ▷ 삼각함수하면 기억할 3가지
+
+   빗변: 1 <-> 대변(높이): h <-> 밑변: b
+
+   1. 사인 (sin)
+   ㄴ 사인은 빗변 (제일 긴)과 높이(대변)의 비율을 구해주는 함수
+   ㄴ sin 0(각) = 대변 / 빗변 = h / 1
+
+   2. 코사인 (cos)
+   ㄴ 빗변과 밑변의 비율을 게산해 주는 함수
+   ㄴ cos 0(각) = 밑변 / 빗변 = b / 1
+
+   3. 탄젠트 (tan)
+   ㄴ 직각 삼각형에서 어떠한 각도를 넣었을 때 밑변과 대변(수직인 변)의 비율을 구해준다.
+   ㄴ tan(45) = 1
+   ㄴ tan 0(각) = 대변 / 밑변 = h / b
+
+   ▶ 프로그래밍에서의 삼각함수
+
+   - API에서는 윈도우 좌표계를 사용한다.
+
+   - 윈도우 좌표계는 데카르트 좌표계와는 달리 Y축이 아래로 내려갈수록
+   증감이 되기 떄문에 Y축 좌표를 구할때는 별다른 처리를 하지 않았다는
+   sin 압쪽에 "-"기호를 붙인다.
+
+   ▷ 기억해야 할 개념
+
+   - 호도법
+   ㄴ 각도를 나타내는 표현 방법중 하나로 호의 길이로 각도를 표기하는 방법
+      ㄴ PI 를 사용해 180도 각도를 표시하는 것
+        ㄴ 호도법
+      ㄴ 컴퓨터는 각도를 인식할때 도를 사용할 수 없다.
+      ㄴ 반지름의 길이와 같은 호에 대한 중심각 1호도 (라디안)라고 부른다.
+
+   - 라디안
+      ㄴ 호도법을 표기할때 사용하는 단위
+      ㄴ 반지름과 호의 길이가 같은 값을 1라디안이라고 정의한다.
+         ㄴ 1라디안 = 57.3도
+
+   - 도
+   ㄴ 일반적으로 사용하는 각의 단위 (각도)
+   ㄴ 도수법 / 각도 표기라가ㅗ 불린다.
+   ㄴ 한바퀴를 360도로 정의한다.
+
+   - 60분법
+   ㄴ 원의 둘레를 360등분하여 각의 크기를 나타내는 방법
+      ㄴ PI (원주율): 3.14
+      ㄴ 원의 둘레: 2 * PI * 반지름
+      ㄴ 원의 넓이: 반지름 * 반지름 * PI
+
+   ※ PI의 라디안 같은 180도
+
+   - 아래와 같은 공식이 성립할 수 있다.
+
+   - Degree
+   ㄴ 180 Degree      =      PI Radian
+   ㄴ 1 Degree         =      PI / 180 Radian
+   ㄴ x Degree         =      x * PI / 180 Radian
+
+   - Radian
+   ㄴ PI Radian         =      180 Degree
+   ㄴ 1 Radian         =      180 / PI Degree
+   ㄴ x Radian         =      x * 180 / PI Degree
+
+   ※ 부채골 모양에서 반지름 , 호 , 중심각 3가지 중에 2개를 알 수 있다면 나머지 1개도 구할 수 있다면
+   나머지 1개도 구할 수 있다.
+
+   ▷ 기본 공식
+
+   1. 두점 사이의 거리
+   ㄴ 두점을 안다. (Start/End) -> 서로의 거리를 안다. -> 목표 지점에서 시작 지점을 뺸다.
+   ㄴ End - Start = 두점사이의 거리 -> 뺀 만큼의 차
+
+   - 위 공식으로 각점 (x, y) 사이의 델타량을 구한다.
+      ㄴ DeltaX, DeltaY
+
+   2. 대각선 (빗변)의 거리
+      ㄴ Distance (빗변) = sqrt (DeltaX * DeltaX + DeltaY * DeltaY);
+      ㄴ sqrt(): x의 제곱근 값을 구하기 위한 함수
+
+   3. 각을 구한다. (공식을 사용하자)
+
+   float angle = acos (DeltaX / Distance);
+      ㄴ 삼각 함수: 각도를 넣어서 각도 계산
+      ㄴ 역삼각 함수: 결과 값을 넣어서 각도를 계산
+         ㄴ 역삼각 함수는 arc or a 표기
+
+   - 각도에 대한 변이량을 구한다. 실제 코드 ★★★★★
+      ㄴ float DeltaX = cos(Radian) * Distance (이동량);
+      ㄴ float DeltaY = -sin(Radian) * Distance (이동량);
+
+   4. x축 좌표 구하기
+
+   - x = cos(각도 * PI / 180) * 속도;
+
+   5. y축 좌표 구하기
+
+   - y = -sin(각도 * PI / 180) * 속도;
+
+*/

@@ -1,0 +1,415 @@
+#include "Stdafx.h"
+
+//==============
+// # 전역 변수 #
+//==============
+HINSTANCE _hInstance;
+HWND _hWnd;
+POINT _ptMouse = { 0, 0 };
+
+//=================
+// # 함수 전방선언 #
+//=================
+LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+void setWindowSize(int x, int y, int width, int height);
+
+/* 이게 맞다.
+int WINAPI _tWinMain(HINSTANCE hInstance,
+					 HINSTANCE hPrevInstance,
+					 TCHAR*    lpszCmdParam,
+					 int       nCmdShow)
+{
+
+}
+*/
+
+RECT _rc1, _rc2;
+
+// 윈도우 메인함수
+int APIENTRY WinMain(HINSTANCE hInstance,
+	HINSTANCE hPrevInstance,
+	LPSTR     lpszCmdParam,
+	int       nCmdShow)
+{
+	// 해당되는 인스턴스를 전역변수에 담는다. 확장성 염두.
+	_hInstance = hInstance;
+
+	// 윈도우창 구조체 선언 및 초기화
+	WNDCLASS wndClass; // 클래스 구조체 EXW 
+	wndClass.cbClsExtra = 0;                                        // 클래스 여분 메모리
+	wndClass.cbWndExtra = 0;                                        // 윈도우 여분 메모리
+	wndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);   // 백그라운드
+	wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);                 // 마우스 커서
+	wndClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);               // 아이콘
+	wndClass.hInstance = hInstance;                                 // 윈도우를 소요한 프로그램의 식별자 정보
+	wndClass.lpfnWndProc = (WNDPROC)WndProc;                        // 윈도우 프로시져
+	wndClass.lpszClassName = WIN_NAME;							    // 클래스 이름 (윈도우 클래스 식별자)
+	wndClass.lpszMenuName = NULL;                                   // 메뉴 이름
+	wndClass.style = CS_HREDRAW | CS_VREDRAW;                       // 윈도우 스타일 (윈도우 다시 그리기 정보)
+
+	// 윈도우 클래스 등록
+	RegisterClass(&wndClass);
+
+	// 화면에 보여줄 윈도우 창 생성
+	_hWnd = CreateWindow
+	(
+		WIN_NAME,                                // 윈도우 클래스 식별자
+		WIN_NAME,                                // 윈도우 타이틀 바 이름
+		WINSTYLE,								 // 윈도우 스타일
+		WINSTART_X,                              // 윈도우 화면 X좌표
+		WINSTART_Y,								 // 윈도우 화면 Y좌표
+		WINSIZE_X,                               // 윈도우 화면 가로크기
+		WINSIZE_Y,                               // 윈도우 화면 세로크기
+		NULL,                                    // 부모 윈도우 GetDesktopWindow()
+		(HMENU)NULL,                             // 메뉴 핸들
+		hInstance,                               // 인스턴스 지정
+		NULL                                     // 윈도우의 자식 윈도우를 생성하면 지정하고 아니라면 NULL
+										   	     //  ㄴ 필요에 의해 사용하지만 지금은 NULL
+	);
+
+	// 클라이언트 영역의 사이즈를 정확히 잡는다.
+	setWindowSize(WINSTART_X, WINSTART_Y, WINSIZE_X, WINSIZE_Y);
+
+	// 1-4. 화면에 윈도우창 보여주기
+	ShowWindow(_hWnd, nCmdShow);
+
+	//UpdateWindow(_hWnd);
+
+	// MSG: 운영체제에서 발생하는 메세지 정보를 저장하기 위한 구조체
+	MSG message;
+	//ZeroMemory(&msg, sizeof(msg));
+
+	// 2. 메시지 루프
+
+	/*
+	게임용: PM_REMOVE는 정수 1을 16진수로 변경시켜 놓은 것. 속도를 위해서!
+	PeekMessage는 소통 메시지가 없어도 계속 확인을 하는 것.
+	GetMessage는 소통 메시지가 없으면 확인을 안 함.
+
+	while (true)
+	{
+		if (PeekMessage(&message, NULL, 0, 0, PM_REMOVE))
+		{
+			if (message.message == WM_QUIT) break;
+			TranslateMessage(&message);
+			DispatchMessageW(&message);
+		}
+	}
+	*/
+
+	// 일반 프로그래밍용
+
+	while (GetMessage(&message, 0, 0, 0))
+	{
+		TranslateMessage(&message);
+		DispatchMessage(&message);
+	}
+
+	return message.wParam;
+}
+
+// 윈도우 프로시저
+// 원래는 프로시저를 직접 드러내놓고 사용하지 않음. 예외처리와 PCH, 은닉화(+대리자)를 사용.
+LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
+{
+	HDC hdc;            // 핸들 DC. HDC는 GDI 안에 있는 것. GDI는 bmp를 사용. 행렬 연산 불가.
+						// GDI+는 bmp, png 사용 가능. 회전 행렬 함수도 있음.
+						// 다만, png를 사용하면 무압축 이미지를 써서 프레임 망가짐. 최적화 예외처리가 필요.
+						// GDI+ 이후에 D2D가 나옴. 위 모든 기능 포함. 다만, 어려움.
+
+	PAINTSTRUCT ps;     // 페인트 구조체
+
+	static POINT pt  = {0,0};
+	char strPT[128];
+
+	char str[] = "그래";
+
+	// RECT는 사각형용 구조체. RECT 방향 수정 불가.
+	RECT rc = { 100, 100, 200, 200 };
+
+	switch (iMessage)
+	{
+
+	case WM_CREATE:
+		_rc1 = RectMakeCenter(WINSIZE_X / 2, WINSIZE_Y / 2, 100, 100);
+		_rc1 = RectMakeCenter(WINSIZE_X / 2 + 200, WINSIZE_Y / 2, 100, 100);
+
+		break;
+
+	case WM_PAINT:
+		hdc = BeginPaint(hWnd, &ps);
+
+		// wsprintf(): 숫자를 문자열로 출력할 때 사용한다.
+		wsprintf(strPT, "X: %d     Y: %d", pt.x, pt.y);
+		TextOut(hdc, 10, 10, strPT, strlen(strPT));
+
+		Rectangle(hdc, _rc1.left, _rc1.top, _rc1.right, _rc1.bottom);
+		Rectangle(hdc, _rc2.left, _rc2.top, _rc2.right, _rc2.bottom);
+
+		EllipseMakeCenter(hdc, WINSIZE_X / 2, WINSIZE_Y / 2, 100, 100);
+
+		EndPaint(hWnd, &ps);
+		break;
+
+	case WM_MOUSEMOVE:
+
+		pt.x = LOWORD(lParam);
+		pt.y = HIWORD(lParam);
+
+		InvalidateRect(hWnd, NULL, true);
+
+		break;
+
+	case WM_LBUTTONDOWN:
+		hdc = GetDC(hWnd);
+
+		break;
+
+
+	case WM_RBUTTONDOWN:
+		break;
+
+
+
+	case WM_KEYDOWN:                // 키보드가 눌렸을 때 메시지 발생 
+		switch (wParam)
+		{
+		case VK_LEFT:
+			break;
+
+		case VK_RIGHT:
+			break;
+
+		case VK_ESCAPE:
+			PostMessage(hWnd, WM_DESTROY, 0, 0);
+			break;
+		}
+		break;
+
+	case WM_DESTROY:                // 소멸자
+		/*
+		PostQuitMessage 함수는 메시지 큐에 Quit 메시지를 보내는 역할을 한다.
+		즉, Quit 메시지를 수신하는 순간 GetMessage 함수가 FALSE를 반환함으로서
+		메시지 루프가 종료된다.
+		*/
+		PostQuitMessage(0);
+		return 0;
+
+	}
+
+	// 윈도우 프로시저에서 처리되지 않은 나머지 메시지를 처리해준다.
+	// 윈도우 프로시저는 윈도우에 의해 호출되는 함수(콜백 함수). 메시지 전달자의 역할만 함.
+	return (DefWindowProc(hWnd, iMessage, wParam, lParam));
+}
+
+void setWindowSize(int x, int y, int width, int height)
+{
+	RECT rc = { 0, 0, width, height };
+
+	// 실제 윈도우 크기 조정
+	// AdjustWindowRect(): 대상 객체, 사용할 윈도우 스타일, 메뉴 여부
+	AdjustWindowRect(&rc, WINSTYLE, false);
+
+	// 얻어온 렉트의 정보로 윈도우 사이즈 세팅
+	SetWindowPos(_hWnd, NULL, x, y,
+				 (rc.right - rc.left)
+				 ,(rc.bottom - rc.top)
+				 ,SWP_NOZORDER | SWP_NOMOVE);
+	// SWP_NOZORDER: 다른 창에 가려졌을 때 어떻게 처리할 것인지 여부.
+	// 나무 뒤에 있을 때 나무 반투명 처리 등.
+}
+
+/*
+	과제 1. 사각형 드래그 이동
+
+	 - 마우스로 사각형을 자유롭게 움직일 수 있으면 된다.
+
+	 - bool 값 쓰면 이상할 수 있음.
+
+	 ※ 총돌 함수 사용 금지.
+
+
+	과제 2. 사각형 크기 조절
+
+	 - 마우스로 사각형의 크기를 자유롭게 조절할 수 있으면 된다.
+	  ㄴ 감이 안 오면 바탕화면에서 드래그 해본다.
+
+
+	과제 3. 사각형 4단 밀기
+
+	 - 1번과 2번 과제가 완성 안 됐다면 손 대지 말 것!
+
+	 - 사각형의 갯수는 총 4개.
+
+	 - 마우스로 화면에 그려진  4개의 사각형 중 아무거나 선택해 자유롭게 움직인다.
+
+	 - 마우스로 움직이고 있는 사각형이 다른 사각형과 충돌하면 충돌 된 사격형은 '자연스레' 밀린다.
+	  ㄴ 관성을 적용.
+
+
+	한 줄 조사. 디자인 패턴
+
+	 - 싱글톤 + @ 개 (4개)
+*/
+
+
+
+
+
+
+
+
+
+
+#pragma once
+// 경고 무시 4005: DXGI 등 그래픽 인터페이스에서 매크로 관련하여 많이 출력되는 경고
+// 프로젝트 - 속성 - C/C++ - 고급 - 특정 경고 사용 안 함 - 추가 가능
+#pragma warning(disable : 4005)
+
+// SDKDDKVer.h는 프로그램에서 지원할 OS에 따라서 Windows 헤더에서 코드에 포함될 함수,
+// 상수 등을 제어하는데 사용이 된다. 다른 프로그래밍 언어의 기본적 함수 컨버팅 가능.
+#include <SDKDDKVer.h>
+
+// 거의 사용되지 않는 내용을 Windows 헤더에서 제외
+#define WIN32_LEAN_AND_MEAN
+// GDI+를 사용하려면 헤더파일 꺼내와야 한다.
+//  ㄴ <ole2.h>
+
+// ! Windows 헤더 파일
+#include <Windows.h>
+
+// ! C 런타임 헤더 파일
+#include <stdio.h>
+#include <stdlib.h>
+// 동적 할당 등 메모리 관련
+#include <malloc.h>
+#include <memory.h>
+// 프로젝트의 문자셋 설정에 따라 자동적으로 type casting 되는 중간 매크로 자료형.
+/*
+	MBCS (Multi Byte Character Set)
+
+	 - 멀티 바이트
+	  ㄴ 기존에 사용하던 형태의 문자열
+	  ㄴ 멀티 바이트 코드는 영어같은 아스키 코드에 포함되는 문자는 1바이트,
+	     포함되지 않는 문자는 2바이트 처리를 한다.
+	  ㄴ 3D 모델러에서 나오는 자료는 멀티 바이트로 나오는 경우가 많음. 용량을 줄이기 위함.
+
+	WBCS (Wide Byte Character Set)
+
+	 - 유니 코드
+	  ㄴ 모든 문자를 2바이트로 처리한다.
+	  ㄴ 실행 속도가 MBCS 보다 높음.
+
+	VS에서의 문자열 표현
+
+	 - 우리가 개발을 하는 VS 같은 경우에는 MBCS / WBCS 중 어느 것을 사용할 건지 명시를 해줘야 한다.
+
+	유니 코드: 문자열을 ""로 감싸고 L을 붙인다.
+
+	멀티 바이트: 문자열을 ""로 감싸면 끝.
+
+	유니코드 < - > 멀티바이트 이식을 위해서는 문자열 표현방식을 변경해줘야 하기 때문에
+	중간 매크로형인 _T를 사용한다.
+*/
+#include <tchar.h>
+
+// ! C++ 런타임 헤더 파일
+#include <iostream>
+/*
+	C++ 11에서 추가된 시간 관련 라이브러리 (STL)
+	 ㄴ 기존 C 러타임에서 제공하는 time 함수보다 다양하고 확장된 기능을 지원
+	 - 장점:
+	  ㄴ 정밀도가 높다 (나노 밀리 초 단위)
+	   ㄴ time 함수는 초 단위의 값만 측정 가능
+	 - OS와 독립적으로 동작한다.
+*/
+#include <chrono>
+// 메르센 트위스터 관련 난수 생성 엔진
+#include <random>
+#include <vector>
+// 레드블랙트리에 기반한 키, 값의 자료형
+#include <map>
+/*
+	unordered_map: Hash 자료구조. 키와 밸류가 있음.
+	단일 매칭이기에 재할당 없음. 키 하나에 무조건 밸류 하나. 안 바뀜.
+	 ㄴ 일반적 상황에서는 map보다 검색 속도가 더 빠르다.
+	 ㄴ 중복된 데이터를 허용하지 않는다.
+	 ㄴ 단, 유사 데이터가 많을 시 (key) 해쉬 충돌이 발생해 성능이 저하된다.
+*/
+#include <unordered_map>
+#include <string>
+// 나중에 설명 예정
+//#include <cassert>
+
+// ! 사용자 정의 헤더 파일
+#include "CommonMacroFunction.h"
+#include "TwoRectMoving.h"
+
+/*
+
+
+
+// ! D2D/D3D 헤더 파일
+#include <D2D1.h>
+#include <d2d1helper.h>
+// 관련 sdk를 설치해야 경고가 없어짐.
+#include <d3dx9.h>
+#include <D3DX11.h>
+#include <d3d11shader.h>
+#include <dinput.h>
+
+// 헤더 파일과 라이브러리도 함께 링크해야 사용 가능.
+#pragma comment(lib, "d2d1.lib")
+#pragma comment(lib, "d3d9.lib")
+#pragma comment(lib, "d3dx9.lib")
+#pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "d3dx11.lib")
+#pragma comment(lib, "dinput8.lib")
+#pragma comment(lib, "dxguid.lib")
+
+// D2D를 사용하는 우회 방식. 정석 방식이 아님.
+ID2D1Factory*			_ID2DFactory = nullptr;
+ID2D1HwndRenderTarget*	_ID2DRenderTarget = nullptr;
+
+
+
+*/
+
+/*
+	프레임워크 실행 전 필수 단계
+	 - PCH
+	 - 파일스트림 (파일 통로)
+	 - 캡슐화 / 은닉화
+	 - 대리자 클래스
+*/
+
+//=============================
+// # 매크로 # (윈도우창 초기화)
+//=============================
+#define WIN_NAME		(LPSTR)(TEXT("WindowsAPI"))
+#define WINSTART_X		400
+#define WINSTART_Y		100
+#define WINSIZE_X		800
+#define WINSIZE_Y		800
+// WS_CAPTION: 타이틀바를 가지기 위한 옵션
+// WS_SYSMENU: 제목 표시줄에 컨트롤 메뉴 상자 창을 만드는 옵션 (_ ㅁ X)
+#define WINSTYLE		WS_CAPTION | WS_SYSMENU
+
+//================
+// # 매크로 함수 #
+//================
+// 동적할당 종료 시 사용
+#define SAFE_DELETE(p)			{if(p) {delete (p); (p) = nullptr;}}
+#define SAFE_DELETE_ARRAY(p)	{if(p) {delete[] (p); (p) = nullptr;}}
+#define SAFE_RELEASE(p)			{if(p) {(p)->release(); (p) = nullptr;}}
+
+//==============
+// # 전역 변수 #
+//==============
+// extern 키워드는 다른 헤더 or cpp에서 변수를 공유하기 위해 사용한다.
+//  ㄴ 전역 변수는 키워드를 생략해도 기본적으로 extern화 되는 경우가 있다. (VS버전에 따라 다름)
+extern HINSTANCE	_hInstance;
+extern HWND			_hWnd;
+// X 좌표와 Y 좌표를 평면의 좌표에 정의할 때 사용
+// 가상의 3D 공간이 없을 때 사용할 수 있는 가장 효율적인 자료형
+extern POINT		_ptMouse;
