@@ -17,8 +17,6 @@
 
 //! 라이브러리 링크
 #pragma comment (lib, "msimg32.lib") //마이크로소프트(ms) 이미지(img) 32비트(32) 라이브러리
-
-//12.21 추가
 #pragma comment (lib,"winmm.lib")
 #pragma comment (lib, "lib/FMOD/fmod_vc.lib")
 #pragma comment (lib, "JsonCPP/lib_json/json_vc71_libmtd.lib")
@@ -36,9 +34,6 @@
 #include <memory.h>
 #include <tchar.h>
 #include <time.h>
-//#include <assert.h> 더 가벼움
-
-//12.21 추가
 #include <MMSystem.h>
 
 
@@ -52,16 +47,9 @@
 #include <map>
 #include <unordered_map>
 #include <string>
-//bitset: 비트 연산을 좀 더 쉽게 관리해 주는 함수를 지원한다. (STL)
-//ㄴ reset(), set(), flip(), all(), any(), size() 등등을 비트 연산에 한해 지원하고 있다.
 #include <bitset>
 #include <cassert>
-// 람다와 친구들
 #include <algorithm>
-// 함수 포인터를 변수처럼 주고 받을 수 있다.
-//  ㄴ 델리게이트를 구축하는 핵심이 될 수 있는 헤더
-//  ㄴ Bind: 특정 인자에 대해서만 함수를 실행시키고 싶을 때 사용한다.
-//			 특정 인자와 특정 함수를 묶을 수 있다.
 #include <functional>
 
 using namespace std;
@@ -96,29 +84,21 @@ using namespace MY_UTIL;
 #define TEMPSOUNDMANAGER TempSoundManager::getSingleton()
 #define SCENEMANAGER SceneManager::getSingleton()
 #define SOUNDMANAGER SoundManager::getSingleton()
-
-//12.21 추가
 #define TIMEMANAGER TimeManager::getSingleton()
-/*
-! D2D/D3D 헤더 파일
-#include <D2D1.h>
-#include <d2d1helper.h>
-#include <d3dx9.h>
-#include <D3DX11.h>
-#include <d3d11shader.h>
-#include <dinput.h>
 
-#pragma comment(lib, "d2d1.lib")
-#pragma comment(lib, "d3d9.lib")
-#pragma comment(lib, "d3dx9.lib")
-#pragma comment(lib, "d3d11.lib")
-#pragma comment(lib, "d3dx11.lib")
-#pragma comment(lib, "dinput8.lib")
-#pragma comment(lib, "dxguid.lib")
 
-ID2D1Factory* _ID2DFactory = nullptr;
-ID2D1HwndRenderTarget* _ID2DRenderTarget = nullptr;
-*/
+//! D2D/D3D 헤더 파일
+//#include <D2D1.h>
+//#include <d2d1helper.h>
+//#include <dwrite.h>
+//#include <wincodec.h>
+//
+//ID2D1Factory* _ID2DFactory = nullptr;
+//ID2D1HwndRenderTarget* _ID2DRenderTarget = nullptr;
+
+//! OpenGL 헤더 파일
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 
 //==============================
