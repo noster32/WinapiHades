@@ -118,9 +118,6 @@
     <ClCompile Include="MapManager.cpp">
       <Filter>API FrameWork\MapTool</Filter>
     </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>API FrameWork</Filter>
-    </ClCompile>
     <ClCompile Include="GLAPI.cpp">
       <Filter>API FrameWork\OpenGL</Filter>
     </ClCompile>

@@ -11,6 +11,11 @@ HRESULT GameNode::init(bool managerInit)
     _hdc = GetDC(_hWnd);
     _managerInit = managerInit;
 
+    RECT rect;
+    GetClientRect(_hWnd, &rect);
+    
+    
+
     if (managerInit)
     {
         //로케일 설정
@@ -74,6 +79,9 @@ LRESULT GameNode::MainProc(HWND hWnd, UINT IMessage, WPARAM wParam, LPARAM lPara
 
     switch (IMessage)
     {
+    case WM_CREATE:
+        _hWnd = hWnd;
+
     case WM_TIMER:
         this->update();
         break;

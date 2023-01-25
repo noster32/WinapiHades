@@ -15,6 +15,13 @@
 #define TO_BOOL( a )  ( (a != 0) ? true : false )
 #define CLAMP(x, upper, lower) (MIN(upper, MAX(x, lower)))
 
+
+typedef unsigned char		uchar;
+typedef unsigned int		uint;
+typedef unsigned long		ulong;
+typedef unsigned long long ullong;
+
+
 namespace MY_UTIL
 {
 	float getDistance(float startX, float startY, float endX, float endY);
@@ -131,7 +138,7 @@ private:
 	float degree;
 public:
 	Angle() : degree(0.0f) { }
-	Angle(float f) { setDegree(f) }
+	Angle(float f) { setDegree(f); }
 	inline float getDegree() const { return degree; }
 	void setDegree(float angle) { 
 		while (angle < 0) angle += 360.0f;
@@ -146,4 +153,120 @@ public:
 	void operator += (const Angle& a) { setDegree(degree + a.degree); }
 	void operator += (const float a) { setDegree(degree + a); }
 	void operator += (const float a) { setDegree(degree + a); }
+};
+
+struct Anchor {
+	enum AnchorPos {
+		LEFT_BOTTOM,
+		RIGHT_BOTTOM,
+		LEFT_TOP,
+		RIGHT_TOP,
+		CENTER
+	};
+	AnchorPos ap;
+	Anchor() : ap(Anchor::LEFT_BOTTOM) { }
+	Anchor(AnchorPos _ap) : ap(_ap) { }
+	AnchorPos Get() const { return ap; }
+	void operator=(const AnchorPos ap) { this->ap = ap; }
+};
+
+struct Transformation {
+	Vector2D position;
+	Vector2D scale;
+	Angle rotate;
+	Anchor anchor;
+	Transformation() : position(), scale(1.0f, 1.0f), rotate(), anchor() { }
+	Transformation(Vector2D _pos, Vector2D _sca, Angle _rot) : position(_pos), scale(_sca), rotate(_rot), anchor() { }
+};
+
+struct TextureGenerateParam {
+	enum TextureMod {
+		LINEAR,
+		NEAREST
+	};
+
+	TextureMod minFilter;
+	TextureMod magFilter;
+
+	TextureGenerateParam() : minFilter(LINEAR), magFilter(LINEAR) { }
+	TextureGenerateParam(TextureMod min, TextureMod mag) : minFilter(min), magFilter(mag) { }
+	GLfloat GetValue(TextureMod mod);
+	GLfloat GetMinFilter() { return GetValue(minFilter); }
+	GLfloat GetMagFilter() { return GetValue(magFilter); }
+};
+
+struct TextureSource {
+private:
+	static uint counter;
+public:
+	// ID
+	const uint      uid;
+	const GLuint    tid;
+
+	// Memory Size
+	uchar power;
+	ulong length;  
+	ulong totalSize;
+
+	// Effective Range (Actual Data Available Range)
+	ulong width, height;
+	ulong size;
+	Vector2D coord;
+
+	// Used Range
+	Rect2D range;
+
+	TextureSource() : uid(counter++), tid(0), power(0), length(0), totalSize(0),
+		width(0), height(0), size(0), coord(), range() { }
+	TextureSource(GLuint _tid) : uid(counter++), tid(_tid), power(0), length(0), totalSize(0),
+		width(0), height(0), size(0), coord(), range() { }
+	virtual inline GLuint Get(ullong frame) const { return tid; }
+	void SetRange(Rect2D range);
+};
+
+struct AnimatedTexture : TextureSource {
+	const vector<GLuint> tids;
+	uint count;
+
+	AnimatedTexture() : tids(), count(0) { }
+	AnimatedTexture(const vector<GLuint>& _tids) : tids(_tids), count(_tids.size()) { }
+	virtual GLuint Get(ullong frame) const { return count ? tids.at(frame % count) : 0; }
+	vector<GLuint>::const_iterator Begin() { return tids.begin(); }
+	vector<GLuint>::const_iterator End() { return tids.end(); }
+};
+
+struct TextureStorage {
+	map<uint, const TextureSource*> textureMap;
+	void Add(const TextureSource* texture) { textureMap.insert(make_pair(texture->uid, texture)); }
+	void Remove(uint uid);
+	const TextureSource& Find(uint uid);
+};
+
+struct NamedTextureStorage {
+	map<string, uint> namedMap;
+	void Add(uint uid, string alias) { namedMap.insert(make_pair(alias, uid)); }
+	void Remove(string alias);
+	uint Find(string alias);
+};
+
+
+struct IDisposable {
+	bool disposed;
+	virtual void Dispose() { };
+};
+
+struct IUpdatable {
+	// Single Called Initializer For Each State
+	virtual void OnBegin() { }
+	virtual void OnEnd() { }
+
+	// Keep Called Until State Change (For Logic)
+	virtual void OnFixedLoading() { }
+	virtual void OnFixedUpdate() { }
+	virtual void OnFixedClosing() { }
+
+	// Keep Called Ultil State Change (For Drawing)
+	virtual void OnLoading() { }
+	virtual void OnUpdate() { }
+	virtual void OnClosing() { }
 };

@@ -24,3 +24,50 @@ namespace MY_UTIL
 		return angle;
 	}
 }
+
+GLfloat TextureGenerateParam::GetValue(TextureMod mod)
+{
+	switch (mod) {
+		case TextureGenerateParam::LINEAR:
+			return GL_LINEAR;
+		case TextureGenerateParam::NEAREST:
+			return GL_NEAREST;
+	}
+}
+
+uint TextureSource::counter = 1;
+
+////////////////////////////////
+//    struct TextureStorage   //
+////////////////////////////////
+void TextureStorage::Remove(uint uid) {
+	map<uint, const TextureSource*>::iterator iter(textureMap.find(uid));
+	if (iter != textureMap.end()) {
+		delete iter->second;
+		textureMap.erase(iter);
+	}
+}
+
+const TextureSource& TextureStorage::Find(uint uid) {
+	static TextureSource NULL_TEXTURESOURCE = TextureSource();
+	map<uint, const TextureSource*>::iterator iter(textureMap.find(uid));
+	if (iter != textureMap.end())
+		return *(iter->second);
+	else
+		return NULL_TEXTURESOURCE;
+}
+
+
+////////////////////////////////
+// struct NamedTextureStorage //
+////////////////////////////////
+void NamedTextureStorage::Remove(string alias) {
+	map<string, uint>::iterator iter(namedMap.find(alias));
+	if (iter != namedMap.end())
+		namedMap.erase(iter);
+}
+
+uint NamedTextureStorage::Find(string alias) {
+	map<string, uint>::iterator iter(namedMap.find(alias));
+	return (iter != namedMap.end()) ? iter->second : 0;
+}
