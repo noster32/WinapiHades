@@ -124,7 +124,7 @@ using namespace MY_UTIL;
 
 #else
 
-#define WIN_NAME (LPSTR)(TEXT("WindowsAPI"))
+#define WIN_NAME (LPSTR)(TEXT("Hades"))
 #define WINSTART_X 400
 #define WINSTART_Y 100
 #define WINSIZE_X 1280

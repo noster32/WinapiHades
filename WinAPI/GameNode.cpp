@@ -92,7 +92,6 @@ LRESULT GameNode::MainProc(HWND hWnd, UINT IMessage, WPARAM wParam, LPARAM lPara
     case WM_LBUTTONDOWN:
    
         break;
-
     case WM_RBUTTONDOWN:
         break;
 

@@ -1,55 +1,149 @@
 #pragma once
-//=====================================================
+//========================================================
 // # Utils (간소화 하고 싶거나 or 수학적 기능을 모아둔다.)
-//=====================================================
+//========================================================
 
-// 디그리 1도의 라디안 값
-// 사칙연산 중 나눗셈이 가장 느림. 반복이 돌아야 하기 때문.
 #define DEG_TO_RAD		0.017453f
 #define PI				3.141592654f
 #define PI_2			6.283185308f
 #define FLOAT_EPSILON	0.0001f
-// 실수를 정수형으로 변환(정확히는 업/다운 캐스팅이라고 함)
 #define FLOAT_TO_INT(f1)		static_cast<int>(f1 + FLOAT_EPSILON)
-// 두 실수가 같은지 비교
-//  ㄴ fabs는 소수점 차의 절대값 반환
 #define FLOAT_EQUAL(f1, f2)	(fabs(f1 - f2) <= FLOAT_EPSILON)
+#define IN_RANGE( value, min, max ) ( ((value) >= (min) && (value) <= (max)) ? 1 : 0 )
+#define MIN( a, b ) ( ((a) < (b)) ? (a) : (b) )
+#define MAX( a, b ) ( ((a) > (b)) ? (a) : (b) )
+#define TO_BOOL( a )  ( (a != 0) ? true : false )
+#define CLAMP(x, upper, lower) (MIN(upper, MAX(x, lower)))
 
 namespace MY_UTIL
 {
-	// 두 점 사이의 거리를 구한다.
 	float getDistance(float startX, float startY, float endX, float endY);
-
-	// start부터 end까지의 각을 라디안으로 구한다.
 	float getAngle(float startX, float startY, float endX, float endY);
 }
 
-#pragma region
-/*
-	▶ 엡실론 (Epsilon)
+struct Point2D {
+	int x, y;
 
-	 - 부동 소수점은 실수를 정확히 표현할 수 없는 문제를 가지고 있다.
-	  ㄴ 왜냐하면 수학적으로 실수는 무한한데 이 실수를 유한한 비트로 표현하기
-		 위해서는 컴퓨터가 어쩔 수 없이 근사치(근사값)로 표현해야 하기 때문.
+	Point2D() : x(0.0f), y(0.0f) {}
+	Point2D(int x, int y) : x(x), y(y) {}
 
-	 - 이러한 구조적 문제로 발생하는 게 부동소수점 반올림 오차.
+	inline Point2D operator + (const Point2D& p2) const { return Point2D(x + p2.x, y + p2.y); }
+	inline Point2D operator - (const Point2D& p2) const { return Point2D(x - p2.x, y - p2.y); }
+	inline Point2D operator * (const Point2D& p2) const { return Point2D(x * p2.x, y * p2.y); }
+	inline Point2D operator / (const Point2D& p2) const { return Point2D(x / p2.x, y / p2.y); }
+	inline Point2D operator + (const int t) const { return Point2D(x + t, y + t); }
+	inline Point2D operator - (const int t) const { return Point2D(x - t, y - t); }
+	inline Point2D operator * (const int t) const { return Point2D(x * t, y * t); }
+	inline Point2D operator / (const int t) const { return Point2D(x / t, y / t); }
 
-	 - 이러한 특성때문에 오차범위가 발생하는데 정확한 계산을 위해서 상수로 정의된 값을 사용한다.
+	void operator += (const Point2D& p2) { x += p2.x; y += p2.y; }
+	void operator -= (const Point2D& p2) { x -= p2.x; y -= p2.y; }
+	void operator *= (const Point2D& p2) { x *= p2.x; y *= p2.y; }
+	void operator /= (const Point2D& p2) { x /= p2.x; y /= p2.y; }
 
-	 - 2D는 크게 인식을 못하는 경우가 많지만, 3D 같은 경우는 결과값이 달라질 수 있다.
-*/
+	bool operator > (const Point2D& p2) const { return x > p2.x && y > p2.y; }
+	bool operator < (const Point2D& p2) const { return x < p2.x && y < p2.y; }
+	bool operator >= (const Point2D& p2) const { return x >= p2.x && y >= p2.y; }
+	bool operator <= (const Point2D& p2) const { return x <= p2.x && y <= p2.y; }
+	bool operator == (const Point2D& p2) const { return x == p2.x && y == p2.y; }
+	bool operator != (const Point2D& p2) const { return x != p2.x || y != p2.y; }
 
-/*
-	▶ 캐스팅 연산자 종류
 
-	 1. static_cast
+	float magnitude() const	{ return sqrtf(x * x + y * y); }
+	float distance(const Point2D& p2) const { return sqrtf(powf(p2.x - x, 2.0f) + powf(p2.y - y, 2.0f)); }
 
-	 2. const_cast
-	  - const 상수 값 없앨 때 빼는 용도. (유저 이름 생성 및 변경 등)
+	float getAngle(const Point2D& p2) const
+	{
+		float tempX = p2.x - x;
+		float tempY = p2.y - y;
+		float d = sqrt(tempX * tempX + tempY * tempY);
+		float angle = acos(tempX / d);
 
-	 3. dynamic_cast
+		if (tempY > 0) angle = PI_2 - angle;
 
-	 4. reinterpret_cast
-	  - 개념 정도만 알아도 됨. 자세히 알가 쉽지 않음.
-*/
-#pragma endregion
+		return angle;
+	}
+};
+
+struct Vector2D {
+	float x, y;
+
+	Vector2D() : x(0.0f), y(0.0f) { }
+	Vector2D(Point2D p) : x(p.x), y(p.y) { }
+	Vector2D(float x, float y) : x(x), y(y) { }
+	inline Point2D VecToPoint() const { return Point2D((int)x, (int)y); }
+
+	inline Vector2D operator + (const Vector2D& v2) const { return Vector2D(x + v2.x, y + v2.y); }
+	inline Vector2D operator - (const Vector2D& v2) const { return Vector2D(x - v2.x, y - v2.y); }
+	inline Vector2D operator * (const Vector2D& v2) const { return Vector2D(x * v2.x, y * v2.y); }
+	inline Vector2D operator / (const Vector2D& v2) const { return Vector2D(x / v2.x, y / v2.y); }
+	inline Vector2D operator + (const float f) const { return Vector2D(x + f, y + f); }
+	inline Vector2D operator - (const float f) const { return Vector2D(x - f, y - f); }
+	inline Vector2D operator * (const float f) const { return Vector2D(x * f, y * f); }
+	inline Vector2D operator / (const float f) const { return Vector2D(x / f, y / f); }
+	inline Vector2D operator + (const Point2D& p2) const { return Vector2D(x + p2.x, y + p2.y); }
+	inline Vector2D operator - (const Point2D& p2) const { return Vector2D(x - p2.x, y - p2.y); }
+	inline Vector2D operator * (const Point2D& p2) const { return Vector2D(x * p2.x, y * p2.y); }
+	inline Vector2D operator / (const Point2D& p2) const { return Vector2D(x / p2.x, y / p2.y); }
+
+
+	void operator += (const Vector2D& v2) { x += v2.x; y += v2.y; }
+	void operator -= (const Vector2D& v2) { x -= v2.x; y -= v2.y; }
+	void operator *= (const Vector2D& v2) { x *= v2.x; y *= v2.y; }
+	void operator /= (const Vector2D& v2) { x /= v2.x; y /= v2.y; }
+	void operator += (const float f) { x += f; y += f; }
+	void operator -= (const float f) { x -= f; y -= f; }
+	void operator *= (const float f) { x *= f; y *= f; }
+	void operator /= (const float f) { x /= f; y /= f; }
+	void operator += (const Point2D& p2) { x += p2.x; y += p2.y; }
+	void operator -= (const Point2D& p2) { x -= p2.x; y -= p2.y; }
+	void operator *= (const Point2D& p2) { x *= p2.x; y *= p2.y; }
+	void operator /= (const Point2D& p2) { x /= p2.x; y /= p2.y; }
+
+	bool operator > (const Vector2D& v2) { return x > v2.x && y > v2.y; }
+	bool operator < (const Vector2D& v2) { return x < v2.x && y < v2.y; }
+	bool operator >= (const Vector2D& v2) { return x >= v2.x && y >= v2.y; }
+	bool operator <= (const Vector2D& v2) { return x <= v2.x && y <= v2.y; }
+	bool operator == (const Vector2D& v2) { return x == v2.x && y == v2.y; }
+	bool operator != (const Vector2D& v2) { return x != v2.x || y != v2.y; }
+};
+
+struct Rect2D {
+	Point2D leftBottom, rightTop;
+
+	Rect2D() : leftBottom(), rightTop() {}
+	Rect2D(int left, int bottom, int right, int top) : leftBottom(Point2D(left, bottom)), rightTop(Point2D(right, top)) { }
+	Rect2D(Point2D lb, Point2D rt) : leftBottom(lb), rightTop(rt) { }
+
+	bool IntersectRect(const Rect2D& r) const {
+		return (leftBottom.x >= r.leftBottom.x && leftBottom.x <= r.rightTop.x && leftBottom.y >= r.leftBottom.y && leftBottom.y <= r.rightTop.y) ||
+			(rightTop.x >= r.leftBottom.x && rightTop.x <= r.rightTop.x && leftBottom.y >= r.leftBottom.y && leftBottom.y <= r.rightTop.y) ||
+			(leftBottom.x >= r.leftBottom.x && leftBottom.x <= r.rightTop.x && rightTop.y >= r.leftBottom.y && rightTop.y <= r.rightTop.y) ||
+			(rightTop.x >= r.leftBottom.x && rightTop.x <= r.rightTop.x && rightTop.y >= r.leftBottom.y && rightTop.y <= r.rightTop.y);
+	}
+	bool IntersectMouse(const POINT& mousePt) const {
+		return mousePt.x >= leftBottom.x && mousePt.x <= rightTop.x && mousePt.y <= rightTop.y && mousePt.y >= leftBottom.y;
+	}
+};
+
+class Angle {
+private:
+	float degree;
+public:
+	Angle() : degree(0.0f) { }
+	Angle(float f) { setDegree(f) }
+	inline float getDegree() const { return degree; }
+	void setDegree(float angle) { 
+		while (angle < 0) angle += 360.0f;
+		degree = (angle - (int)angle) + ((int)angle % 360);
+	}
+
+	Angle operator + (const Angle& a) { return Angle(degree + a.degree); }
+	Angle operator - (const Angle& a) { return Angle(degree - a.degree); }
+	Angle operator + (const float f) { return Angle(degree + f); }
+	Angle operator - (const float f) { return Angle(degree - f); }
+	void operator += (const Angle& a) { setDegree(degree + a.degree); }
+	void operator += (const Angle& a) { setDegree(degree + a.degree); }
+	void operator += (const float a) { setDegree(degree + a); }
+	void operator += (const float a) { setDegree(degree + a); }
+};

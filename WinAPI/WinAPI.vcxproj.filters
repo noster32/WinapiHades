@@ -32,23 +32,11 @@
     <Filter Include="API FrameWork\Image">
       <UniqueIdentifier>{3ade2f97-fca1-483c-94c8-5c1db157a66d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="API FrameWork\ExampleClasses">
-      <UniqueIdentifier>{322606a6-f587-48e2-9827-0728e6c2e1db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="API FrameWork\ExampleClasses\ShootingGame">
-      <UniqueIdentifier>{382332ea-1c79-4dcd-9ead-83d40000c690}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="API FrameWork\ExampleClasses\ShootingGame\Rocket">
-      <UniqueIdentifier>{a04fab2b-67f7-420a-9c99-0a438a811511}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="API FrameWork\ExampleClasses\ShootingGame\Bullet">
-      <UniqueIdentifier>{89b9dd55-9b5a-4c5b-83e2-a2227d901d75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="API FrameWork\ExampleClasses\ShootingGame\Enemy">
-      <UniqueIdentifier>{22dfd027-29ad-4fdd-af2e-39fb57137395}</UniqueIdentifier>
-    </Filter>
     <Filter Include="API FrameWork\MapTool">
       <UniqueIdentifier>{9ab0e595-7bb1-4ae2-954e-c2cdf328f171}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API FrameWork\OpenGL">
+      <UniqueIdentifier>{3fc251f6-28ba-4eb2-96ec-5358635262a0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -88,29 +76,8 @@
     <ClCompile Include="FontManager.cpp">
       <Filter>API FrameWork\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Flame.cpp">
-      <Filter>API FrameWork\ExampleClasses\ShootingGame\Rocket</Filter>
-    </ClCompile>
-    <ClCompile Include="Rocket.cpp">
-      <Filter>API FrameWork\ExampleClasses\ShootingGame\Rocket</Filter>
-    </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>API FrameWork\Utility\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullets.cpp">
-      <Filter>API FrameWork\ExampleClasses\ShootingGame\Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>API FrameWork\ExampleClasses\ShootingGame\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
-      <Filter>API FrameWork\ExampleClasses\ShootingGame\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Minion.cpp">
-      <Filter>API FrameWork\ExampleClasses\ShootingGame\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Patterns.cpp">
-      <Filter>API FrameWork\ExampleClasses\ShootingGame\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="TimeManager.cpp">
       <Filter>API FrameWork\Manager</Filter>
@@ -153,6 +120,9 @@
     </ClCompile>
     <ClCompile Include="Tile.cpp">
       <Filter>API FrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="GLAPI.cpp">
+      <Filter>API FrameWork\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -198,29 +168,8 @@
     <ClInclude Include="FontManager.h">
       <Filter>API FrameWork\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Flame.h">
-      <Filter>API FrameWork\ExampleClasses\ShootingGame\Rocket</Filter>
-    </ClInclude>
-    <ClInclude Include="Rocket.h">
-      <Filter>API FrameWork\ExampleClasses\ShootingGame\Rocket</Filter>
-    </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>API FrameWork\Utility\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullets.h">
-      <Filter>API FrameWork\ExampleClasses\ShootingGame\Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>API FrameWork\ExampleClasses\ShootingGame\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <Filter>API FrameWork\ExampleClasses\ShootingGame\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Minion.h">
-      <Filter>API FrameWork\ExampleClasses\ShootingGame\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Patterns.h">
-      <Filter>API FrameWork\ExampleClasses\ShootingGame\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="TimeManager.h">
       <Filter>API FrameWork\Manager</Filter>
@@ -258,6 +207,8 @@
     <ClInclude Include="MapManager.h">
       <Filter>API FrameWork\MapTool</Filter>
     </ClInclude>
-    <ClInclude Include="Tile.h" />
+    <ClInclude Include="GLAPI.h">
+      <Filter>API FrameWork\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

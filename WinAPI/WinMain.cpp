@@ -17,16 +17,6 @@ void setWindowSize(int x, int y, int width, int height);
 
 MainGame* _mg;
 
-/*
-int WINAPI _tWinMain(HINSTANCE hInstance,
-    HINSTANCE hPrevInstance,
-    TCHAR* lpszCmdParam,
-    int       nCmdShow)
-{
-
-}
-*/
-
 //윈도우 메인 함수
 int APIENTRY WinMain(HINSTANCE hInstance,
     HINSTANCE hPrevInstance,
@@ -38,13 +28,15 @@ int APIENTRY WinMain(HINSTANCE hInstance,
     _hInstance = hInstance;
 
     //윈도우 창 구조체 선언 및 초기화
-    WNDCLASS wndClass;
+    WNDCLASSEX wndClass;
 
     wndClass.cbClsExtra = 0; //클래스 여분 메모리
     wndClass.cbWndExtra = 0; //윈도우 여분 메모리
+    wndClass.cbSize = sizeof(WNDCLASSEX);
     wndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH); //백그라운드. GetStockObject() 동적할당 가능하게 확장한 함수.
     wndClass.hCursor = LoadCursor(NULL, IDC_ARROW); //마우스커서 아이콘
     wndClass.hIcon = LoadIcon(NULL, IDC_APPSTARTING); //아이콘
+    wndClass.hIconSm = LoadIcon(NULL, IDC_APPSTARTING); 
     wndClass.hInstance = hInstance; //원도우를 소유한 프로그램의 식별자 정보
     wndClass.lpfnWndProc = (WNDPROC)WndProc; //윈도우 프로시져. 예외발생을 처리하기 위해 (WNDPROC)를 사용.
     wndClass.lpszClassName = WIN_NAME; //쿨래스 이름(윈도우 클래스 식별자 정보)
@@ -58,7 +50,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
     //assert가 발동되면 컴파일러가 시동이 안 됨. 즉시 코드를 죽임.
 
     // 윈도우 클래스 등록
-    RegisterClass(&wndClass);
+    RegisterClassEx(&wndClass);
 
 #ifdef FULL_SCREEN
 
@@ -102,8 +94,9 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 #else
 
     // 화면에 보여줄 윈도우 창 생성
-    _hWnd = CreateWindow
+    _hWnd = CreateWindowEx
     (
+        0,
         WIN_NAME, //윈도우 클래스 식별자
         WIN_NAME, //윈도우 타이틀 바 이름
         WINSTYLE, //윈도우 스타일
@@ -146,7 +139,6 @@ int APIENTRY WinMain(HINSTANCE hInstance,
             TranslateMessage(&message);
             DispatchMessage(&message);
         }
-        
         else
         {
             TIMEMANAGER->update(60.0f);
