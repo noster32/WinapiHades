@@ -20,7 +20,7 @@ public:
 
 	bool GetSuccess() { return enabled; }
 
-	void EnableOpenGL(HWND hwnd, HDC* hDC, HGLRC* hrc, Point2D windowSize);
+	void EnableOpenGL(HWND hwnd, HDC* hDC, HGLRC* hRC, Point2D windowSize);
 	void DisableOpenGL(HWND hwnd, HDC hdc, HGLRC hrc);
 
 	Point2D GetWindowSize() { return windowSize; }

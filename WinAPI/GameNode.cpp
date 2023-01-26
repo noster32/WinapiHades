@@ -11,11 +11,6 @@ HRESULT GameNode::init(bool managerInit)
     _hdc = GetDC(_hWnd);
     _managerInit = managerInit;
 
-    RECT rect;
-    GetClientRect(_hWnd, &rect);
-    
-    
-
     if (managerInit)
     {
         //로케일 설정
@@ -36,6 +31,18 @@ HRESULT GameNode::init(bool managerInit)
 
     return S_OK;
 }
+
+HRESULT GameNode::init(GameEngineInitializer& param)
+{
+    RECT rect;
+    GetClientRect(_hWnd, &rect);
+
+    gl.EnableOpenGL(_hWnd, &_hdc, &_hrc, WINSIZE_PT);
+    
+    return E_NOTIMPL;
+}
+
+
 
 void GameNode::release(void)
 {

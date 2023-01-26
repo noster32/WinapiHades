@@ -51,6 +51,7 @@
 #include <cassert>
 #include <algorithm>
 #include <functional>
+#include <sstream>
 
 using namespace std;
 //using std::vector;
@@ -71,6 +72,7 @@ using namespace std;
 #include "TimeManager.h"
 #include "SceneManager.h"
 #include "SoundManager.h"
+#include "GLAPI.h"
 
 using namespace MY_UTIL;
 
@@ -129,6 +131,7 @@ using namespace MY_UTIL;
 #define WINSTART_Y 100
 #define WINSIZE_X 1280
 #define WINSIZE_Y 720
+#define WINSIZE_PT Point2D(1280, 720)
 #define WINSTYLE WS_CAPTION | WS_SYSMENU
 
 #endif
