@@ -596,7 +596,7 @@ void GLAPI::FindCharTexCoord(uint msb, uint lsb, Vector2D& lbTex, Vector2D& rtTe
 	}
 
 	// Charset Info
-	const TextureSource& ref = texStorage.Find(charset);
+	const TextureSource& ref = textureStorage.Find(charset);
 
 	// Texture Position Calculation
 	Point2D charSetPos(lsb - 0xA1, row);

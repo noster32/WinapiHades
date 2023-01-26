@@ -11,6 +11,10 @@ HRESULT GameNode::init(bool managerInit)
     _hdc = GetDC(_hWnd);
     _managerInit = managerInit;
 
+    RECT rect;
+    GetClientRect(_hWnd, &rect);
+    gl.EnableOpenGL(_hWnd, &_hdc, &_hrc, WINSIZE_PT);
+
     if (managerInit)
     {
         //로케일 설정
@@ -30,16 +34,6 @@ HRESULT GameNode::init(bool managerInit)
     }
 
     return S_OK;
-}
-
-HRESULT GameNode::init(GameEngineInitializer& param)
-{
-    RECT rect;
-    GetClientRect(_hWnd, &rect);
-
-    gl.EnableOpenGL(_hWnd, &_hdc, &_hrc, WINSIZE_PT);
-    
-    return E_NOTIMPL;
 }
 
 
@@ -63,9 +57,9 @@ void GameNode::release(void)
         SOUNDMANAGER->release();
         SOUNDMANAGER->releaseSingleton();
     }
-
+    _ptMouse;
     ReleaseDC(_hWnd, _hdc);
-
+    gl.DisableOpenGL(_hWnd, _hdc, _hrc);
 }
 
 void GameNode::update(void)
@@ -77,6 +71,9 @@ void GameNode::update(void)
 
 void GameNode::render(void)
 {
+    gl.ClearBuffer();
+    gl.LoadIdentity();
+    gl.SwapBuffer();
 }
 
 LRESULT GameNode::MainProc(HWND hWnd, UINT IMessage, WPARAM wParam, LPARAM lParam)
@@ -90,15 +87,8 @@ LRESULT GameNode::MainProc(HWND hWnd, UINT IMessage, WPARAM wParam, LPARAM lPara
         _hWnd = hWnd;
 
     case WM_TIMER:
-        this->update();
-        break;
-
-    case WM_PAINT:             
-        hdc = BeginPaint(hWnd, &ps);
         this->render();
-        EndPaint(hWnd, &ps);
         break;
-
     case WM_MOUSEMOVE:
         _ptMouse.x = LOWORD(lParam);
         _ptMouse.y = HIWORD(lParam);

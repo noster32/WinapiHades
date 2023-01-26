@@ -17,6 +17,13 @@ static GImage* _backBuffer = IMAGEMANAGER->addImage("backBuffer", WINSIZE_X, WIN
 
 class GameNode
 {
+public:
+	enum EngineState {
+		OK	= 0,
+		NOT_READY,
+		NO_CURRENT_SCENE,
+		STOPPED
+	};
 private:
 	HDC _hdc;
 	HGLRC _hrc;
@@ -30,10 +37,11 @@ public:
 	// ㄴ 32비트 signed 정수(음수가 아닌 값들은 성공을 의미하며 음수값들은 실패를 의미한다.)
 	virtual HRESULT init(void);
 	virtual HRESULT init(bool managerInit);
-	virtual HRESULT init(GameEngineInitializer& param);
 	virtual void release(void);
 	virtual void update(void);
 	virtual void render(void);
+
+
 
 	GImage* getBackBuffer(void) { return _backBuffer; }
 

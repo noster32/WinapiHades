@@ -6,7 +6,7 @@
 // =================
 HINSTANCE _hInstance;
 HWND _hWnd;
-POINT _ptMouse = { 0,0 };
+Point2D _ptMouse = { 0,0 };
 //TCHAR* pszSting = _T("Windows API");
 
 // =================

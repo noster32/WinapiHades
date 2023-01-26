@@ -52,6 +52,7 @@
 #include <algorithm>
 #include <functional>
 #include <sstream>
+#include <thread>
 
 using namespace std;
 //using std::vector;
@@ -151,4 +152,4 @@ using namespace MY_UTIL;
 extern HINSTANCE _hInstance;
 extern HWND _hWnd;
 //X좌표와 Y좌표를 평면의 좌표에 정의할 때 사용 -2D에서 좌표 표현 적합
-extern POINT _ptMouse;
+extern Point2D _ptMouse;
