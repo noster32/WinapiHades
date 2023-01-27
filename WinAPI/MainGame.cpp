@@ -1,14 +1,12 @@
 #include "Stdafx.h"
 #include "MainGame.h"
 #include "StartScene.h"
-#include "ShootingScene.h"
 #include "SoundScene.h"
 
 HRESULT MainGame::init(void)
 {
 	GameNode::init(TRUE);
-	SCENEMANAGER->addScene("슈팅", new ShootingScene);
-	SCENEMANAGER->addScene("시작", new StartScene);
+	//SCENEMANAGER->addScene("시작", new StartScene);
 	SCENEMANAGER->addScene("사운드", new SoundScene);
 
 	SCENEMANAGER->changeScene("사운드");
@@ -30,6 +28,7 @@ void MainGame::update(void)
 
 void MainGame::render(void)
 {
+	GameNode::render();
 	PatBlt(getMemDC(), 0, 0, WINSIZE_X, WINSIZE_Y, BLACKNESS);
 
 	SCENEMANAGER->render();

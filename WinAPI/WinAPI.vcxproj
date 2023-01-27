@@ -152,7 +152,6 @@
     <ClCompile Include="C3DVector.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GameNode.cpp" />
     <ClCompile Include="GImage.cpp" />
@@ -169,7 +168,6 @@
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="ProgressBar.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="ShootingScene.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SoundScene.cpp" />
     <ClCompile Include="StartScene.cpp" />
@@ -207,7 +205,6 @@
     <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="RandomFunction.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="ShootingScene.h" />
     <ClInclude Include="SingletonBase.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SoundScene.h" />

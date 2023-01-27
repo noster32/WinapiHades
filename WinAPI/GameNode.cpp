@@ -1,6 +1,12 @@
 #include "Stdafx.h"
 #include "GameNode.h"
 
+
+GameNode::GameNode() : gl(GLAPI::GetInstance())
+{
+    this->threadExit = false;
+}
+
 HRESULT GameNode::init(void)
 {
 	return S_OK;
@@ -11,10 +17,6 @@ HRESULT GameNode::init(bool managerInit)
     _hdc = GetDC(_hWnd);
     _managerInit = managerInit;
 
-    RECT rect;
-    GetClientRect(_hWnd, &rect);
-    gl.EnableOpenGL(_hWnd, &_hdc, &_hrc, WINSIZE_PT);
-
     if (managerInit)
     {
         //로케일 설정
@@ -23,6 +25,37 @@ HRESULT GameNode::init(bool managerInit)
         setlocale(LC_ALL, "Korean");
 
         SetTimer(_hWnd, 1, 10, NULL);
+
+        RND->init();
+        KEYMANAGER->init();
+        IMAGEMANAGER->init();
+        TEMPSOUNDMANAGER->init();
+        TIMEMANAGER->init();
+        SCENEMANAGER->init();
+        SOUNDMANAGER->init();
+    }
+
+    return S_OK;
+}
+
+HRESULT GameNode::init(bool managerInit, EngineInit& param)
+{
+    _hdc = GetDC(_hWnd);
+    _managerInit = managerInit;
+
+    RECT rect;
+    GetClientRect(_hWnd, &rect);
+    gl.EnableOpenGL(_hWnd, &_hdc, &_hrc, WINSIZE_PT);
+    updateOnBackground = param.updateOnBackground;
+    renderOnBackground = param.renderOnBackground;
+    engineStateUpdate();
+
+    if (managerInit)
+    {
+        setlocale(LC_ALL, "Korean");
+
+        SetTimer(_hWnd, 1, 10, NULL);
+        thread t1(&GameNode::update, this);
 
         RND->init();
         KEYMANAGER->init();
@@ -60,20 +93,53 @@ void GameNode::release(void)
     _ptMouse;
     ReleaseDC(_hWnd, _hdc);
     gl.DisableOpenGL(_hWnd, _hdc, _hrc);
+    _mutex.unlock();
+    engineStateUpdate();
 }
 
 void GameNode::update(void)
 {
-	// 버퍼링 처리와 타이머가 없기 때문에 기본 함수 사용
-	// 새로고침
-	//InvalidateRect(_hWnd, NULL, false);
+    //??
+    _mutex.lock();
+
+    _mutex.unlock();
 }
 
 void GameNode::render(void)
 {
+    _mutex.lock();
+    isWindowsActive = GetActiveWindow() == _hWnd;
+    if (!renderOnBackground && !isWindowsActive) {
+        _mutex.unlock();
+        return;
+    }
     gl.ClearBuffer();
     gl.LoadIdentity();
     gl.SwapBuffer();
+    _mutex.unlock();
+}
+
+void GameNode::engineStateUpdate(void)
+{
+    if (gl.GetSuccess()) {
+        if (egState & OPENGL_NOT_READY == OPENGL_NOT_READY)
+            egState ^= OPENGL_NOT_READY;
+    } else
+
+    if (threadExit)
+        egState != ENGINE_STOPPED;
+
+    if (egState != GameNode::OK) {
+        stringstream ss;
+        ss << "Incomplete Engine Initialization" << endl;
+        ss << "State Code : " << egState << endl << endl;
+        if (egState & GameNode::OPENGL_NOT_READY)
+            ss << "* GL API Not Initialized" << endl;
+        if (egState & GameNode::ENGINE_STOPPED)
+            ss << "*Engine Already Stopped" << endl;
+
+        stateString = ss.str();
+    }
 }
 
 LRESULT GameNode::MainProc(HWND hWnd, UINT IMessage, WPARAM wParam, LPARAM lParam)
@@ -114,7 +180,6 @@ LRESULT GameNode::MainProc(HWND hWnd, UINT IMessage, WPARAM wParam, LPARAM lPara
             break;
         }
         break;
-
     case WM_DESTROY: 
         PostQuitMessage(0);
         return 0;
@@ -122,3 +187,4 @@ LRESULT GameNode::MainProc(HWND hWnd, UINT IMessage, WPARAM wParam, LPARAM lPara
 
     return (DefWindowProc(hWnd, IMessage, wParam, lParam));
 }
+

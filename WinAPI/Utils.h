@@ -150,9 +150,9 @@ public:
 	Angle operator + (const float f) { return Angle(degree + f); }
 	Angle operator - (const float f) { return Angle(degree - f); }
 	void operator += (const Angle& a) { setDegree(degree + a.degree); }
-	void operator += (const Angle& a) { setDegree(degree + a.degree); }
+	void operator -= (const Angle& a) { setDegree(degree - a.degree); }
 	void operator += (const float a) { setDegree(degree + a); }
-	void operator += (const float a) { setDegree(degree + a); }
+	void operator -= (const float a) { setDegree(degree - a); }
 };
 
 struct Anchor {

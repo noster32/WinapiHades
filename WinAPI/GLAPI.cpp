@@ -86,7 +86,7 @@ uint GLAPI::GenerateEmptyTexture(int width, int height, uint RGBA)
 	uchar* data = new uchar[totalSize];
 	int repeat = length * length;
 	for (int i = 0; i < repeat; i++)
-		memccpy(&data[i * 4], color, sizeof(uchar) * 4);
+		memcpy(&data[i * 4], color, sizeof(uchar) * 4);
 
 	GLuint id;
 	glGenTextures(1, &id);
@@ -326,7 +326,7 @@ void GLAPI::DrawTextureAuto(const Transformation& tf, const uint uid, const ullo
 		rtPx.y = texSize.y;
 
 	Vector2D lbVer, rtVer;
-	rtVer = PxCoordToTexCoord2f(rtPx);
+	rtVer = PxCoordToVertex2f(rtPx);
 	lbVer = rtVer / -2.0f;
 	rtVer = rtVer / 2.0f;
 

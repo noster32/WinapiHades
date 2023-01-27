@@ -25,6 +25,11 @@
 #include "JsonCPP/include/json/json.h"
 #include <SDKDDKVer.h>
 
+//! OpenGL 헤더 파일
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <gl/GL.h>
+
 
 // =====================
 //! C 런타임 헤더 파일
@@ -53,6 +58,7 @@
 #include <functional>
 #include <sstream>
 #include <thread>
+#include <mutex>
 
 using namespace std;
 //using std::vector;
@@ -75,7 +81,9 @@ using namespace std;
 #include "SoundManager.h"
 #include "GLAPI.h"
 
+
 using namespace MY_UTIL;
+
 
 // =====================
 //! 싱글톤
@@ -88,20 +96,6 @@ using namespace MY_UTIL;
 #define SCENEMANAGER SceneManager::getSingleton()
 #define SOUNDMANAGER SoundManager::getSingleton()
 #define TIMEMANAGER TimeManager::getSingleton()
-
-
-//! D2D/D3D 헤더 파일
-//#include <D2D1.h>
-//#include <d2d1helper.h>
-//#include <dwrite.h>
-//#include <wincodec.h>
-//
-//ID2D1Factory* _ID2DFactory = nullptr;
-//ID2D1HwndRenderTarget* _ID2DRenderTarget = nullptr;
-
-//! OpenGL 헤더 파일
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 
 
 //==============================

@@ -7,7 +7,6 @@
 HINSTANCE _hInstance;
 HWND _hWnd;
 Point2D _ptMouse = { 0,0 };
-//TCHAR* pszSting = _T("Windows API");
 
 // =================
 // # 함수 전방선언 #
