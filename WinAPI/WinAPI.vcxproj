@@ -153,6 +153,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="FontManager.cpp" />
+    <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameNode.cpp" />
     <ClCompile Include="GImage.cpp" />
     <ClCompile Include="GLAPI.cpp" />
@@ -191,6 +192,7 @@
     </ClInclude>
     <ClInclude Include="CommonMacroFunction.h" />
     <ClInclude Include="FontManager.h" />
+    <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameNode.h" />
     <ClInclude Include="GImage.h" />
     <ClInclude Include="GLAPI.h" />

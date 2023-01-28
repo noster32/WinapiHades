@@ -28,7 +28,6 @@ void MainGame::update(void)
 
 void MainGame::render(void)
 {
-	GameNode::render();
 	PatBlt(getMemDC(), 0, 0, WINSIZE_X, WINSIZE_Y, BLACKNESS);
 
 	SCENEMANAGER->render();

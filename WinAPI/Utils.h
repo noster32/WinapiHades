@@ -70,6 +70,11 @@ struct Point2D {
 
 		return angle;
 	}
+
+	static void Clamp(Point2D& src, const Point2D& ref) {
+		if (src.x > ref.x) src.x = ref.x;
+		if (src.y > ref.y) src.y = ref.y;
+	}
 };
 
 struct Vector2D {

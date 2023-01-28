@@ -115,7 +115,7 @@ uint GLAPI::GenerateEmptyTexture(int width, int height, uint RGBA)
 uint GLAPI::LoadTexture(string fileName, TextureGenerateParam param)
 {
 	FILE* file;
-	file = fopen(fileName.c_str(), "rb");
+	fopen_s(&file,fileName.c_str(), "rb");
 	if (!file)
 		return 0;
 
@@ -368,7 +368,7 @@ void GLAPI::LoadCharacterSet()
 
 	// Open file
 	FILE* file;
-	file = fopen(FILENAME, "rb");
+	fopen_s(&file,FILENAME, "rb");
 	if (!file)
 		return;
 

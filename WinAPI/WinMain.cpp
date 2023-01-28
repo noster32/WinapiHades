@@ -1,4 +1,5 @@
 #include "Stdafx.h"
+#include "GameEngine.h"
 #include "MainGame.h"
 
 // =================
@@ -11,9 +12,12 @@ Point2D _ptMouse = { 0,0 };
 // =================
 // # 함수 전방선언 #
 // =================
-LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
+LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+DWORD threadUpdate(void);
 void setWindowSize(int x, int y, int width, int height);
 
+EngineInit param;
+GameEngine* _ge;
 MainGame* _mg;
 
 //윈도우 메인 함수
@@ -41,12 +45,6 @@ int APIENTRY WinMain(HINSTANCE hInstance,
     wndClass.lpszClassName = WIN_NAME; //쿨래스 이름(윈도우 클래스 식별자 정보)
     wndClass.lpszMenuName = NULL; //메뉴 이름
     wndClass.style = CS_HREDRAW | CS_VREDRAW; //윈도우 스타일(윈도우 다시그리기 정보)
-
-    //HRESULT hr;
-    //hr = RegisterClass(&wndClass);
-    //assert(SUCCEEDED(hr));
-    //컴파일러는 오류가 있어도 끝까지 다 읽고 죽는다.
-    //assert가 발동되면 컴파일러가 시동이 안 됨. 즉시 코드를 죽임.
 
     // 윈도우 클래스 등록
     RegisterClassEx(&wndClass);
@@ -146,15 +144,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
         }
     }
     //PM_REMOVE: 정수 1을 16진수로 바꿔 놓은 것. -> 속도를 올리기 위함.
-    
-    /*
-    //일반 프로그래밍
-    while (GetMessage(&message, 0, 0, 0))
-    {
-        TranslateMessage(&message);
-        DispatchMessage(&message);
-    }
-    */
+
     _mg->release();
     //윈도우 클래스 등록 해제
     UnregisterClass(WIN_NAME, hInstance);
@@ -164,7 +154,85 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 //윈도우 프로시저
 LRESULT CALLBACK WndProc(HWND hWnd, UINT IMessage, WPARAM wParam, LPARAM lParam)
 {
-    return _mg->MainProc(hWnd, IMessage, wParam, lParam);
+    HDC hdc;
+    PAINTSTRUCT ps;
+
+    switch (IMessage)
+    {
+    case WM_CREATE:
+    {
+        _hWnd = hWnd;
+        _ge->engineInitializer(param);
+    
+        int state = _ge->GetEngineState();
+        if (state != GameEngine::OK) {
+            MessageBox(hWnd, _ge->GetEngineStateString().c_str(), "Incomplete Engine Init", 0);
+            _ge->StopEngine();
+        }
+        else {
+            thread UpdateThread(threadUpdate);
+        }
+        break;
+    }
+    case WM_TIMER:
+        _ge->engineRender();
+        break;
+    case WM_MOUSEMOVE:
+        _ptMouse.x = LOWORD(lParam);
+        _ptMouse.y = HIWORD(lParam);
+        break;
+    case WM_LBUTTONDOWN:
+
+        break;
+    case WM_RBUTTONDOWN:
+        break;
+
+    case WM_KEYDOWN:
+        switch (wParam)
+        {
+        case VK_LEFT:
+            break;
+
+        case VK_RIGHT:
+            break;
+
+        case VK_ESCAPE:
+            PostMessage(hWnd, WM_DESTROY, 0, 0);
+            break;
+        }
+        break;
+    case WM_CLOSE:
+        _ge->SetExitThread();
+        _ge->engineRelease();
+        DestroyWindow(hWnd);
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        return 0;
+    default:
+        return (DefWindowProc(hWnd, IMessage, wParam, lParam));
+    }
+    
+    return 0;
+}
+
+DWORD threadUpdate(void)
+{
+    LARGE_INTEGER begin, end;
+    LARGE_INTEGER freq;
+    ulong elapsed, delay;
+
+    QueryPerformanceFrequency(&freq);
+    while (!_ge->GetExitThread()) {
+        QueryPerformanceCounter(&begin);
+        _ge->engineUpdate();
+        QueryPerformanceCounter(&end);
+        elapsed = (end.QuadPart - begin.QuadPart) * 1000000 / freq.QuadPart;
+        if (param.updateDelay > elapsed) {
+            delay = (param.updateDelay - elapsed) / 1000;
+            Sleep(delay);
+        }
+    }
+    return 0;
 }
 
 void setWindowSize(int x, int y, int width, int height)

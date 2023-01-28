@@ -19,10 +19,10 @@
 #pragma comment (lib, "msimg32.lib") //마이크로소프트(ms) 이미지(img) 32비트(32) 라이브러리
 #pragma comment (lib,"winmm.lib")
 #pragma comment (lib, "lib/FMOD/fmod_vc.lib")
-#pragma comment (lib, "JsonCPP/lib_json/json_vc71_libmtd.lib")
+//#pragma comment (lib, "JsonCPP/lib_json/json_vc71_libmtd.lib")
 
 #include "inc/FMOD/fmod.hpp"
-#include "JsonCPP/include/json/json.h"
+//#include "JsonCPP/include/json/json.h"
 #include <SDKDDKVer.h>
 
 //! OpenGL 헤더 파일

@@ -37,6 +37,13 @@ GLfloat TextureGenerateParam::GetValue(TextureMod mod)
 
 uint TextureSource::counter = 1;
 
+void TextureSource::SetRange(Rect2D range) {
+	Point2D ref(width, height);
+	Point2D::Clamp(range.leftBottom, ref);
+	Point2D::Clamp(range.rightTop, ref);
+	this->range = range;
+}
+
 ////////////////////////////////
 //    struct TextureStorage   //
 ////////////////////////////////
@@ -71,3 +78,5 @@ uint NamedTextureStorage::Find(string alias) {
 	map<string, uint>::iterator iter(namedMap.find(alias));
 	return (iter != namedMap.end()) ? iter->second : 0;
 }
+
+
