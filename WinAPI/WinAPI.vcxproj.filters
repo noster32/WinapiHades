@@ -41,6 +41,9 @@
     <Filter Include="API FrameWork\Json">
       <UniqueIdentifier>{ddc9ec70-eaff-49b4-99a8-fef34c8f6349}</UniqueIdentifier>
     </Filter>
+    <Filter Include="API FrameWork\Scene">
+      <UniqueIdentifier>{6922d1d0-d391-4aaa-9110-56397f08af84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C3DMatrix.cpp">
@@ -120,6 +123,18 @@
     </ClCompile>
     <ClCompile Include="ProgressBar.cpp">
       <Filter>API FrameWork\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineLauncher.cpp">
+      <Filter>API FrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineBuilder.cpp">
+      <Filter>API FrameWork\GameCore</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineImplement.cpp">
+      <Filter>API FrameWork\GameCore</Filter>
+    </ClCompile>
+    <ClCompile Include="scene.cpp">
+      <Filter>API FrameWork\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +221,18 @@
     </ClInclude>
     <ClInclude Include="JsonSaveLoader.h">
       <Filter>API FrameWork\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineLauncher.h">
+      <Filter>API FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineBuilder.h">
+      <Filter>API FrameWork\GameCore</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineImplement.h">
+      <Filter>API FrameWork\GameCore</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>API FrameWork\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -266,12 +266,12 @@ struct IUpdatable {
 	virtual void OnEnd() { }
 
 	// Keep Called Until State Change (For Logic)
-	virtual void OnFixedLoading() { }
-	virtual void OnFixedUpdate() { }
-	virtual void OnFixedClosing() { }
+	virtual void OnUpdateLoading() { }
+	virtual void OnUpdate() { }
+	virtual void OnUpdateClosing() { }
 
 	// Keep Called Ultil State Change (For Drawing)
-	virtual void OnLoading() { }
-	virtual void OnUpdate() { }
-	virtual void OnClosing() { }
+	virtual void OnRenderLoading() { }
+	virtual void OnRender() { }
+	virtual void OnRenderClosing() { }
 };

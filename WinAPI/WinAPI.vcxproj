@@ -152,8 +152,11 @@
     <ClCompile Include="C3DVector.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="EngineLauncher.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameEngineBuilder.cpp" />
+    <ClCompile Include="GameEngineImplement.cpp" />
     <ClCompile Include="GameNode.cpp" />
     <ClCompile Include="GImage.cpp" />
     <ClCompile Include="GLAPI.cpp" />
@@ -168,6 +171,7 @@
     </ClCompile>
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="ProgressBar.cpp" />
+    <ClCompile Include="scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SoundScene.cpp" />
@@ -191,8 +195,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="CommonMacroFunction.h" />
+    <ClInclude Include="EngineLauncher.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="GameEngineBuilder.h" />
+    <ClInclude Include="GameEngineImplement.h" />
     <ClInclude Include="GameNode.h" />
     <ClInclude Include="GImage.h" />
     <ClInclude Include="GLAPI.h" />
@@ -206,6 +213,7 @@
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="RandomFunction.h" />
+    <ClInclude Include="scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SingletonBase.h" />
     <ClInclude Include="SoundManager.h" />

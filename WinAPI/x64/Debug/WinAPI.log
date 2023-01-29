@@ -1,6 +1,1 @@
-﻿  WinMain.cpp
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\WinMain.cpp(151,19): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\WinMain.cpp(157,9): warning C4101: 'hdc' :참조되지 않은 지역 변수입니다.
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\WinMain.cpp(158,17): warning C4101: 'ps' :참조되지 않은 지역 변수입니다.
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\WinMain.cpp(229,61): warning C4244: '=': 'LONGLONG'에서 'ulong'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  WinAPI.vcxproj -> C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\x64\Debug\WinAPI.exe
+﻿  WinAPI.vcxproj -> C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\x64\Debug\WinAPI.exe

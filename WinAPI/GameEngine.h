@@ -1,7 +1,11 @@
 #pragma once
 
 struct EngineInit {
+	HINSTANCE hInstance;
+	int nCmdShow;
 	HWND _hWnd;
+	Point2D windowSize;
+	string title;
 	uint updateDelay;
 	uint renderDelay;
 	bool updateOnBackground;
@@ -18,7 +22,7 @@ public:
 		ENGINE_STOPPED = (1 << 2)
 	};
 private:
-
+	HWND _mainhWnd;
 	HDC _hdc;
 	HGLRC _hrc;
 	bool isWindowsActive;
@@ -39,18 +43,26 @@ private:
 	bool renderOnBackground;
 
 public: 
+	// Init, Release, Stop
 	HRESULT engineInitializer(EngineInit& param);
 	void engineRelease(void);
+	void StopEngine() { PostMessage(_hWnd, WM_CLOSE, 0, 0); }
+
+	// GameEngine Update
 	void engineUpdate(void);
 	void engineRender(void);
 
+	// GameEngine State
 	void engineStateUpdate(void);
 	int GetEngineState() { return egState; }
 	string GetEngineStateString() { return stateString; }
 
+	//Threading Functions
 	void SetExitThread() { threadExit = true; }
 	bool GetExitThread() { return threadExit; }
-
-	void StopEngine() { PostMessage(_hWnd, WM_CLOSE, 0, 0); }
+protected:
+	GameEngine();
+	virtual void CustomInitialize() { }
+	virtual void CustomOnEngineRelease() { }
 };
 

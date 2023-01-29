@@ -1,13 +1,30 @@
 #include "Stdafx.h"
 #include "GameEngine.h"
 
+GameEngine::GameEngine() : gl(GLAPI::GetInstance())
+{
+    setlocale(LC_ALL, "Korean");
+
+    RND->init();
+    KEYMANAGER->init();
+    IMAGEMANAGER->init();
+    TEMPSOUNDMANAGER->init();
+    TIMEMANAGER->init();
+    SCENEMANAGER->init();
+    SOUNDMANAGER->init();
+
+    this->_mainhWnd = NULL;
+    this->threadExit = false;
+}
+
 HRESULT GameEngine::engineInitializer(EngineInit& param)
 {
-    _hdc = GetDC(_hWnd);
+    this->_mainhWnd = param._hWnd;
 
+    
     RECT rect;
-    GetClientRect(_hWnd, &rect);
-    gl.EnableOpenGL(_hWnd, &_hdc, &_hrc, WINSIZE_PT);
+    GetClientRect(_mainhWnd, &rect);
+    gl.EnableOpenGL(_mainhWnd, &_hdc, &_hrc, WINSIZE_PT);
     updateOnBackground = param.updateOnBackground;
     renderOnBackground = param.renderOnBackground;
     engineStateUpdate();
@@ -19,8 +36,22 @@ HRESULT GameEngine::engineInitializer(EngineInit& param)
 
 void GameEngine::engineRelease(void)
 {
-    gl.DisableOpenGL(_hWnd, _hdc, _hrc);
-    _mutex.unlock();
+    KillTimer(_hWnd, 1);
+
+    RND->releaseSingleton();
+    KEYMANAGER->releaseSingleton();
+    IMAGEMANAGER->release();
+    IMAGEMANAGER->releaseSingleton();
+    FONTMANAGER->releaseSingleton();
+    TEMPSOUNDMANAGER->releaseSingleton();
+    TIMEMANAGER->release();
+    TIMEMANAGER->releaseSingleton();
+    SCENEMANAGER->release();
+    SCENEMANAGER->releaseSingleton();
+    SOUNDMANAGER->release();
+    SOUNDMANAGER->releaseSingleton();
+
+    gl.DisableOpenGL(_mainhWnd, _hdc, _hrc);
     engineStateUpdate();
 }
 
