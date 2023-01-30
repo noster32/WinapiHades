@@ -49,39 +49,39 @@ AssetParser::~AssetParser()
 
 bool AssetParser::LoadAssetPackFile(string filename)
 {
-    if (!ValidateAssetPackFile(filename))
-        return false;
-
-    ifstream file(filename.c_str());
-    string str;
-    while (getline(file, str)) {
-        str = replace_all(str, "\t", "");
-        str = replace_all(str, " ", "");
-
-        if (str.length() == 0)
-            continue;
-
-        if (str.at(0) == '[' && str.at(str.length() - 1) == ']') {
-            str = replace_all(str, "[", "");
-            str = replace_all(str, "]", "");
-
-            if (!IsTypeExsits(str))
-                InsertNewAssetType(str);
-
-            string value;
-            vector<string>* assetVec = GetAssetVector(str);
-            while (getline(file, value)) {
-                value = replace_all(value, "\t", "");
-                value = replace_all(value, " ", "");
-                if (value.empty() || value.size() < 3)
-                    continue;
-                else if (value.at(0) == '[' && value.at(1) == '/' && value.at(value.length() - 1 == ']') {
-
-                }
-            }
-
-        }
-    }
+    //if (!ValidateAssetPackFile(filename))
+    //    return false;
+    //
+    //ifstream file(filename.c_str());
+    //string str;
+    //while (getline(file, str)) {
+    //    str = replace_all(str, "\t", "");
+    //    str = replace_all(str, " ", "");
+    //
+    //    if (str.length() == 0)
+    //        continue;
+    //
+    //    if (str.at(0) == '[' && str.at(str.length() - 1) == ']') {
+    //        str = replace_all(str, "[", "");
+    //        str = replace_all(str, "]", "");
+    //
+    //        if (!IsTypeExsits(str))
+    //            InsertNewAssetType(str);
+    //
+    //        string value;
+    //        vector<string>* assetVec = GetAssetVector(str);
+    //        while (getline(file, value)) {
+    //            value = replace_all(value, "\t", "");
+    //            value = replace_all(value, " ", "");
+    //            if (value.empty() || value.size() < 3)
+    //                continue;
+    //            else if (value.at(0) == '[' && value.at(1) == '/' && value.at(value.length() - 1 == ']') {
+    //
+    //            }
+    //        }
+    //
+    //    }
+    //}
     return false;
 }
 

@@ -148,6 +148,9 @@
     <ClCompile Include="AssetIter.cpp">
       <Filter>API FrameWork\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>API FrameWork</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C3DMatrix.h">
@@ -261,5 +264,6 @@
     <ClInclude Include="AssetIter.h">
       <Filter>API FrameWork\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="TestScene.h" />
   </ItemGroup>
 </Project>

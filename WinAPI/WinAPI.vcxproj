@@ -184,6 +184,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TempSoundManager.cpp" />
+    <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="StartScene.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TempSoundManager.h" />
+    <ClInclude Include="TestScene.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Utils.h" />
