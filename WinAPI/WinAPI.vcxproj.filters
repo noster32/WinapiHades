@@ -136,6 +136,18 @@
     <ClCompile Include="scene.cpp">
       <Filter>API FrameWork\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="RenderObject.cpp">
+      <Filter>API FrameWork\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="MasterSceneObject.cpp">
+      <Filter>API FrameWork\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneObject.cpp">
+      <Filter>API FrameWork\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetIter.cpp">
+      <Filter>API FrameWork\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C3DMatrix.h">
@@ -233,6 +245,21 @@
     </ClInclude>
     <ClInclude Include="scene.h">
       <Filter>API FrameWork\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObject.h">
+      <Filter>API FrameWork\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Engineapi.h">
+      <Filter>API FrameWork\GameCore</Filter>
+    </ClInclude>
+    <ClInclude Include="MasterSceneObject.h">
+      <Filter>API FrameWork\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneObject.h">
+      <Filter>API FrameWork\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetIter.h">
+      <Filter>API FrameWork\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

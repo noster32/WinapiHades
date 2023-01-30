@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationScene.cpp" />
+    <ClCompile Include="AssetIter.cpp" />
     <ClCompile Include="C3DMatrix.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -170,9 +171,12 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="MapManager.cpp" />
+    <ClCompile Include="MasterSceneObject.cpp" />
     <ClCompile Include="ProgressBar.cpp" />
+    <ClCompile Include="RenderObject.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SoundScene.cpp" />
     <ClCompile Include="StartScene.cpp" />
@@ -188,6 +192,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationScene.h" />
+    <ClInclude Include="AssetIter.h" />
     <ClInclude Include="C3DMatrix.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -195,6 +200,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="CommonMacroFunction.h" />
+    <ClInclude Include="Engineapi.h" />
     <ClInclude Include="EngineLauncher.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="GameEngine.h" />
@@ -211,10 +217,13 @@
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="MapManager.h" />
+    <ClInclude Include="MasterSceneObject.h" />
     <ClInclude Include="ProgressBar.h" />
     <ClInclude Include="RandomFunction.h" />
+    <ClInclude Include="RenderObject.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="SingletonBase.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SoundScene.h" />
