@@ -1,11 +1,13 @@
 #pragma once
 #include "GameEngine.h"
+#include "TestScene.h"
 
 class GameEngineImplement : public GameEngine
 {
 private:
-	//Input Scene
+	TestScene test;
 public:
+
 	static GameEngine& GetInstance() {
 		static GameEngineImplement instance;
 		return instance;
@@ -13,5 +15,7 @@ public:
 protected:
 	virtual void CustomInitialize();
 	virtual void CustomOnEngineRelease();
+private:
+	GameEngineImplement() { }
 };
 

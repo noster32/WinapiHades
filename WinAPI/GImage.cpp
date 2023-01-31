@@ -16,13 +16,13 @@ HRESULT GImage::init(int width, int height)
 	//재초기화 방지용 / 이미지 정보에 값이 들어 있다면 해제부터 하겠다.
 	if (_imageInfo != nullptr) this->release();
 
-	HDC hdc = GetDC(_hWnd);
+	//HDC hdc = GetDC(_hWnd);
 
 	_imageInfo = new IMAGE_INFO;
 	_imageInfo->loadType = LOAD_EMPTY;
 	_imageInfo->resID = 0;
-	_imageInfo->hMemDc = CreateCompatibleDC(hdc);
-	_imageInfo->hBit = (HBITMAP)CreateCompatibleBitmap(hdc,width, height);
+	//_imageInfo->hMemDc = CreateCompatibleDC(hdc);
+	//_imageInfo->hBit = (HBITMAP)CreateCompatibleBitmap(hdc,width, height);
 	_imageInfo->hOBit = (HBITMAP)SelectObject(_imageInfo->hMemDc, _imageInfo->hBit);
 	_imageInfo->width = width;
 	_imageInfo->height = height;
@@ -39,7 +39,7 @@ HRESULT GImage::init(int width, int height)
 	}
 
 	//DC 해제
-	ReleaseDC(_hWnd, hdc);
+	//ReleaseDC(_hWnd, hdc);
 
 	return S_OK;
 }
@@ -48,13 +48,13 @@ HRESULT GImage::init(const DWORD resID, int width, int height, bool isTrans, COL
 {
 	if (_imageInfo != nullptr) this->release();
 
-	HDC hdc = GetDC(_hWnd);
+	//HDC hdc = GetDC(_hWnd);
 
 	_imageInfo = new IMAGE_INFO;
 	_imageInfo->loadType = LOAD_RESOURCE;
 	_imageInfo->resID = resID;
-	_imageInfo->hMemDc = CreateCompatibleDC(hdc);
-	_imageInfo->hBit = (HBITMAP)LoadBitmap(_hInstance,MAKEINTRESOURCE(_imageInfo->resID));
+	//_imageInfo->hMemDc = CreateCompatibleDC(hdc);
+	//_imageInfo->hBit = (HBITMAP)LoadBitmap(_hInstance,MAKEINTRESOURCE(_imageInfo->resID));
 	_imageInfo->hOBit = (HBITMAP)SelectObject(_imageInfo->hMemDc, _imageInfo->hBit);
 	_imageInfo->width = width;
 	_imageInfo->height = height;
@@ -71,7 +71,7 @@ HRESULT GImage::init(const DWORD resID, int width, int height, bool isTrans, COL
 	}
 
 	//DC 해제
-	ReleaseDC(_hWnd, hdc);
+	//ReleaseDC(_hWnd, hdc);
 
 	return S_OK;
 }
@@ -80,13 +80,13 @@ HRESULT GImage::init(const char* fileName, int width, int height, bool isTrans, 
 {
 	if (_imageInfo != nullptr) this->release();
 
-	HDC hdc = GetDC(_hWnd);
+	//HDC hdc = GetDC(_hWnd);
 
 	_imageInfo = new IMAGE_INFO;
 	_imageInfo->loadType = LOAD_FILE;
 	_imageInfo->resID = 0;
-	_imageInfo->hMemDc = CreateCompatibleDC(hdc);
-	_imageInfo->hBit = (HBITMAP)LoadImage(_hInstance, fileName, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
+	//_imageInfo->hMemDc = CreateCompatibleDC(hdc);
+	//_imageInfo->hBit = (HBITMAP)LoadImage(_hInstance, fileName, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
 	_imageInfo->hOBit = (HBITMAP)SelectObject(_imageInfo->hMemDc, _imageInfo->hBit);
 	_imageInfo->width = width;
 	_imageInfo->height = height;
@@ -108,7 +108,7 @@ HRESULT GImage::init(const char* fileName, int width, int height, bool isTrans, 
 	}
 
 	//DC 해제
-	ReleaseDC(_hWnd, hdc);
+	//ReleaseDC(_hWnd, hdc);
 	return S_OK;
 }
 
@@ -116,13 +116,13 @@ HRESULT GImage::init(const char* fileName, float x, float y, int width, int heig
 {
 	if (_imageInfo != nullptr) this->release();
 
-	HDC hdc = GetDC(_hWnd);
+	//HDC hdc = GetDC(_hWnd);
 
 	_imageInfo = new IMAGE_INFO;
 	_imageInfo->loadType = LOAD_FILE;
 	_imageInfo->resID = 0;
-	_imageInfo->hMemDc = CreateCompatibleDC(hdc);
-	_imageInfo->hBit = (HBITMAP)LoadImage(_hInstance, fileName, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
+	//_imageInfo->hMemDc = CreateCompatibleDC(hdc);
+	//_imageInfo->hBit = (HBITMAP)LoadImage(_hInstance, fileName, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
 	_imageInfo->hOBit = (HBITMAP)SelectObject(_imageInfo->hMemDc, _imageInfo->hBit);
 	_imageInfo->x = x;
 	_imageInfo->y = y;
@@ -145,7 +145,7 @@ HRESULT GImage::init(const char* fileName, float x, float y, int width, int heig
 	}
 
 	//DC 해제
-	ReleaseDC(_hWnd, hdc);
+	//ReleaseDC(_hWnd, hdc);
 	return S_OK;
 }
 
@@ -153,13 +153,13 @@ HRESULT GImage::init(const char* fileName, int width, int height, int maxFrameX,
 {
 	if (_imageInfo != nullptr) this->release();
 
-	HDC hdc = GetDC(_hWnd);
+	//HDC hdc = GetDC(_hWnd);
 
 	_imageInfo = new IMAGE_INFO;
 	_imageInfo->loadType = LOAD_FILE;
 	_imageInfo->resID = 0;
-	_imageInfo->hMemDc = CreateCompatibleDC(hdc);
-	_imageInfo->hBit = (HBITMAP)LoadImage(_hInstance, fileName, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
+	//_imageInfo->hMemDc = CreateCompatibleDC(hdc);
+	//_imageInfo->hBit = (HBITMAP)LoadImage(_hInstance, fileName, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
 	_imageInfo->hOBit = (HBITMAP)SelectObject(_imageInfo->hMemDc, _imageInfo->hBit);
 	_imageInfo->width = width;
 	_imageInfo->height = height;
@@ -186,7 +186,7 @@ HRESULT GImage::init(const char* fileName, int width, int height, int maxFrameX,
 	}
 
 	//DC 해제
-	ReleaseDC(_hWnd, hdc);
+	//ReleaseDC(_hWnd, hdc);
 	return S_OK;
 }
 
@@ -194,13 +194,13 @@ HRESULT GImage::init(const char* fileName, float x, float y, int width, int heig
 {
 	if (_imageInfo != nullptr) this->release();
 
-	HDC hdc = GetDC(_hWnd);
+	//HDC hdc = GetDC(_hWnd);
 
 	_imageInfo = new IMAGE_INFO;
 	_imageInfo->loadType = LOAD_FILE;
 	_imageInfo->resID = 0;
-	_imageInfo->hMemDc = CreateCompatibleDC(hdc);
-	_imageInfo->hBit = (HBITMAP)LoadImage(_hInstance, fileName, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
+	//_imageInfo->hMemDc = CreateCompatibleDC(hdc);
+	//_imageInfo->hBit = (HBITMAP)LoadImage(_hInstance, fileName, IMAGE_BITMAP, width, height, LR_LOADFROMFILE);
 	_imageInfo->hOBit = (HBITMAP)SelectObject(_imageInfo->hMemDc, _imageInfo->hBit);
 	_imageInfo->x = x;
 	_imageInfo->y = y;
@@ -229,13 +229,13 @@ HRESULT GImage::init(const char* fileName, float x, float y, int width, int heig
 	}
 
 	//DC 해제
-	ReleaseDC(_hWnd, hdc);
+	//ReleaseDC(_hWnd, hdc);
 	return S_OK;
 }
 
 HRESULT GImage::initForAlphaBlend(void)
 {
-	HDC hdc = GetDC(_hWnd);
+	//HDC hdc = GetDC(_hWnd);
 
 	_blendFunc.BlendFlags = 0;
 	_blendFunc.AlphaFormat = 0;
@@ -244,13 +244,13 @@ HRESULT GImage::initForAlphaBlend(void)
 	_blendImage = new IMAGE_INFO;
 	_blendImage->loadType = LOAD_FILE;
 	_blendImage->resID = 0;
-	_blendImage->hMemDc = CreateCompatibleDC(hdc);
-	_blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, _imageInfo->width, _imageInfo->height);
+	//_blendImage->hMemDc = CreateCompatibleDC(hdc);
+	//blendImage->hBit = (HBITMAP)CreateCompatibleBitmap(hdc, _imageInfo->width, _imageInfo->height);
 	_blendImage->hOBit = (HBITMAP)SelectObject(_blendImage->hMemDc, _blendImage->hBit);
 	_blendImage->width = WINSIZE_X;
 	_blendImage->height = WINSIZE_X;
 
-	ReleaseDC(_hWnd, hdc);
+	//ReleaseDC(_hWnd, hdc);
 
 	return S_OK;
 }

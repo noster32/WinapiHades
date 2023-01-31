@@ -39,7 +39,7 @@ void SoundScene::update(void)
 
 void SoundScene::render(void)
 {
-    IMAGEMANAGER->render("데드 스페이스", getMemDC());
+   // IMAGEMANAGER->render("데드 스페이스", getMemDC());
 
 }
 

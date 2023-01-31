@@ -3,9 +3,9 @@
 
 bool EngineLauncher::launched = false;
 EngineLauncher* EngineLauncher::instance = NULL;
+Point2D _ptMouse = { 0,0 };
 
-
-EngineLauncher::EngineLauncher(GameEngine* instance, EngineInit init)
+EngineLauncher::EngineLauncher(GameEngine* instance, EngineInit init) : engine(*instance)
 {
     this->param = init;
     this->instance = this;
@@ -49,7 +49,6 @@ LRESULT EngineLauncher::WndProc(HWND hWnd, UINT IMessage, WPARAM wParam, LPARAM 
                 thread UpdateThread(ThreadUpdateEntry);
                 SetTimer(hWnd, 1, param.renderDelay / 1000, NULL);
             }
-        
         }
         break;
         case WM_TIMER:
@@ -123,7 +122,7 @@ int EngineLauncher::InternalLaunch()
 
     wndClass.hInstance = param.hInstance;                           //원도우를 소유한 프로그램의 식별자 정보
     wndClass.lpszClassName = WIN_NAME;                              //쿨래스 이름(윈도우 클래스 식별자 정보)
-    wndClass.lpfnWndProc = (WNDPROC)WndProc;                        //윈도우 프로시져. 예외발생을 처리하기 위해 (WNDPROC)를 사용.
+    wndClass.lpfnWndProc = WndProcEntry;                        //윈도우 프로시져. 예외발생을 처리하기 위해 (WNDPROC)를 사용.
     wndClass.style = CS_HREDRAW | CS_VREDRAW;                       //윈도우 스타일(윈도우 다시그리기 정보)
     wndClass.cbSize = sizeof(WNDCLASSEX);
 
@@ -135,7 +134,7 @@ int EngineLauncher::InternalLaunch()
     wndClass.cbWndExtra = 0;                                        //윈도우 여분 메모리
     wndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);   //백그라운드. GetStockObject() 동적할당 가능하게 확장한 함수.
     
-    if (!RegisterClass(&wndClass))
+    if (!RegisterClassEx(&wndClass))
         return 0;
 
     mainWnd = CreateWindowEx
@@ -177,7 +176,7 @@ void EngineLauncher::SetWindowSize(int x, int y, int width, int height)
     AdjustWindowRect(&rc, WINSTYLE, false);
 
     //얻어온 렉트의 정보로 윈도우 사이즈 셋팅
-    SetWindowPos(_hWnd, NULL, x, y,
+    SetWindowPos(param._hWnd, NULL, x, y,
         (rc.right - rc.left),
         (rc.bottom - rc.top),
         SWP_NOZORDER | SWP_NOMOVE);

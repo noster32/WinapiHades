@@ -1,4 +1,6 @@
 #pragma once
+#include "Engineapi.h"
+#include "scene.h"
 
 struct EngineInit {
 	HINSTANCE hInstance;
@@ -28,8 +30,9 @@ private:
 	bool isWindowsActive;
 	int visibleHeight;
 
-	//OpenGL API
-	GLAPI gl;
+	//API
+	EngineAPI& eg;
+	GLAPI& gl;
 
 	//멀티 쓰레드용
 	mutex _mutex;
@@ -39,14 +42,18 @@ private:
 	int egState;
 	string stateString;
 
+	scene* sCurrent;
+
 	bool updateOnBackground;
 	bool renderOnBackground;
+
+	
 
 public: 
 	// Init, Release, Stop
 	HRESULT engineInitializer(EngineInit& param);
 	void engineRelease(void);
-	void StopEngine() { PostMessage(_hWnd, WM_CLOSE, 0, 0); }
+	void StopEngine() { PostMessage(_mainhWnd, WM_CLOSE, 0, 0); }
 
 	// GameEngine Update
 	void engineUpdate(void);
@@ -62,6 +69,7 @@ public:
 	bool GetExitThread() { return threadExit; }
 protected:
 	GameEngine();
+	void SetInitialScene(scene* scene);
 	virtual void CustomInitialize() { }
 	virtual void CustomOnEngineRelease() { }
 };

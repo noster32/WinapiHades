@@ -77,7 +77,6 @@ using namespace std;
 #include "TempSoundManager.h"
 #include "Utils.h"
 #include "TimeManager.h"
-#include "SceneManager.h"
 #include "SoundManager.h"
 #include "GLAPI.h"
 
@@ -141,9 +140,5 @@ using namespace MY_UTIL;
 //==============================
 // # 전역 변수 #
 //==============================
-// extern 키워드는 다른 헤더 or cpp에서 변수를 공유하기 위해 사용한다.
-// ㄴ 전역 변수는 키워드를 생략해도 기본으로 extern화 되는 경우가 있다.(VS버전에 따라 다름)
-extern HINSTANCE _hInstance;
-extern HWND _hWnd;
 //X좌표와 Y좌표를 평면의 좌표에 정의할 때 사용 -2D에서 좌표 표현 적합
 extern Point2D _ptMouse;

@@ -41,11 +41,11 @@ public:
 protected:
 	SceneState state;
 	Transformation& transformation;
-	MasterSceneObject masterSceneOnject;
+	MasterSceneObject masterSceneObject;
 	map<string, SceneObject*> somap;
 
 public:
-	scene() : state(BEGIN), transformation(masterSceneOnject.transformation) { }
+	scene() : state(BEGIN), transformation(masterSceneObject.transformation) { }
 
 	SceneState GetSceneState() { return state; }
 	void SetSceneState(SceneState _state) { state = _state;  }
@@ -63,7 +63,7 @@ public:
 	void InternalOnRenderClosing();
 
 protected:
-	void RegisterObject(SceneObject& obj) { obj.SetParent(&masterSceneOnject); }
+	void RegisterObject(SceneObject& obj) { obj.SetParent(&masterSceneObject); }
 	void RegisterObject(SceneObject& obj, SceneObject& parent) { obj.SetParent(&parent); }
 
 	string RegisterReference(SceneObject& obj, string alias);

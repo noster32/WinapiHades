@@ -1,6 +1,6 @@
 #pragma once
-#include "GameNode.h"
-class SoundScene : public GameNode
+//#include "GameNode.h"
+class SoundScene
 {
 public:
 	HRESULT init(void);

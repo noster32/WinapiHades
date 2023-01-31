@@ -1,52 +1,59 @@
 #include "Stdafx.h"
 #include "scene.h"
 
+map<string, scene*> scene::sceneMap;
+bool scene::swapFlag = false;
+scene* scene::nextScene = NULL;
+
+GLAPI& scene::gl = GLAPI::GetInstance();
+EngineAPI& scene::engine = EngineAPI::GetInstance();
+
 void scene::InternalOnBegin()
 {
 	OnBegin();
-	masterSceneOnject.InternalOnBegin();
+	masterSceneObject.InternalOnBegin();
 }
 
 void scene::InternalOnEnd()
 {
 	OnEnd();
-	masterSceneOnject.InternalOnEnd();
+	masterSceneObject.InternalOnEnd();
 }
 
 void scene::InternalOnUpdateLoading()
 {
 	OnUpdateLoading();
-	masterSceneOnject.InternalOnUpdateLoading();
+	masterSceneObject.InternalOnUpdateLoading();
 }
 
 void scene::InternalOnUpdate()
 {
 	OnUpdate();
-	masterSceneOnject.InternalOnUpdate();
+	masterSceneObject.InternalOnUpdate();
 }
 
 void scene::InternalOnUpdateClosing()
 {
 	OnUpdateClosing();
-	masterSceneOnject.InternalOnUpdateClosing();
+	masterSceneObject.InternalOnUpdateClosing();
 }
 
 void scene::InternalOnRenderLoading()
 {
 	OnRenderLoading();
-	masterSceneOnject.InternalOnRenderLoading();
+	masterSceneObject.InternalOnRenderLoading();
 }
 
 void scene::InternalOnRender()
 {
 	OnRender();
-	masterSceneOnject.InternalOnRender();
+	masterSceneObject.InternalOnRender();
 }
 
 void scene::InternalOnRenderClosing()
 {
 	OnRenderClosing();
-	masterSceneOnject.InternalOnRenderClosing();
+	masterSceneObject.InternalOnRenderClosing();
 }
 
 bool scene::ConnectionCheck(SceneObject& obj)
@@ -54,7 +61,7 @@ bool scene::ConnectionCheck(SceneObject& obj)
 	SceneObject* parent = &obj;
 	while (parent) {
 		parent = parent->GetParent();
-		if (parent == &masterSceneOnject)
+		if (parent == &masterSceneObject)
 			return true;
 	}
 	return false;

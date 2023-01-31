@@ -55,17 +55,11 @@
     <ClCompile Include="Stdafx.cpp">
       <Filter>API FrameWork\PCH</Filter>
     </ClCompile>
-    <ClCompile Include="GameNode.cpp">
-      <Filter>API FrameWork\GameCore</Filter>
-    </ClCompile>
     <ClCompile Include="IWindowMessage.cpp">
       <Filter>API FrameWork\GameCore</Filter>
     </ClCompile>
     <ClCompile Include="WinMain.cpp">
       <Filter>API FrameWork</Filter>
-    </ClCompile>
-    <ClCompile Include="MainGame.cpp">
-      <Filter>MainGame</Filter>
     </ClCompile>
     <ClCompile Include="GImage.cpp">
       <Filter>API FrameWork\Image</Filter>
@@ -91,9 +85,6 @@
     <ClCompile Include="Timer.cpp">
       <Filter>API FrameWork\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="StartScene.cpp">
-      <Filter>MainGame</Filter>
-    </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>API FrameWork\Manager</Filter>
     </ClCompile>
@@ -106,9 +97,6 @@
     <ClCompile Include="GLAPI.cpp">
       <Filter>API FrameWork\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>API FrameWork\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngine.cpp">
       <Filter>API FrameWork\GameCore</Filter>
     </ClCompile>
@@ -116,12 +104,6 @@
       <Filter>API FrameWork\Json</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
-      <Filter>API FrameWork\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimationScene.cpp">
-      <Filter>API FrameWork\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="ProgressBar.cpp">
       <Filter>API FrameWork\Image</Filter>
     </ClCompile>
     <ClCompile Include="EngineLauncher.cpp">
@@ -148,9 +130,7 @@
     <ClCompile Include="AssetIter.cpp">
       <Filter>API FrameWork\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="TestScene.cpp">
-      <Filter>API FrameWork</Filter>
-    </ClCompile>
+    <ClCompile Include="TestScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C3DMatrix.h">
@@ -171,14 +151,8 @@
     <ClInclude Include="RandomFunction.h">
       <Filter>API FrameWork\DesignPattern\Singleton</Filter>
     </ClInclude>
-    <ClInclude Include="GameNode.h">
-      <Filter>API FrameWork\GameCore</Filter>
-    </ClInclude>
     <ClInclude Include="IWindowMessage.h">
       <Filter>API FrameWork\GameCore</Filter>
-    </ClInclude>
-    <ClInclude Include="MainGame.h">
-      <Filter>MainGame</Filter>
     </ClInclude>
     <ClInclude Include="GImage.h">
       <Filter>API FrameWork\Image</Filter>
@@ -204,9 +178,6 @@
     <ClInclude Include="Timer.h">
       <Filter>API FrameWork\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="StartScene.h">
-      <Filter>MainGame</Filter>
-    </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>API FrameWork\Manager</Filter>
     </ClInclude>
@@ -219,19 +190,10 @@
     <ClInclude Include="GLAPI.h">
       <Filter>API FrameWork\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>API FrameWork\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngine.h">
       <Filter>API FrameWork\GameCore</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
-      <Filter>API FrameWork\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationScene.h">
-      <Filter>API FrameWork\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="ProgressBar.h">
       <Filter>API FrameWork\Image</Filter>
     </ClInclude>
     <ClInclude Include="JsonSaveLoader.h">

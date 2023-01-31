@@ -5,13 +5,11 @@ class TestScene : public scene
 {
 private:
 	NamedTextureStorage nts;
-
+	
 	SceneObject hidden;
 	RenderObject fade;
 	RenderObject bg;
 	RenderObject player;
-
-	vector<RenderObject*> enemy;
 
 	int frame;
 	int tick, increment;
