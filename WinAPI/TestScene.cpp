@@ -10,6 +10,8 @@ void TestScene::Init()
 {
 	const string TEXTURE_DIR = "./WinAPI/Resources/Images/Object";
 
+	srand(time(NULL));
+
 	scene::AddSceneToMap(this, "game");
 
 	TextureGenerateParam param(TextureGenerateParam::LINEAR, TextureGenerateParam::LINEAR);

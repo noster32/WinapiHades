@@ -43,7 +43,7 @@ HRESULT GameEngine::engineInitializer(EngineInit& param)
 void GameEngine::engineRelease(void)
 {
     KillTimer(_mainhWnd, 1);
-
+    CustomOnEngineRelease();
     RND->releaseSingleton();
     KEYMANAGER->releaseSingleton();
     FONTMANAGER->releaseSingleton();
@@ -59,7 +59,6 @@ void GameEngine::engineRelease(void)
 void GameEngine::engineUpdate(void)
 {
     _mutex.lock();
-    //TIMEMANAGER->update(60.0f);
     if (!isWindowsActive) {
         _mutex.unlock();
         return;
@@ -132,6 +131,7 @@ void GameEngine::engineRender(void)
         break;
     case scene::CLOSING:
         sCurrent->InternalOnRenderClosing();
+        break;
     }
     gl.SwapBuffer();
 

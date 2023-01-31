@@ -82,7 +82,5 @@ unsigned long Timer::getFrameRate(char* str) const
 		wsprintf(str, "FPS: %d", _frameRate);
 	}
 
-
-
 	return _frameRate;
 }

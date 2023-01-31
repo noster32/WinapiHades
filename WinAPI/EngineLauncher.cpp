@@ -147,13 +147,13 @@ int EngineLauncher::InternalLaunch()
         WINSTART_Y,                                                 //윈도우 화면 y좌표
         param.windowSize.x,                                         //윈도우 화면 가로크기
         param.windowSize.y,                                         //윈도우 화면 세로크기
-        HWND_DESKTOP,                                               //부모 윈도우 지정여부.
+        NULL,                                               //부모 윈도우 지정여부.
         NULL,                                                       //메뉴 핸들
         param.hInstance,                                            //인스턴스 지정
         NULL                                                        //윈도우의 자식 윈도우를 생성하면 지정하고 아니라면 NULL. - 필요에 의해 사용하지만 지금은 NULL
     );
 
-    SetWindowSize(WINSTART_X, WINSTART_Y, param.windowSize.x, param.windowSize.y);
+    //SetWindowSize(WINSTART_X, WINSTART_Y, param.windowSize.x, param.windowSize.y);
     ShowWindow(mainWnd, param.nCmdShow);
 
 
@@ -162,6 +162,27 @@ int EngineLauncher::InternalLaunch()
         TranslateMessage(&messages);
         DispatchMessage(&messages);
     }
+
+    //게임용
+    //while (true)
+    //{
+    //    if (PeekMessage(&messages, NULL, 0, 0, PM_REMOVE))
+    //    {
+    //        if (messages.message == WM_QUIT) break;
+    //
+    //        TranslateMessage(&messages);
+    //        DispatchMessage(&messages);
+    //    }
+    //
+    //    else
+    //    {
+    //        TIMEMANAGER->update(60.0f);
+    //        engine.engineRender();
+    //        engine.engineUpdate();
+    //    }
+    //}
+
+    //engine.engineRelease();
 
 
     return messages.wParam;
