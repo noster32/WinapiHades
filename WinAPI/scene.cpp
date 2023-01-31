@@ -47,6 +47,7 @@ void scene::InternalOnRenderLoading()
 void scene::InternalOnRender()
 {
 	OnRender();
+	masterSceneObject.Render();
 	masterSceneObject.InternalOnRender();
 }
 

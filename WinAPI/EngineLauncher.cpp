@@ -178,10 +178,9 @@ int EngineLauncher::InternalLaunch()
     //    {
     //        TIMEMANAGER->update(60.0f);
     //        engine.engineRender();
-    //        engine.engineUpdate();
     //    }
     //}
-
+    //
     //engine.engineRelease();
 
 

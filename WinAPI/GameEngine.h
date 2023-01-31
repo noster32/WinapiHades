@@ -67,6 +67,7 @@ public:
 	//Threading Functions
 	void SetExitThread() { threadExit = true; }
 	bool GetExitThread() { return threadExit; }
+
 protected:
 	GameEngine();
 	void SetInitialScene(scene* scene);

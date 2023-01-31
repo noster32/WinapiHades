@@ -32,7 +32,6 @@ HRESULT GameEngine::engineInitializer(EngineInit& param)
 
     RND->init();
     KEYMANAGER->init();
-    TIMEMANAGER->init();
     SOUNDMANAGER->init();
 
     return S_OK;
@@ -47,8 +46,6 @@ void GameEngine::engineRelease(void)
     RND->releaseSingleton();
     KEYMANAGER->releaseSingleton();
     FONTMANAGER->releaseSingleton();
-    TIMEMANAGER->release();
-    TIMEMANAGER->releaseSingleton();
     SOUNDMANAGER->release();
     SOUNDMANAGER->releaseSingleton();
 
@@ -105,7 +102,7 @@ void GameEngine::engineRender(void)
 {
     _mutex.lock();
     isWindowsActive = GetActiveWindow() == _mainhWnd;
-    TIMEMANAGER->render(_hdc);
+    
     if (!renderOnBackground && !isWindowsActive) {
         _mutex.unlock();
         return;
@@ -134,7 +131,7 @@ void GameEngine::engineRender(void)
         break;
     }
     gl.SwapBuffer();
-
+    
     _mutex.unlock();
 }
 

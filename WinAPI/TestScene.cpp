@@ -69,15 +69,15 @@ void TestScene::OnUpdate()
 
 	if (gg) return;
 
-	if (KEYMANAGER->isOnceKeyDown(VK_LEFT)) {
-		player.transformation.position.x -= 13;
+	if (KEYMANAGER->isStayKeyDown(VK_LEFT)) {
+		player.transformation.position.x -= 10;
 		player.transformation.scale.x = 1.0f;
 		player.transformation.anchor = Anchor::LEFT_BOTTOM;
 	}
-	if (KEYMANAGER->isOnceKeyDown(VK_RIGHT)) {
-		player.transformation.position.x += 13;
-		player.transformation.scale.x = -1.0f;
-		player.transformation.anchor = Anchor::RIGHT_BOTTOM;
+	if (KEYMANAGER->isStayKeyDown(VK_RIGHT)) {
+		player.transformation.position.x += 10;
+		player.transformation.scale.x = 1.0f;
+		player.transformation.anchor = Anchor::LEFT_BOTTOM;
 	}
 
 	if (player.transformation.position.x < 0)
