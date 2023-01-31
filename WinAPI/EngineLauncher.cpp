@@ -46,7 +46,7 @@ LRESULT EngineLauncher::WndProc(HWND hWnd, UINT IMessage, WPARAM wParam, LPARAM 
                 engine.StopEngine();
             }
             else {
-                thread UpdateThread(ThreadUpdateEntry);
+                updateThread = thread(ThreadUpdateEntry);
                 SetTimer(hWnd, 1, param.renderDelay / 1000, NULL);
             }
         }
@@ -78,8 +78,9 @@ LRESULT EngineLauncher::WndProc(HWND hWnd, UINT IMessage, WPARAM wParam, LPARAM 
             break;
         case WM_CLOSE:
             engine.SetExitThread();
+            updateThread.join();
             engine.engineRelease();
-
+            
             DestroyWindow(hWnd);
             break;
         case WM_DESTROY:
@@ -101,7 +102,7 @@ DWORD EngineLauncher::ThreadUpdate(void)
     QueryPerformanceFrequency(&freq);
     while (!engine.GetExitThread()) {
         QueryPerformanceCounter(&begin);
-        //_ge->engineUpdate();
+        engine.engineUpdate();
         QueryPerformanceCounter(&end);
         elapsed = (end.QuadPart - begin.QuadPart) * 1000000 / freq.QuadPart;
         if (param.updateDelay > elapsed) {
@@ -109,7 +110,6 @@ DWORD EngineLauncher::ThreadUpdate(void)
             Sleep(delay);
         }
     }
-
     return 0;
 }
 

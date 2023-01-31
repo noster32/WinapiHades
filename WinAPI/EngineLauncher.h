@@ -6,6 +6,7 @@ class EngineLauncher
 private:
 	static bool launched;
 	static EngineLauncher* instance;
+	thread updateThread;
 	
 	EngineInit param;
 	HWND mainWnd;

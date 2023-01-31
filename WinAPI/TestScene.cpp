@@ -8,14 +8,14 @@ const Point2D PLAYER_SIZE = Point2D(75, 84);
 
 void TestScene::Init()
 {
-	const string TEXTURE_DIR = "./Resources/Images/Object";
+	const string TEXTURE_DIR = "./WinAPI/Resources/Images/Object";
 
 	scene::AddSceneToMap(this, "game");
 
 	TextureGenerateParam param(TextureGenerateParam::LINEAR, TextureGenerateParam::LINEAR);
 	nts.Add(gl.GenerateEmptyTexture(30, 30, 0xFFFFFFFF), "fade");
-	nts.Add(gl.LoadTexture(TEXTURE_DIR + "Rocket.bmp", param), "shork");
-	nts.Add(gl.LoadTexture(TEXTURE_DIR + "RBackground.bmp", param), "gg");
+	nts.Add(gl.LoadTexture("Resources/Images/Object/Rocket.bmp", param), "shork");
+	nts.Add(gl.LoadTexture("Resources/Images/Object/RBackground.bmp", param), "gg");
 
 	RegisterObject(hidden);
 	RegisterObject(fade);
@@ -58,6 +58,7 @@ void TestScene::OnEnd()
 
 void TestScene::OnUpdate()
 {
+	TIMEMANAGER->update(60.0f);
 	if (KEYMANAGER->isOnceKeyDown('H')) {
 		fade.enabled = true;
 		SceneEndOfUpdate();

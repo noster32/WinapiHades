@@ -59,13 +59,14 @@ void GameEngine::engineRelease(void)
 void GameEngine::engineUpdate(void)
 {
     _mutex.lock();
-
+    //TIMEMANAGER->update(60.0f);
     if (!isWindowsActive) {
         _mutex.unlock();
         return;
     }
 
     if (eg.InternalGetShutdown()) {
+        _mutex.unlock();
         StopEngine();
         return;
     }
@@ -105,12 +106,12 @@ void GameEngine::engineRender(void)
 {
     _mutex.lock();
     isWindowsActive = GetActiveWindow() == _mainhWnd;
-
-    //if (!renderOnBackground && !isWindowsActive) {
-    //    _mutex.unlock();
-    //    return;
-    //}
-
+    TIMEMANAGER->render(_hdc);
+    if (!renderOnBackground && !isWindowsActive) {
+        _mutex.unlock();
+        return;
+    }
+    
     scene::SceneState state = sCurrent->GetSceneState();
     if (state == scene::BEGIN || state == scene::END) {
         _mutex.unlock();
@@ -133,6 +134,7 @@ void GameEngine::engineRender(void)
         sCurrent->InternalOnRenderClosing();
     }
     gl.SwapBuffer();
+
     _mutex.unlock();
 }
 
