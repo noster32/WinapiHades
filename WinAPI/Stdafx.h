@@ -80,7 +80,6 @@ using namespace std;
 #include "SoundManager.h"
 #include "GLAPI.h"
 
-
 using namespace MY_UTIL;
 
 

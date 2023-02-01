@@ -131,6 +131,9 @@
       <Filter>API FrameWork\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="TestScene.cpp" />
+    <ClCompile Include="lodepng.cpp">
+      <Filter>API FrameWork</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C3DMatrix.h">
@@ -227,5 +230,8 @@
       <Filter>API FrameWork\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="TestScene.h" />
+    <ClInclude Include="lodepng.h">
+      <Filter>API FrameWork</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

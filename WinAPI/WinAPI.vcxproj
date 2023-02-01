@@ -165,6 +165,7 @@
     </ClCompile>
     <ClCompile Include="JsonSaveLoader.cpp" />
     <ClCompile Include="KeyManager.cpp" />
+    <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MasterSceneObject.cpp" />
     <ClCompile Include="RenderObject.cpp" />
@@ -206,6 +207,7 @@
     </ClInclude>
     <ClInclude Include="JsonSaveLoader.h" />
     <ClInclude Include="KeyManager.h" />
+    <ClInclude Include="lodepng.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MasterSceneObject.h" />
     <ClInclude Include="RandomFunction.h" />

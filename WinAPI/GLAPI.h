@@ -1,7 +1,10 @@
 #pragma once
+#include "lodepng.h"
+
 class GLAPI
 {
 private:
+	
 	HDC* hdc;
 	bool enabled;
 
@@ -27,6 +30,7 @@ public:
 
 	uint GenerateEmptyTexture(int width, int height, uint RGBA);
 	uint LoadTexture(string fileName, TextureGenerateParam param);
+	uint LoadTexturePng(const char* fileName, TextureGenerateParam param);
 	uint BuildAnimation(const vector<uint>& uids);
 	uint BuildAnimation(const vector<uint>& uids, const Rect2D& range);
 	uint CutTexture(const uint uid, const Rect2D& range);

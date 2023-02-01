@@ -5,6 +5,7 @@ const int FADE_IN_FRAME = 30;
 const int FADE_OUT_FRAME = 30;
 
 const Point2D PLAYER_SIZE = Point2D(75, 84);
+const Point2D PLAYER2_SIZE = Point2D(128, 224);
 
 void TestScene::Init()
 {
@@ -17,13 +18,20 @@ void TestScene::Init()
 	TextureGenerateParam param(TextureGenerateParam::LINEAR, TextureGenerateParam::LINEAR);
 	nts.Add(gl.GenerateEmptyTexture(30, 30, 0xFFFFFFFF), "fade");
 	nts.Add(gl.LoadTexture("Resources/Images/Object/Rocket.bmp", param), "shork");
+	nts.Add(gl.LoadTexturePng("Resources/Images/Object/ZagreusIdle_Bink000.png", param), "test");
 	nts.Add(gl.LoadTexture("Resources/Images/Object/RBackground.bmp", param), "gg");
 
 	RegisterObject(hidden);
 	RegisterObject(fade);
 	RegisterObject(bg);
 	RegisterObject(player);
+	RegisterObject(test);
 
+	test.SetDepth(20);
+	test.texture = nts.Find("test");
+	//test.renderOp = RenderObject::GIVEN_SIZE;
+	test.transformation.position = Vector2D(500, 0);
+	test.renderSize = PLAYER2_SIZE;
 	hidden.SetDepth(50);
 
 	fade.texture = nts.Find("fade");
@@ -32,12 +40,12 @@ void TestScene::Init()
 
 	bg.texture = nts.Find("gg");
 	bg.SetDepth(60);
-
-	player.texture = nts.Find("shork");
-	player.SetDepth(30);
-	player.renderOp = RenderObject::GIVEN_SIZE;
-	player.renderSize = PLAYER_SIZE;
-	player.transformation.position = Vector2D(300, 0);
+	
+	//player.texture = nts.Find("shork");
+	//player.SetDepth(30);
+	//player.renderOp = RenderObject::GIVEN_SIZE;
+	//player.renderSize = PLAYER_SIZE;
+	//player.transformation.position = Vector2D(300, 0);
 }
 
 void TestScene::OnBegin()

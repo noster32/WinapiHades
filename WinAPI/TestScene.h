@@ -10,6 +10,7 @@ private:
 	RenderObject fade;
 	RenderObject bg;
 	RenderObject player;
+	RenderObject test;
 
 	int frame;
 	int tick, increment;
