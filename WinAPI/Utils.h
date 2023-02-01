@@ -221,6 +221,7 @@ public:
 	// Used Range
 	Rect2D range;
 
+
 	TextureSource() : uid(counter++), tid(0), power(0), length(0), totalSize(0),
 		width(0), height(0), size(0), coord(), range() { }
 	TextureSource(GLuint _tid) : uid(counter++), tid(_tid), power(0), length(0), totalSize(0),
