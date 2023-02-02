@@ -20,32 +20,48 @@ void TestScene::Init()
 	nts.Add(gl.LoadTexture("Resources/Images/Object/Missile.bmp", param), "shork");
 	nts.Add(gl.LoadTexturePng("Resources/Images/Object/idle.png", param), "test");
 	nts.Add(gl.LoadTexture("Resources/Images/Object/RBackground.bmp", param), "gg");
+	nts.Add(gl.LoadTexturePng("Resources/Images/Object/DeathArea_Tilesets53.png", param), "Sprite");
 
 	RegisterObject(hidden);
 	RegisterObject(fade);
 	RegisterObject(bg);
 	RegisterObject(player);
 	RegisterObject(test);
+	RegisterObject(testCut);
+	RegisterObject(testSprite);
+	RegisterObject(testAnim);
+
+	vector<uint> uids = gl.LoadMultipleTexturesPng("Resources/Images/Anim/ZagreusIdle_Bink", ".png", 3, 10 ,param);
+	nts.Add(gl.BuildAnimation(uids), "anim");
+
+	uint cutTexId = gl.CutTexture(nts.Find("Sprite"), Rect2D(Point2D(0, 940), Point2D(229, 1381)));
+	nts.Add(cutTexId, "cut");
 
 	test.SetDepth(50);
 	test.texture = nts.Find("test");
 	test.renderOp = RenderObject::GIVEN_SIZE;
-	test.transformation.position = Vector2D(500, 0);
+	test.transformation.position = Vector2D(WINSIZE_X /2 , WINSIZE_Y / 2);
 	test.renderSize = PLAYER2_SIZE;
 	hidden.SetDepth(50);
-
+	test.transformation.anchor = Anchor::CENTER;
 	fade.texture = nts.Find("fade");
 	fade.SetDepth(100);
 	fade.renderOp = RenderObject::FIT_TO_SCREEN;
 
 	bg.texture = nts.Find("gg");
 	bg.SetDepth(60);
-	
-	player.texture = nts.Find("shork");
-	player.SetDepth(30);
-	player.renderOp = RenderObject::GIVEN_SIZE;
-	player.renderSize = PLAYER_SIZE;
-	player.transformation.position = Vector2D(300, 0);
+
+	testCut.texture = nts.Find("cut");
+	testCut.SetDepth(10);
+
+	testAnim.texture = nts.Find("anim");
+	testAnim.SetDepth(2);
+
+	//testSprite.texture = nts.Find("Sprite");
+	//testSprite.renderOp = RenderObject::GIVEN_SIZE;
+	//testSprite.renderSize = Point2D(850, 850);
+	//testSprite.SetDepth(5);
+
 }
 
 void TestScene::OnBegin()
@@ -74,35 +90,26 @@ void TestScene::OnUpdate()
 		SceneEndOfUpdate();
 		return;
 	}
-
-	if (gg) return;
-
+	
+	
+	test.transformation.anchor = Anchor::CENTER;
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT)) {
-		player.transformation.position.x -= 10;
-		player.transformation.scale.x = 1.0f;
-		player.transformation.anchor = Anchor::LEFT_BOTTOM;
+		masterSceneObject.transformation.position.x += 10;
+		test.transformation.position.x -= 10;
 	}
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT)) {
-		player.transformation.position.x += 10;
-		player.transformation.scale.x = 1.0f;
-		player.transformation.anchor = Anchor::LEFT_BOTTOM;
+		masterSceneObject.transformation.position.x-= 10;
+		test.transformation.position.x += 10;
 	}
-
-	if (player.transformation.position.x < 0)
-		player.transformation.position.x = 0;
-	else if (player.transformation.position.x > WINSIZE_X)
-		player.transformation.position.x = WINSIZE_X;
-
-	if (KEYMANAGER->isOnceKeyDown(VK_SPACE) && (player.transformation.position.y < 1.0f))
-		jump = 20;
-
-	if (jump > 0 || player.transformation.position.y > 0.0f) {
-		player.transformation.position.y += jump;
-		jump--;
+	if (KEYMANAGER->isStayKeyDown(VK_UP)) {
+		masterSceneObject.transformation.position.y -= 10;
+		test.transformation.position.y += 10;
 	}
-
-	if (player.transformation.position.y < 0)
-		player.transformation.position.y = 0;
+	if (KEYMANAGER->isStayKeyDown(VK_DOWN)) {
+		masterSceneObject.transformation.position.y += 10;
+		test.transformation.position.y -= 10;
+	}
+	if (gg) return;
 }
 
 void TestScene::OnUpdateLoading()
@@ -140,6 +147,7 @@ void TestScene::OnRenderLoading()
 
 void TestScene::OnRender()
 {
+
 }
 
 void TestScene::OnRenderClosing()

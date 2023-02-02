@@ -191,7 +191,7 @@ uint GLAPI::LoadTexture(string fileName, TextureGenerateParam param)
 	return dst->uid;
 }
 
-uint GLAPI::LoadTexturePng(const char* fileName, TextureGenerateParam param)
+uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 {
 	vector<unsigned char> image;
 	unsigned width, height;
@@ -321,6 +321,33 @@ vector<uint> GLAPI::LoadMultipleTextures(string prefix, string suffix, uint digi
 			ss << "0";
 		ss << index << suffix;
 		uint uid = LoadTexture(ss.str(), param);
+		if (!uid)
+			break;
+		uids.push_back(uid);
+		index++;
+	}
+
+	return uids;
+}
+
+vector<uint> GLAPI::LoadMultipleTexturesPng(string prefix, string suffix, uint digit, uint max,TextureGenerateParam param)
+{
+	int index = 1;
+	stringstream ss;
+	stringstream len;
+	vector<uint> uids;
+
+	while (index < max + 1) {
+		ss.str(string());
+		len.str(string());
+
+		ss << prefix;
+		len << index;
+		int zeros = digit - len.str().length();
+		for (int i = 0; i < zeros; i++)
+			ss << "0";
+		ss << index << suffix;
+		uint uid = LoadTexturePng(ss.str(), param);
 		if (!uid)
 			break;
 		uids.push_back(uid);

@@ -11,6 +11,9 @@ private:
 	RenderObject bg;
 	RenderObject player;
 	RenderObject test;
+	RenderObject testCut;
+	RenderObject testSprite;
+	RenderObject testAnim;
 
 	int frame;
 	int tick, increment;

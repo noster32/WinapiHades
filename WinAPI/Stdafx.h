@@ -72,9 +72,7 @@ using namespace std;
 #include "CommonMacroFunction.h"  
 #include "RandomFunction.h"
 #include "KeyManager.h"
-#include "ImageManager.h"
 #include "FontManager.h"
-#include "TempSoundManager.h"
 #include "Utils.h"
 #include "TimeManager.h"
 #include "SoundManager.h"
@@ -88,10 +86,7 @@ using namespace MY_UTIL;
 // =====================
 #define RND RandomFunction::getSingleton()
 #define KEYMANAGER KeyManager::getSingleton()
-#define IMAGEMANAGER ImageManager::getSingleton()
 #define FONTMANAGER FontManager::getSingleton()
-#define TEMPSOUNDMANAGER TempSoundManager::getSingleton()
-#define SCENEMANAGER SceneManager::getSingleton()
 #define SOUNDMANAGER SoundManager::getSingleton()
 #define TIMEMANAGER TimeManager::getSingleton()
 
@@ -122,9 +117,9 @@ using namespace MY_UTIL;
 #define WIN_NAME (LPSTR)(TEXT("Hades"))
 #define WINSTART_X 400
 #define WINSTART_Y 100
-#define WINSIZE_X 1280
-#define WINSIZE_Y 720
-#define WINSIZE_PT Point2D(1280, 720)
+#define WINSIZE_X 1600
+#define WINSIZE_Y 900
+#define WINSIZE_PT Point2D(1600, 900)
 #define WINSTYLE WS_OVERLAPPED | WS_SYSMENU
 
 #endif

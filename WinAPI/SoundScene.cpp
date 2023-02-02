@@ -3,7 +3,6 @@
 //using namespace
 HRESULT SoundScene::init(void)
 {
-    IMAGEMANAGER->addImage("데스 스페이스", "Resources/Images/Background/DeadSpace.bmp", WINSIZE_X, WINSIZE_Y);
 
     SOUNDMANAGER->addSound("찬란", "Resources/Sounds/Ilios - LostArk.mp3", true, true);
 

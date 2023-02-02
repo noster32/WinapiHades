@@ -144,7 +144,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AssetIter.cpp" />
     <ClCompile Include="C3DMatrix.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -152,14 +151,13 @@
     <ClCompile Include="C3DVector.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="DeathArea.cpp" />
     <ClCompile Include="EngineLauncher.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameEngineBuilder.cpp" />
     <ClCompile Include="GameEngineImplement.cpp" />
-    <ClCompile Include="GImage.cpp" />
     <ClCompile Include="GLAPI.cpp" />
-    <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="IWindowMessage.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -173,10 +171,10 @@
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SoundScene.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TempSoundManager.cpp" />
     <ClCompile Include="TestScene.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -184,7 +182,6 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation.h" />
     <ClInclude Include="AssetIter.h" />
     <ClInclude Include="C3DMatrix.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -193,15 +190,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="CommonMacroFunction.h" />
+    <ClInclude Include="DeathArea.h" />
     <ClInclude Include="Engineapi.h" />
     <ClInclude Include="EngineLauncher.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameEngineBuilder.h" />
     <ClInclude Include="GameEngineImplement.h" />
-    <ClInclude Include="GImage.h" />
     <ClInclude Include="GLAPI.h" />
-    <ClInclude Include="ImageManager.h" />
     <ClInclude Include="IWindowMessage.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -217,8 +213,8 @@
     <ClInclude Include="SingletonBase.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SoundScene.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="Stdafx.h" />
-    <ClInclude Include="TempSoundManager.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Timer.h" />
