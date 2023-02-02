@@ -9,67 +9,49 @@ const Point2D PLAYER2_SIZE = Point2D(128, 224);
 
 void TestScene::Init()
 {
-	const string TEXTURE_DIR = "./WinAPI/Resources/Images/Object";
-
 	srand(time(NULL));
 
 	scene::AddSceneToMap(this, "game");
 
 	TextureGenerateParam param(TextureGenerateParam::LINEAR, TextureGenerateParam::LINEAR);
 	nts.Add(gl.GenerateEmptyTexture(30, 30, 0xFFFFFFFF), "fade");
-	nts.Add(gl.LoadTexture("Resources/Images/Object/Missile.bmp", param), "shork");
-	nts.Add(gl.LoadTexturePng("Resources/Images/Object/idle.png", param), "test");
-	nts.Add(gl.LoadTexture("Resources/Images/Object/RBackground.bmp", param), "gg");
 	nts.Add(gl.LoadTexturePng("Resources/Images/Object/DeathArea_Tilesets53.png", param), "Sprite");
 
-	RegisterObject(hidden);
-	RegisterObject(fade);
-	RegisterObject(bg);
-	RegisterObject(player);
-	RegisterObject(test);
-	RegisterObject(testCut);
-	RegisterObject(testSprite);
-	RegisterObject(testAnim);
 
-	vector<uint> uids = gl.LoadMultipleTexturesPng("Resources/Images/Anim/ZagreusIdle_Bink", ".png", 3, 10 ,param);
+	vector<uint> uids = gl.LoadMultipleTexturesPng("Resources/Images/Anim/Idle/ZagreusIdle_Bink", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uids), "anim");
-
+	vector<uint> uidsMove = gl.LoadMultipleTexturesPng("Resources/Images/Anim/IdleMove/ZagreusRun_Bink", ".png", 3, param);
+	nts.Add(gl.BuildAnimation(uidsMove), "animMove");
 	uint cutTexId = gl.CutTexture(nts.Find("Sprite"), Rect2D(Point2D(0, 940), Point2D(229, 1381)));
 	nts.Add(cutTexId, "cut");
 
-	test.SetDepth(50);
-	test.texture = nts.Find("test");
-	test.renderOp = RenderObject::GIVEN_SIZE;
-	test.transformation.position = Vector2D(WINSIZE_X /2 , WINSIZE_Y / 2);
-	test.renderSize = PLAYER2_SIZE;
-	hidden.SetDepth(50);
-	test.transformation.anchor = Anchor::CENTER;
+	RegisterObject(fade);
+	RegisterObject(testCut);
+	RegisterObject(testSprite);
+	RegisterObject(testAnim);
+	//애니메이션 여러개 만들어서 활 당기는중일때는 "bow뭐시기" 하고 쏘면 -> "bow발사" 이런식으로 재생
+
 	fade.texture = nts.Find("fade");
 	fade.SetDepth(100);
 	fade.renderOp = RenderObject::FIT_TO_SCREEN;
 
-	bg.texture = nts.Find("gg");
-	bg.SetDepth(60);
 
 	testCut.texture = nts.Find("cut");
 	testCut.SetDepth(10);
 
 	testAnim.texture = nts.Find("anim");
 	testAnim.SetDepth(2);
-
-	//testSprite.texture = nts.Find("Sprite");
-	//testSprite.renderOp = RenderObject::GIVEN_SIZE;
-	//testSprite.renderSize = Point2D(850, 850);
-	//testSprite.SetDepth(5);
-
+	testAnim.transformation.position = Vector2D(WINSIZE_X / 2, WINSIZE_Y / 2);
+	testAnim.transformation.anchor = Anchor::CENTER;
+	
+	
 }
 
 void TestScene::OnBegin()
 {
+	animSelected = &testAnim;
 	frame = 0;
-	tick = 90;
 	increment = 1;
-	jump = 0;
 	gg = false;
 	fade.enabled = true;
 	bg.enabled = false;
@@ -78,38 +60,44 @@ void TestScene::OnBegin()
 
 void TestScene::OnEnd()
 {
-	frame = 0;
+	//frame = 0;
 	bg.enabled = false;
 }
 
 void TestScene::OnUpdate()
 {
-	TIMEMANAGER->update(60.0f);
+	
+
 	if (KEYMANAGER->isOnceKeyDown('H')) {
 		fade.enabled = true;
 		SceneEndOfUpdate();
 		return;
 	}
 	
-	
-	test.transformation.anchor = Anchor::CENTER;
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	{
+		float tempAngle = getAngle(testAnim.transformation.position.x, testAnim.transformation.position.y, _ptMouse.x, _ptMouse.y);
+		angle = (360 - (tempAngle * 180 / PI)) / 11;
+	}
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT)) {
 		masterSceneObject.transformation.position.x += 10;
-		test.transformation.position.x -= 10;
+		testAnim.transformation.position.x -= 10;
 	}
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT)) {
 		masterSceneObject.transformation.position.x-= 10;
-		test.transformation.position.x += 10;
+		testAnim.transformation.position.x += 10;
 	}
 	if (KEYMANAGER->isStayKeyDown(VK_UP)) {
 		masterSceneObject.transformation.position.y -= 10;
-		test.transformation.position.y += 10;
+		testAnim.transformation.position.y += 10;
 	}
 	if (KEYMANAGER->isStayKeyDown(VK_DOWN)) {
 		masterSceneObject.transformation.position.y += 10;
-		test.transformation.position.y -= 10;
+		testAnim.transformation.position.y -= 10;
 	}
-	if (gg) return;
+
+	tempAnim.playAnim(testAnim, angle * 24, 22, 3, true);
+
 }
 
 void TestScene::OnUpdateLoading()

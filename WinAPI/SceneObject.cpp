@@ -71,6 +71,8 @@ void SceneObject::InternalOnUpdate()
 {
 	if (!enabled) return;
 	OnUpdate();
+	//if (tickUpdate)
+	//	tick++;
 	vector<SceneObject*>::iterator iter;
 	for (iter = children.begin(); iter != children.end(); iter++)
 		(*iter)->InternalOnUpdate();

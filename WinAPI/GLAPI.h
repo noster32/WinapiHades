@@ -33,11 +33,12 @@ public:
 	uint LoadTexturePng(string fileName, TextureGenerateParam param);
 	uint BuildAnimation(const vector<uint>& uids);
 	uint BuildAnimation(const vector<uint>& uids, const Rect2D& range);
+	uint BuildAnimationBySprite(uint uid, int width, int height);
 	uint CutTexture(const uint uid, const Rect2D& range);
 	void ClearTexture(const uint uid, const uint RGBA);
 
 	vector<uint> LoadMultipleTextures(string prefix, string suffix, uint digit, TextureGenerateParam param);
-	vector<uint> LoadMultipleTexturesPng(string prefix, string suffix, uint digit, uint max,TextureGenerateParam param);
+	vector<uint> LoadMultipleTexturesPng(string prefix, string suffix, uint digit, TextureGenerateParam param);
 	const TextureSource& GetTextureInformation(const uint uid) { return textureStorage.Find(uid); }
 
 	void ClearBuffer() { glClear(GL_COLOR_BUFFER_BIT); }

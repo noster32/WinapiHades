@@ -55,8 +55,6 @@ LRESULT EngineLauncher::WndProc(HWND hWnd, UINT IMessage, WPARAM wParam, LPARAM 
             engine.engineRender();
             break;
         case WM_MOUSEMOVE:
-            _ptMouse.x = LOWORD(lParam);
-            _ptMouse.y = HIWORD(lParam);
             break;
         case WM_LBUTTONDOWN:
             break;

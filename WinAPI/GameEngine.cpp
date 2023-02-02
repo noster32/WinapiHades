@@ -67,7 +67,11 @@ void GameEngine::engineUpdate(void)
         return;
     }
 
-    
+    POINT cpos;
+    if (GetCursorPos(&cpos))
+        if (ScreenToClient(_mainhWnd, &cpos))
+            _ptMouse = Point2D(cpos.x, WINSIZE_Y - cpos.y);
+
     switch (sCurrent->GetSceneState()) {
     case scene::END:
         sCurrent->InternalOnEnd();
@@ -115,6 +119,7 @@ void GameEngine::engineRender(void)
     }
 
     gl.ClearBuffer();
+    glClearColor(0, 0, 0, 0);
     gl.LoadIdentity();
     switch (state) {
     case scene::BEGIN:

@@ -1,12 +1,12 @@
 #pragma once
 #include "scene.h"
+#include "Animation.h"
 
 class TestScene : public scene
 {
 private:
 	NamedTextureStorage nts;
 	
-	SceneObject hidden;
 	RenderObject fade;
 	RenderObject bg;
 	RenderObject player;
@@ -15,11 +15,17 @@ private:
 	RenderObject testSprite;
 	RenderObject testAnim;
 
+	Animation tempAnim;
+
+	SceneObject* animSelected;
+
 	int frame;
 	int tick, increment;
 	int jump;
 	bool gg;
+	int angle;
 
+	int temp;
 public:
 	void Init();
 

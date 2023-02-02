@@ -36,6 +36,8 @@ public:
 	void RemoveChild(SceneObject* target);
 	void SetDepth(int depth);
 	int GetDepth() const { return depth; }
+	bool GetTickUpdate(void) { return tickUpdate; }
+	void SetTick(ullong _tick) { tick = _tick; }
 
 	virtual void Render();
 

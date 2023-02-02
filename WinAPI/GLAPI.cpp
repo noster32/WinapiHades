@@ -196,6 +196,9 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 	vector<unsigned char> image;
 	unsigned width, height;
 	unsigned error = lodepng::decode(image, width, height, fileName);
+	
+	if (error != 0)
+		return 0;
 
 	size_t u2 = 1; while (u2 < width) u2 *= 2;
 	size_t v2 = 1; while (v2 < height) v2 *= 2;
@@ -262,8 +265,29 @@ uint GLAPI::BuildAnimation(const vector<uint>& uids, const Rect2D& range)
 	anim->height = ref.height;
 	anim->SetRange(range);
 	textureStorage.Add(anim);
-
+	//animationtexture가 textureSource를 상속받기때문에 tids에있는 코드를 ㅈㄴ돌림
 	return anim->uid;
+}
+
+uint GLAPI::BuildAnimationBySprite(uint uid, int width, int height)
+{
+	vector<GLuint> tids;
+	const TextureSource& ref = textureStorage.Find(uid);
+	int tempWidthNum = ref.width / width;
+	int tempHeightNum = ref.height / height;
+	for (int y = 0; y < tempHeightNum; y++)
+	{
+		for (int x = 0; x < tempWidthNum; x++)
+		{
+			tids.push_back(ref.Get(0) + ((y * tempWidthNum) + x));
+		}
+	}
+	AnimatedTexture* anim = new AnimatedTexture(tids);
+	anim->power = ref.power;
+	anim->width = ref.width;
+	anim->height = ref.height;
+	//anim->SetRange(Rect2D(Point2D(x * width, ), Point2D()));
+	return uint();
 }
 
 uint GLAPI::CutTexture(const uint uid, const Rect2D& range)
@@ -330,14 +354,14 @@ vector<uint> GLAPI::LoadMultipleTextures(string prefix, string suffix, uint digi
 	return uids;
 }
 
-vector<uint> GLAPI::LoadMultipleTexturesPng(string prefix, string suffix, uint digit, uint max,TextureGenerateParam param)
+vector<uint> GLAPI::LoadMultipleTexturesPng(string prefix, string suffix, uint digit, TextureGenerateParam param)
 {
-	int index = 1;
+	int index = 0;
 	stringstream ss;
 	stringstream len;
 	vector<uint> uids;
 
-	while (index < max + 1) {
+	while (1) {
 		ss.str(string());
 		len.str(string());
 
