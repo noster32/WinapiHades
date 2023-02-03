@@ -2,10 +2,26 @@
 #include "scene.h"
 #include "Animation.h"
 
+enum playerStatus {
+	IDLE = 0,
+	MOVE,
+	DASH,
+	STOP,
+	ATTACK,
+	SPECIAL_ATTACK,
+	MAGIC,
+	CALL,
+	HIT,
+	DIE,
+	FISHING
+};
+
 class TestScene : public scene
 {
 private:
+	map<playerStatus, string> mPlayerStatus;
 	NamedTextureStorage nts;
+	playerStatus ps;
 	
 	RenderObject fade;
 	RenderObject bg;
@@ -14,8 +30,10 @@ private:
 	RenderObject testCut;
 	RenderObject testSprite;
 	RenderObject testAnim;
+	RenderObject testAnimVfx;
 
 	Animation tempAnim;
+	Animation tempAnimVfx;
 
 	SceneObject* animSelected;
 
@@ -24,10 +42,14 @@ private:
 	int jump;
 	bool gg;
 	int angle;
+	int animLength;
+	int animDelay;
 
 	int temp;
 public:
 	void Init();
+	string FindStatus(playerStatus ps);
+	void tempPlayerStatueUpdate();
 
 	virtual void OnBegin();
 	virtual void OnEnd();

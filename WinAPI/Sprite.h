@@ -12,6 +12,6 @@ public:
 	Rect2D findTexture(string texName);
 
 
-	map<string, Rect2D> da_Texture;
+	map<string, Rect2D> da_Texture_TileTexture53;
 };
 

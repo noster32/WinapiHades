@@ -131,6 +131,9 @@
     <ClCompile Include="Animation.cpp">
       <Filter>API FrameWork\Sprite</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>API FrameWork</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C3DMatrix.h">
@@ -225,5 +228,6 @@
     <ClInclude Include="Animation.h">
       <Filter>API FrameWork\Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h" />
   </ItemGroup>
 </Project>

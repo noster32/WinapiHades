@@ -1,6 +1,5 @@
-﻿  TestScene.cpp
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\TestScene.cpp(12,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\TestScene.cpp(79,122): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\TestScene.cpp(79,110): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\TestScene.cpp(80,42): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  WinAPI.vcxproj -> C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\x64\Debug\WinAPI.exe
+﻿  Sprite.cpp
+  TestScene.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\TestScene.cpp(12,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+  WinAPI.vcxproj -> C:\Users\noster\Desktop\WinapiHades\WinapiHades\x64\Debug\WinAPI.exe

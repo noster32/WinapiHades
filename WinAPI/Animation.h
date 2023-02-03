@@ -5,10 +5,9 @@ class Animation : public RenderObject
 private:
 	int animTickDelay;
 	int animTick;
+	int animTickMove;
 	bool bLoopAnimaiton;
-	//AnimatedTexture& animTex;
 public:
-	
 	
 	void playAnim(SceneObject& tex,  uint start, uint length, uint frame, bool loop);
 
