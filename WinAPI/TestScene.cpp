@@ -48,6 +48,7 @@ void TestScene::Init()
 	testAnimVfx.SetDepth(16);
 	testAnim.transformation.position = Vector2D(WINSIZE_X / 2, WINSIZE_Y / 2);
 	testAnim.transformation.anchor = Anchor::CENTER;
+	testAnim.transformation.scale += 0.1f;
 	testAnimVfx.transformation.anchor = Anchor::CENTER;
 	mPlayerStatus.insert(make_pair(IDLE, "IDLE"));
 	mPlayerStatus.insert(make_pair(MOVE, "MOVE"));
@@ -89,7 +90,7 @@ void TestScene::tempPlayerStatueUpdate()
 		break;
 	case MOVE:
 		animLength = 11;
-		animDelay = 5;
+		animDelay = 3;
 		break;
 	case DASH:
 		animLength = 11;
@@ -198,11 +199,11 @@ void TestScene::OnUpdate()
 
 		testAnimVfx.texture = nts.Find("DashVfx");
 		testAnimVfx.transformation.position = testAnim.transformation.position;
-		tempAnimVfx.playAnim(testAnimVfx, angle * animLength, animLength, animDelay, false);
-		tempAnim.playAnim(testAnim, angle * animLength, animLength, animDelay, false);
+		tempAnimVfx.playAnim(testAnimVfx, angle * animLength, animLength, animDelay, false, ps);
+		tempAnim.playAnim(testAnim, angle * animLength, animLength, animDelay, false, ps);
 	}
 	else
-		tempAnim.playAnim(testAnim, angle * animLength, animLength, animDelay, true);
+		tempAnim.playAnim(testAnim, angle * animLength, animLength, animDelay, true, ps);
 }
 
 void TestScene::OnUpdateLoading()
