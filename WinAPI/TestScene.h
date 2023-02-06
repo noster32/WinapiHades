@@ -6,7 +6,7 @@ enum playerStatus {
 	IDLE = 0,
 	MOVE,
 	DASH,
-	STOP,
+	MOVESTOP,
 	ATTACK,
 	SPECIAL_ATTACK,
 	MAGIC,
@@ -16,12 +16,24 @@ enum playerStatus {
 	FISHING
 };
 
+enum playerMoveDir {
+	RIGHT,
+	RIGHTUP,
+	UP,
+	LEFTUP,
+	LEFT,
+	LEFTDOWN,
+	DOWN,
+	RIGHTDOWN
+};
+
 class TestScene : public scene
 {
 private:
 	map<playerStatus, string> mPlayerStatus;
 	NamedTextureStorage nts;
 	playerStatus ps;
+	playerMoveDir pmr;
 	
 	RenderObject fade;
 	RenderObject bg;
@@ -53,6 +65,8 @@ public:
 	string FindStatus(playerStatus ps);
 	void tempPlayerStatueUpdate();
 	int transformAngle(int angle, playerStatus ps);
+	void setPlayerAngle(void);
+	void playerMove(playerMoveDir pmr);
 
 	virtual void OnBegin();
 	virtual void OnEnd();

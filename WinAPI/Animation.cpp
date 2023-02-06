@@ -10,7 +10,7 @@ Animation::Animation() : animTickDelay(0),
 
 void Animation::playAnim(SceneObject& tex, uint start, uint length, uint frame, bool loop, uint state)
 {
-	uint temp = start + length - 2;
+	uint temp = start + length - 1;
 
 	animTickDelay++;
 	animValueReset(state);
@@ -46,9 +46,11 @@ void Animation::playAnim(SceneObject& tex, uint start, uint length, uint frame, 
 		
 }
 
-void Animation::playAnimVFX(SceneObject& tex, uint start, uint length, uint frame)
+void Animation::playAnimVFX(SceneObject& tex, uint start, uint length, uint frame, uint state)
 {
-	uint temp = start + length - 2;
+	animValueResetVFX(state);
+	animTickDelay++;
+	uint temp = start + length - 1;
 	
 	if (start <= 0) start = 0;
 
@@ -57,20 +59,24 @@ void Animation::playAnimVFX(SceneObject& tex, uint start, uint length, uint fram
 		animTickDashVFX = start;
 		animDashVFXPlaying = true;
 	}
-		
-	if (animTickDelay % frame == 0)
+
+	if(animDashVFXPlaying)
 	{
-		animTickDashVFX++;
-		animTickDelay = 0;
-		tex.SetTick(animTickDashVFX);
+		if (animTickDelay % frame == 0)
+		{
+			tex.SetTick(animTickDashVFX);
+			printf("\n %d", animTickDashVFX);
+			animTickDashVFX++;
+			animTickDelay = 0;
+		}
 	}
 
-	if (animTickDashVFX >= temp)
+	if (animTickDashVFX > temp)
 	{
 		animTickDashVFX = temp;
+		animTickDelay = 0;
 		animDashVFXPlaying = false;
 	}
-
 }
 
 
@@ -87,7 +93,7 @@ void Animation::playIdle(uint start, uint end, bool loop)
 
 	if (loop)
 	{
-		if (animTickIdle >= end)
+		if (animTickIdle > end)
 		{
 			animTickIdle = start;
 			animIdlePlaying = false;
@@ -95,7 +101,7 @@ void Animation::playIdle(uint start, uint end, bool loop)
 	}
 	else
 	{
-		if (animTickIdle >= end)
+		if (animTickIdle > end)
 		{
 			animTickIdle = end;
 			animIdlePlaying = false;
@@ -118,7 +124,7 @@ void Animation::playMove(uint start, uint end, bool loop)
 
 	if (loop)
 	{
-		if (animTickMove >= end)
+		if (animTickMove > end)
 		{
 			animTickMove = start;
 			animMovePlaying = false;
@@ -127,12 +133,12 @@ void Animation::playMove(uint start, uint end, bool loop)
 	}
 	else
 	{
-		if (animTickMove >= end)
+		if (animTickMove > end)
 		{
 			animTickMove = end;
 			animMovePlaying = false;
 		}
-				}
+	}
 }
 
 void Animation::playDash(uint start, uint end, bool loop)
@@ -148,7 +154,7 @@ void Animation::playDash(uint start, uint end, bool loop)
 
 	if (loop)
 	{
-		if (animTickDash >= end)
+		if (animTickDash > end)
 		{
 			animTickDash = start;
 			animDashPlaying = false;
@@ -157,7 +163,7 @@ void Animation::playDash(uint start, uint end, bool loop)
 	}
 	else
 	{
-		if (animTickDash >= end)
+		if (animTickDash > end)
 		{
 			animTickDash = end;
 			animDashPlaying = false;
@@ -198,4 +204,8 @@ void Animation::animValueReset(uint state)
 	}
 }
 
-
+void Animation::animValueResetVFX(uint state)
+{
+	if (!animDashVFXPlaying)
+		animTickDashVFX = 0;
+}

@@ -18,6 +18,7 @@ void TestScene::Init()
 	nts.Add(gl.LoadTexturePng("Resources/Images/Object/DeathArea_Tilesets53.png", param), "Sprite");
 	nts.Add(gl.LoadTexturePng("Resources/Images/Map/TempMap.png", param), "TempMap");
 	
+	
 	vector<uint> uids = gl.LoadMultipleTexturesPng("Resources/Images/Anim/Idle/ZagreusIdle_Bink", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uids), "IDLE");
 	vector<uint> uidsMove = gl.LoadMultipleTexturesPng("Resources/Images/Anim/IdleMove/ZagreusRun_Bink", ".png", 3, param);
@@ -26,6 +27,8 @@ void TestScene::Init()
 	nts.Add(gl.BuildAnimation(uidsDash), "DASH");
 	vector<uint> uidsDashVfx = gl.LoadMultipleTexturesPng("Resources/Images/Anim/DashVfx/ZagreusDashVFX_Bink", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uidsDashVfx), "DashVfx");
+	vector<uint> uidsSwordAttack = gl.LoadMultipleTexturesPng("Resources/Images/Anim/SwordAttack/ZagreusSword_Bink", ".png", 4, param);
+	nts.Add(gl.BuildAnimation(uidsSwordAttack), "SWORDATTACK");
 	uint cutTexId = gl.CutTexture(nts.Find("Sprite"), Rect2D(Point2D(0, 940), Point2D(229, 1381)));
 	nts.Add(cutTexId, "cut");
 
@@ -46,7 +49,6 @@ void TestScene::Init()
 
 	testCut.texture = nts.Find("cut");
 	testCut.SetDepth(10);
-
 	
 	testAnim.SetDepth(15);
 	testAnimVfx.SetDepth(16);
@@ -59,7 +61,7 @@ void TestScene::Init()
 	mPlayerStatus.insert(make_pair(IDLE, "IDLE"));
 	mPlayerStatus.insert(make_pair(MOVE, "MOVE"));
 	mPlayerStatus.insert(make_pair(DASH, "DASH"));
-	mPlayerStatus.insert(make_pair(STOP, "STOP"));
+	mPlayerStatus.insert(make_pair(MOVESTOP, "MOVESTOP"));
 	mPlayerStatus.insert(make_pair(ATTACK, "ATTACK"));
 	mPlayerStatus.insert(make_pair(SPECIAL_ATTACK, "SPECIALATTACK"));
 	mPlayerStatus.insert(make_pair(MAGIC, "MAGIC"));
@@ -77,14 +79,20 @@ string TestScene::FindStatus(playerStatus ps)
 
 void TestScene::tempPlayerStatueUpdate()
 {
-	if (KEYMANAGER->isStayKeyDown(VK_LEFT) || KEYMANAGER->isStayKeyDown(VK_RIGHT) || KEYMANAGER->isStayKeyDown(VK_UP) || KEYMANAGER->isStayKeyDown(VK_DOWN))
+	if (KEYMANAGER->isStayKeyDown('W') || KEYMANAGER->isStayKeyDown('A') || KEYMANAGER->isStayKeyDown('S') || KEYMANAGER->isStayKeyDown('D'))
 	{
-		ps = MOVE;
+		if (KEYMANAGER->isStayKeyDown(VK_SPACE) || tempAnim.GetAnimDashPlaying())
+		{
+			ps = DASH;
+		}
+		else
+			ps = MOVE;
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_SPACE) || tempAnim.GetAnimDashPlaying())
 	{
 		ps = DASH;
 	}
+	
 	else
 		ps = IDLE;
 		
@@ -100,9 +108,9 @@ void TestScene::tempPlayerStatueUpdate()
 		break;
 	case DASH:
 		animLength = 12;
-		animDelay = 3;
+		animDelay = 1;
 		break;
-	case STOP:
+	case MOVESTOP:
 		break;
 	case ATTACK:
 		break;
@@ -126,19 +134,65 @@ void TestScene::tempPlayerStatueUpdate()
 
 int TestScene::transformAngle(int angle, playerStatus ps)
 {
-	int transAngle;
+	int transAngle = angle;
 	
 	switch (ps)
 	{
 	case IDLE:
-		
 		break;
 	case MOVE:
-		
+		if (angle == 1)
+			angle = 0;
+		else if (angle == 5)
+			angle = 1;
+		else if (angle == 9)
+			angle = 2;
+		else if (angle == 13)
+			angle = 3;
+		else if (angle == 17)
+			angle = 4;
+		else if (angle == 21)
+			angle = 5;
+		else if (angle == 25)
+			angle = 6;
+		else if (angle == 29)
+			angle = 7;
 		break;
 	case DASH:
+		if (angle == 1)
+			angle = 0;
+		else if (angle > 1 && angle < 5)
+			angle = 1;
+		else if (angle == 5)
+			angle = 2;
+		else if (angle > 5 && angle < 9)
+			angle = 3;
+		else if (angle == 9)
+			angle = 4;
+		else if (angle > 9 && angle < 13)
+			angle = 5;
+		else if (angle == 13)
+			angle = 6;
+		else if (angle > 13 && angle < 17)
+			angle = 7;
+		else if (angle == 17)
+			angle = 8;
+		else if (angle > 17 && angle < 21)
+			angle = 9;
+		else if (angle == 21)
+			angle = 10;
+		else if (angle > 21 && angle < 25)
+			angle = 11;
+		else if (angle == 25)
+			angle = 12;
+		else if (angle > 25 && angle < 29)
+			angle = 13;
+		else if (angle == 29)
+			angle = 14;
+		else if ((angle > 29 && angle < 32) || angle == 0)
+			angle = 15;
 		break;
-	case STOP:
+	case MOVESTOP:
 		break;
 	case ATTACK:
 		break;
@@ -159,10 +213,158 @@ int TestScene::transformAngle(int angle, playerStatus ps)
 		break;
 	}
 
+	transAngle = angle * animLength;
 	return transAngle;
 }
 
+void TestScene::setPlayerAngle(void)
+{
+	if (KEYMANAGER->isStayKeyDown('A')) {
+		if (KEYMANAGER->isStayKeyDown('W')) {
+			pmr = LEFTUP;
+			angle = 13;
+		}
+		else if (KEYMANAGER->isStayKeyDown('S')) {
+			pmr = LEFTDOWN;
+			angle = 21;
+		}
+		else {
+			pmr = LEFT;
+			angle = 17;
+		}
 
+	}
+	else if (KEYMANAGER->isStayKeyDown('D')) {
+		if (KEYMANAGER->isStayKeyDown('W')) {
+			pmr = RIGHTUP;
+			angle = 5;
+		}
+		else if (KEYMANAGER->isStayKeyDown('S')) {
+			pmr = RIGHTDOWN;
+			angle = 29;
+		}
+		else {
+			pmr = RIGHT;
+			angle = 1;
+		}
+	}
+	else if (KEYMANAGER->isStayKeyDown('W')) {
+		if (KEYMANAGER->isStayKeyDown('A')) {
+			pmr = LEFTUP;
+			angle = 13;
+		}
+		else if (KEYMANAGER->isStayKeyDown('D')) {
+			pmr = RIGHTUP;
+			angle = 5;
+		}
+		else {
+			pmr = UP;
+			angle = 9;
+		}
+	}
+	else if (KEYMANAGER->isStayKeyDown('S')) {
+		if (KEYMANAGER->isStayKeyDown('A')) {
+			pmr = LEFTDOWN;
+			angle = 21;
+		}
+		else if (KEYMANAGER->isStayKeyDown('D')) {
+			pmr = RIGHTDOWN;
+			angle = 29;
+		}
+		else {
+			pmr = DOWN;
+			angle = 25;
+		}
+	}
+}
+
+void TestScene::playerMove(playerMoveDir pmr)
+{
+	if(ps = MOVE)
+	{
+		switch (pmr)
+		{
+		case RIGHT:
+			masterSceneObject.transformation.position.x -= 10;
+			testAnim.transformation.position.x += 10;
+			break;
+		case RIGHTUP:
+			masterSceneObject.transformation.position -= Vector2D(10, 10);
+			testAnim.transformation.position += Vector2D(10, 10);
+			break;
+		case UP:
+			masterSceneObject.transformation.position.y -= 10;
+			testAnim.transformation.position.y += 10;
+			break;
+		case LEFTUP:
+			masterSceneObject.transformation.position.x += 10;
+			testAnim.transformation.position.x -= 10;
+			masterSceneObject.transformation.position.y -= 10;
+			testAnim.transformation.position.y += 10;
+			break;
+		case LEFT:
+			masterSceneObject.transformation.position.x += 10;
+			testAnim.transformation.position.x -= 10;
+			break;
+		case LEFTDOWN:
+			masterSceneObject.transformation.position.y += 10;
+			testAnim.transformation.position.y -= 10;
+			break;
+		case DOWN:
+			masterSceneObject.transformation.position.y += 10;
+			testAnim.transformation.position.y -= 10;
+			break;
+		case RIGHTDOWN:
+			masterSceneObject.transformation.position.x -= 10;
+			testAnim.transformation.position.x += 10;
+			masterSceneObject.transformation.position.y += 10;
+			testAnim.transformation.position.y -= 10;
+			break;
+		}
+	}
+	else if (ps == DASH)
+	{
+		switch (pmr)
+		{
+		case RIGHT:
+			masterSceneObject.transformation.position.x -= 30;
+			testAnim.transformation.position.x += 30;
+			break;
+		case RIGHTUP:
+			masterSceneObject.transformation.position -= Vector2D(30, 30);
+			testAnim.transformation.position += Vector2D(30, 30);
+			break;
+		case UP:
+			masterSceneObject.transformation.position.y -= 30;
+			testAnim.transformation.position.y += 30;
+			break;
+		case LEFTUP:
+			masterSceneObject.transformation.position.x += 30;
+			testAnim.transformation.position.x -= 30;
+			masterSceneObject.transformation.position.y -= 30;
+			testAnim.transformation.position.y += 30;
+			break;
+		case LEFT:
+			masterSceneObject.transformation.position.x += 30;
+			testAnim.transformation.position.x -= 30;
+			break;
+		case LEFTDOWN:
+			masterSceneObject.transformation.position.y += 30;
+			testAnim.transformation.position.y -= 30;
+			break;
+		case DOWN:
+			masterSceneObject.transformation.position.y += 30;
+			testAnim.transformation.position.y -= 30;
+			break;
+		case RIGHTDOWN:
+			masterSceneObject.transformation.position.x -= 30;
+			testAnim.transformation.position.x += 30;
+			masterSceneObject.transformation.position.y += 30;
+			testAnim.transformation.position.y -= 30;
+			break;
+		}
+	}
+}
 
 void TestScene::OnBegin()
 {
@@ -178,71 +380,52 @@ void TestScene::OnUpdate()
 {
 	testAnim.texture = nts.Find(FindStatus(ps));
 	
-
-	if (KEYMANAGER->isOnceKeyDown('H')) {
-		fade.enabled = true;
-		SceneEndOfUpdate();
-		return;
-	}
+	//if (KEYMANAGER->isOnceKeyDown('H')) {
+	//	fade.enabled = true;
+	//	SceneEndOfUpdate();
+	//	return;
+	//}
 	
+
+
+	if (KEYMANAGER->isOnceKeyDown(VK_F1))
+	{
+		testAnim.enabled = false;		
+	}
+	if (KEYMANAGER->isOnceKeyDown(VK_F2))
+	{
+		testAnim.enabled = true;
+	}
+
+
 	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
 		//float tempAngle = getAngle(testAnim.transformation.position.x, testAnim.transformation.position.y, _ptMouse.x - masterSceneObject.transformation.position.x, _ptMouse.y - masterSceneObject.transformation.position.y);
 		//angle = (360 - (tempAngle * 180 / PI)) / 10;
 	}
-	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
-	{
-
-	}
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT)) {
-		masterSceneObject.transformation.position.x += 10;
-		testAnim.transformation.position.x -= 10;
-		if (KEYMANAGER->isStayKeyDown(VK_UP))
-			angle = 14;
-		else if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-			angle = 22;
-		else
-			angle = 18;
+		
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_RIGHT)) {
-		masterSceneObject.transformation.position.x-= 10;
-		testAnim.transformation.position.x += 10;
-		if (KEYMANAGER->isStayKeyDown(VK_UP))
-			angle = 4;
-		else if (KEYMANAGER->isStayKeyDown(VK_DOWN))
-			angle = 32;
-		else
-			angle = 0;
+		
 	}
 	if (KEYMANAGER->isStayKeyDown(VK_UP)) {
-		masterSceneObject.transformation.position.y -= 10;
-		testAnim.transformation.position.y += 10;
-		if (KEYMANAGER->isStayKeyDown(VK_LEFT)) {
-			angle = 13;
-		}
-		else if (KEYMANAGER->isStayKeyDown(VK_RIGHT)) {
-			angle = 5;
-		}
-		else {
-			angle = 9;
-			dashAngle = 4;
-		}
-			
 		
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_DOWN)) {
 
-		masterSceneObject.transformation.position.y += 10;
-		testAnim.transformation.position.y -= 10;
-		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
-			angle = 23;
-		else if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
-			angle = 31;
-		else
-			angle = 27;
+		
 	}
-	
-		tempPlayerStatueUpdate();
+	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
+	{
+	}
+
+
+	setPlayerAngle();
+	tempPlayerStatueUpdate();
+	playerMove(pmr);
+
+
 	if (ps == DASH)
 	{
 		testAnimVfx.texture = nts.Find("DashVfx");
@@ -250,11 +433,11 @@ void TestScene::OnUpdate()
 		//Dash 90' = 48  = 12장씩 /  4
 		//Idle 90' = 240 = 24장씩 / 10
 		//Move 90' = 104 = 6장씩 / 16
-		tempAnimVfx.playAnimVFX(testAnimVfx, angle * animLength, animLength, animDelay);
-		tempAnim.playAnim(testAnim, angle * animLength, animLength, animDelay, false, ps);
+		tempAnimVfx.playAnimVFX(testAnimVfx, transformAngle(angle, ps), animLength, animDelay, ps);
+		tempAnim.playAnim(testAnim, transformAngle(angle, ps), animLength, animDelay, false, ps);
 	}
 	else
-		tempAnim.playAnim(testAnim, angle * animLength, animLength, animDelay, true, ps);
+		tempAnim.playAnim(testAnim, transformAngle(angle, ps), animLength, animDelay, true, ps);
 }
 
 void TestScene::OnUpdateLoading()

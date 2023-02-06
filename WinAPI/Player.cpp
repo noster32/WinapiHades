@@ -112,7 +112,7 @@ void Player::OnUpdate()
 		//Dash 90' = 48  = 12장씩 /  4
 		//Idle 90' = 240 = 24장씩 / 10
 		//Move 90' = 104 = 6장씩 / 16
-		tempAnimVfx.playAnimVFX(testAnimVfx, angle * animLength, animLength, animDelay);
+		tempAnimVfx.playAnimVFX(testAnimVfx, angle * animLength, animLength, animDelay, ps);
 		tempAnim.playAnim(testAnim, angle * animLength, animLength, animDelay, false, ps);
 	}
 	else
