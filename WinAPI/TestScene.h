@@ -25,12 +25,13 @@ private:
 	
 	RenderObject fade;
 	RenderObject bg;
-	RenderObject player;
 	RenderObject test;
 	RenderObject testCut;
 	RenderObject testSprite;
 	RenderObject testAnim;
 	RenderObject testAnimVfx;
+	RenderObject tempMap;
+	
 
 	Animation tempAnim;
 	Animation tempAnimVfx;
@@ -42,6 +43,7 @@ private:
 	int jump;
 	bool gg;
 	int angle;
+	int dashAngle;
 	int animLength;
 	int animDelay;
 
@@ -50,6 +52,7 @@ public:
 	void Init();
 	string FindStatus(playerStatus ps);
 	void tempPlayerStatueUpdate();
+	int transformAngle(int angle, playerStatus ps);
 
 	virtual void OnBegin();
 	virtual void OnEnd();

@@ -134,6 +134,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>API FrameWork</Filter>
     </ClCompile>
+    <ClCompile Include="TextObject.cpp">
+      <Filter>API FrameWork\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C3DMatrix.h">
@@ -229,5 +232,8 @@
       <Filter>API FrameWork\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="TextObject.h">
+      <Filter>API FrameWork\OpenGL</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

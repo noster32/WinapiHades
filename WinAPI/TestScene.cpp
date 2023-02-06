@@ -16,6 +16,7 @@ void TestScene::Init()
 	TextureGenerateParam param(TextureGenerateParam::LINEAR, TextureGenerateParam::LINEAR);
 	nts.Add(gl.GenerateEmptyTexture(30, 30, 0xFFFFFFFF), "fade");
 	nts.Add(gl.LoadTexturePng("Resources/Images/Object/DeathArea_Tilesets53.png", param), "Sprite");
+	nts.Add(gl.LoadTexturePng("Resources/Images/Map/TempMap.png", param), "TempMap");
 	
 	vector<uint> uids = gl.LoadMultipleTexturesPng("Resources/Images/Anim/Idle/ZagreusIdle_Bink", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uids), "IDLE");
@@ -33,12 +34,15 @@ void TestScene::Init()
 	RegisterObject(testSprite);
 	RegisterObject(testAnim);
 	RegisterObject(testAnimVfx);
+	RegisterObject(tempMap);
 	//애니메이션 여러개 만들어서 활 당기는중일때는 "bow뭐시기" 하고 쏘면 -> "bow발사" 이런식으로 재생
 
 	fade.texture = nts.Find("fade");
 	fade.SetDepth(100);
 	fade.renderOp = RenderObject::FIT_TO_SCREEN;
 
+	tempMap.texture = nts.Find("TempMap");
+	tempMap.SetDepth(1);
 
 	testCut.texture = nts.Find("cut");
 	testCut.SetDepth(10);
@@ -47,9 +51,11 @@ void TestScene::Init()
 	testAnim.SetDepth(15);
 	testAnimVfx.SetDepth(16);
 	testAnim.transformation.position = Vector2D(WINSIZE_X / 2, WINSIZE_Y / 2);
+	//masterSceneObject.transformation.position = Vector2D(2590, 4250);
 	testAnim.transformation.anchor = Anchor::CENTER;
 	testAnim.transformation.scale += 0.1f;
 	testAnimVfx.transformation.anchor = Anchor::CENTER;
+
 	mPlayerStatus.insert(make_pair(IDLE, "IDLE"));
 	mPlayerStatus.insert(make_pair(MOVE, "MOVE"));
 	mPlayerStatus.insert(make_pair(DASH, "DASH"));
@@ -75,7 +81,7 @@ void TestScene::tempPlayerStatueUpdate()
 	{
 		ps = MOVE;
 	}
-	else if (KEYMANAGER->isStayKeyDown(VK_SPACE))
+	else if (KEYMANAGER->isStayKeyDown(VK_SPACE) || tempAnim.GetAnimDashPlaying())
 	{
 		ps = DASH;
 	}
@@ -93,7 +99,7 @@ void TestScene::tempPlayerStatueUpdate()
 		animDelay = 3;
 		break;
 	case DASH:
-		animLength = 11;
+		animLength = 12;
 		animDelay = 3;
 		break;
 	case STOP:
@@ -117,6 +123,46 @@ void TestScene::tempPlayerStatueUpdate()
 		break;
 	}
 }
+
+int TestScene::transformAngle(int angle, playerStatus ps)
+{
+	int transAngle;
+	
+	switch (ps)
+	{
+	case IDLE:
+		
+		break;
+	case MOVE:
+		
+		break;
+	case DASH:
+		break;
+	case STOP:
+		break;
+	case ATTACK:
+		break;
+	case SPECIAL_ATTACK:
+		break;
+	case MAGIC:
+		break;
+	case CALL:
+		break;
+	case HIT:
+		break;
+	case DIE:
+		break;
+	case FISHING:
+		break;
+	default:
+		animLength = 24;
+		break;
+	}
+
+	return transAngle;
+}
+
+
 
 void TestScene::OnBegin()
 {
@@ -167,17 +213,21 @@ void TestScene::OnUpdate()
 			angle = 32;
 		else
 			angle = 0;
-		
 	}
 	if (KEYMANAGER->isStayKeyDown(VK_UP)) {
 		masterSceneObject.transformation.position.y -= 10;
 		testAnim.transformation.position.y += 10;
-		if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+		if (KEYMANAGER->isStayKeyDown(VK_LEFT)) {
 			angle = 13;
-		else if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+		}
+		else if (KEYMANAGER->isStayKeyDown(VK_RIGHT)) {
 			angle = 5;
-		else
+		}
+		else {
 			angle = 9;
+			dashAngle = 4;
+		}
+			
 		
 	}
 	else if (KEYMANAGER->isStayKeyDown(VK_DOWN)) {
@@ -192,14 +242,15 @@ void TestScene::OnUpdate()
 			angle = 27;
 	}
 	
-	
-	tempPlayerStatueUpdate();
+		tempPlayerStatueUpdate();
 	if (ps == DASH)
 	{
-
 		testAnimVfx.texture = nts.Find("DashVfx");
 		testAnimVfx.transformation.position = testAnim.transformation.position;
-		tempAnimVfx.playAnim(testAnimVfx, angle * animLength, animLength, animDelay, false, ps);
+		//Dash 90' = 48  = 12장씩 /  4
+		//Idle 90' = 240 = 24장씩 / 10
+		//Move 90' = 104 = 6장씩 / 16
+		tempAnimVfx.playAnimVFX(testAnimVfx, angle * animLength, animLength, animDelay);
 		tempAnim.playAnim(testAnim, angle * animLength, animLength, animDelay, false, ps);
 	}
 	else

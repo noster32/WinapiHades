@@ -7,20 +7,29 @@ private:
 	int animTickIdle;
 	int animTickMove;
 	int animTickDash;
+	int animTickDashVFX;
 	bool bLoopAnimaiton;
 
-	bool animIdlePlayeing;
-	bool animMove
+	bool animIdlePlaying;
+	bool animMovePlaying;
+	bool animDashPlaying;
+	bool animDashVFXPlaying;
+	bool animAttackPlaying;
+	
 
-	void playIdle(void);
-	void playMove(void);
-	void playDash(void);
-	void playAttack(void);
+	void playIdle(uint start, uint end, bool loop);
+	void playMove(uint start, uint end, bool loop);
+	void playDash(uint start, uint end, bool loop);
+	void playAttack(uint start, uint end, bool loop);
+
+	void animValueReset(uint state);
 public:
 	
 	void playAnim(SceneObject& tex,  uint start, uint length, uint frame, bool loop, uint state);
+	void playAnimVFX(SceneObject& tex, uint start, uint length, uint frame);
 
-	Animation() { }
+	bool GetAnimDashPlaying(void) { return animDashPlaying; }
+	Animation();
 
 };
 
