@@ -235,5 +235,8 @@
     <ClInclude Include="TextObject.h">
       <Filter>API FrameWork\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>API FrameWork</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

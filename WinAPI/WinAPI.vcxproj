@@ -219,6 +219,7 @@
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SoundScene.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="Stdafx.h" />
     <ClInclude Include="TestScene.h" />
     <ClInclude Include="TextObject.h" />
