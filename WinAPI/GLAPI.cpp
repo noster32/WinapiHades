@@ -65,6 +65,11 @@ void GLAPI::DisableOpenGL(HWND hwnd, HDC hdc, HGLRC hrc)
 	wglMakeCurrent(NULL, NULL);
 	wglDeleteContext(hrc);
 	ReleaseDC(hwnd, hdc);
+	glDisable(GL_POINT_SMOOTH);
+	glDisable(GL_LINE_SMOOTH);
+	glDisable(GL_POLYGON_SMOOTH);
+	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
 	enabled = false;
 }
 

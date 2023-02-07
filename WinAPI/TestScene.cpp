@@ -15,18 +15,18 @@ void TestScene::Init()
 
 	TextureGenerateParam param(TextureGenerateParam::LINEAR, TextureGenerateParam::LINEAR);
 	nts.Add(gl.GenerateEmptyTexture(30, 30, 0xFFFFFFFF), "fade");
-	//nts.Add(gl.LoadTexturePng("Resources/Images/Object/DeathArea_Tilesets53.png", param), "Sprite");
-	//nts.Add(gl.LoadTexturePng("Resources/Images/Map/TempMap.png", param), "TempMap");
+	nts.Add(gl.LoadTexturePng("Resources/Images/Object/DeathArea_Tilesets53.png", param), "Sprite");
+	nts.Add(gl.LoadTexturePng("Resources/Images/Map/TempMap.png", param), "TempMap");
 	
 	
 	vector<uint> uids = gl.LoadMultipleTexturesPng("Resources/Images/Anim/Idle/ZagreusIdle_Bink", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uids), "IDLE");
 	vector<uint> uidsMove = gl.LoadMultipleTexturesPng("Resources/Images/Anim/IdleMove/ZagreusRun_Bink", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uidsMove), "MOVE");
-	//vector<uint> uidsDash = gl.LoadMultipleTexturesPng("Resources/Images/Anim/Dash/ZagreusDash_Bink", ".png", 3, param);
-	//nts.Add(gl.BuildAnimation(uidsDash), "DASH");
-	//vector<uint> uidsDashVfx = gl.LoadMultipleTexturesPng("Resources/Images/Anim/DashVfx/ZagreusDashVFX_Bink", ".png", 3, param);
-	//nts.Add(gl.BuildAnimation(uidsDashVfx), "DashVfx");
+	vector<uint> uidsDash = gl.LoadMultipleTexturesPng("Resources/Images/Anim/Dash/ZagreusDash_Bink", ".png", 3, param);
+	nts.Add(gl.BuildAnimation(uidsDash), "DASH");
+	vector<uint> uidsDashVfx = gl.LoadMultipleTexturesPng("Resources/Images/Anim/DashVfx/ZagreusDashVFX_Bink", ".png", 3, param);
+	nts.Add(gl.BuildAnimation(uidsDashVfx), "DashVfx");
 	//vector<uint> uidsSwordAttack = gl.LoadMultipleTexturesPng("Resources/Images/Anim/SwordAttack/ZagreusSword_Bink", ".png", 4, param);
 	//nts.Add(gl.BuildAnimation(uidsSwordAttack), "SWORDATTACK");
 	uint cutTexId = gl.CutTexture(nts.Find("Sprite"), Rect2D(Point2D(0, 940), Point2D(229, 1381)));
@@ -312,53 +312,20 @@ void TestScene::playerMove(playerMoveDir pmr)
 			testAnim.transformation.position.y -= 10;
 			break;
 		}
-		masterSceneObject.transformation.position = Vector2D(-1, -1) * (testAnim.transformation.position - Vector2D(WINSIZE_X / 2, WINSIZE_Y / 2));
-		printf("scene = %f, %f", masterSceneObject.transformation.position.x, masterSceneObject.transformation.position.y);
-		printf("  player = %f, %f  \n", testAnim.transformation.position.x, testAnim.transformation.position.y);
 	}
 	else if (ps == DASH)
 	{
-		switch (pmr)
-		{
-		case RIGHT:
-			masterSceneObject.transformation.position.x -= 30;
-			testAnim.transformation.position.x += 30;
-			break;
-		case RIGHTUP:
-			masterSceneObject.transformation.position -= Vector2D(30, 30);
-			testAnim.transformation.position += Vector2D(30, 30);
-			break;
-		case UP:
-			masterSceneObject.transformation.position.y -= 30;
-			testAnim.transformation.position.y += 30;
-			break;
-		case LEFTUP:
-			masterSceneObject.transformation.position.x += 30;
-			testAnim.transformation.position.x -= 30;
-			masterSceneObject.transformation.position.y -= 30;
-			testAnim.transformation.position.y += 30;
-			break;
-		case LEFT:
-			masterSceneObject.transformation.position.x += 30;
-			testAnim.transformation.position.x -= 30;
-			break;
-		case LEFTDOWN:
-			masterSceneObject.transformation.position.y += 30;
-			testAnim.transformation.position.y -= 30;
-			break;
-		case DOWN:
-			masterSceneObject.transformation.position.y += 30;
-			testAnim.transformation.position.y -= 30;
-			break;
-		case RIGHTDOWN:
-			masterSceneObject.transformation.position.x -= 30;
-			testAnim.transformation.position.x += 30;
-			masterSceneObject.transformation.position.y += 30;
-			testAnim.transformation.position.y -= 30;
-			break;
-		}
+		float fAngle;
+		if (angle != 0)
+			fAngle = ((angle - 1) * 11.25) * PI / 180;
+		else
+			fAngle = (31 * 11.25) * PI / 180;
+
+		Vector2D dir = Vector2D(cos(fAngle), sin(fAngle));
+
+		testAnim.transformation.position += dir * 30;
 	}
-	
+	masterSceneObject.transformation.position = Vector2D(-1, -1) * (testAnim.transformation.position - Vector2D(WINSIZE_X / 2, WINSIZE_Y / 2));
 }
 
 void TestScene::OnBegin()
