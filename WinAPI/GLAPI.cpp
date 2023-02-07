@@ -224,6 +224,7 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexImage2D(GL_TEXTURE_2D, 0, 4, length, length, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image2[0]);
+	image2.clear();
 	
 	glColor4ub(255, 255, 255, 255);
 	
@@ -238,6 +239,7 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 	dst->range.rightTop = Point2D(width, height);
 
 	textureStorage.Add(dst);
+
 	return dst->uid;
 }
 
@@ -265,7 +267,7 @@ uint GLAPI::BuildAnimation(const vector<uint>& uids, const Rect2D& range)
 	anim->height = ref.height;
 	anim->SetRange(range);
 	textureStorage.Add(anim);
-	//animationtexture가 textureSource를 상속받기때문에 tids에있는 코드를 ㅈㄴ돌림
+	//animationtexture가 textureSource를 상속받기때문에 tids에있는 코드를 돌림
 	return anim->uid;
 }
 
@@ -460,7 +462,6 @@ void GLAPI::DrawTextureAuto(const Transformation& tf, const uint uid, const ullo
 	DrawQuadTexture(lbVer.x, lbVer.y, rtVer.x, rtVer.y, lbTex.x, lbTex.y, rtTex.x, rtTex.y, tid);
 	glPopMatrix();
 
-	
 }
 
 void GLAPI::LoadCharacterSet()

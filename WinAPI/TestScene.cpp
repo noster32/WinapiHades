@@ -15,20 +15,20 @@ void TestScene::Init()
 
 	TextureGenerateParam param(TextureGenerateParam::LINEAR, TextureGenerateParam::LINEAR);
 	nts.Add(gl.GenerateEmptyTexture(30, 30, 0xFFFFFFFF), "fade");
-	nts.Add(gl.LoadTexturePng("Resources/Images/Object/DeathArea_Tilesets53.png", param), "Sprite");
-	nts.Add(gl.LoadTexturePng("Resources/Images/Map/TempMap.png", param), "TempMap");
+	//nts.Add(gl.LoadTexturePng("Resources/Images/Object/DeathArea_Tilesets53.png", param), "Sprite");
+	//nts.Add(gl.LoadTexturePng("Resources/Images/Map/TempMap.png", param), "TempMap");
 	
 	
 	vector<uint> uids = gl.LoadMultipleTexturesPng("Resources/Images/Anim/Idle/ZagreusIdle_Bink", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uids), "IDLE");
 	vector<uint> uidsMove = gl.LoadMultipleTexturesPng("Resources/Images/Anim/IdleMove/ZagreusRun_Bink", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uidsMove), "MOVE");
-	vector<uint> uidsDash = gl.LoadMultipleTexturesPng("Resources/Images/Anim/Dash/ZagreusDash_Bink", ".png", 3, param);
-	nts.Add(gl.BuildAnimation(uidsDash), "DASH");
-	vector<uint> uidsDashVfx = gl.LoadMultipleTexturesPng("Resources/Images/Anim/DashVfx/ZagreusDashVFX_Bink", ".png", 3, param);
-	nts.Add(gl.BuildAnimation(uidsDashVfx), "DashVfx");
-	vector<uint> uidsSwordAttack = gl.LoadMultipleTexturesPng("Resources/Images/Anim/SwordAttack/ZagreusSword_Bink", ".png", 4, param);
-	nts.Add(gl.BuildAnimation(uidsSwordAttack), "SWORDATTACK");
+	//vector<uint> uidsDash = gl.LoadMultipleTexturesPng("Resources/Images/Anim/Dash/ZagreusDash_Bink", ".png", 3, param);
+	//nts.Add(gl.BuildAnimation(uidsDash), "DASH");
+	//vector<uint> uidsDashVfx = gl.LoadMultipleTexturesPng("Resources/Images/Anim/DashVfx/ZagreusDashVFX_Bink", ".png", 3, param);
+	//nts.Add(gl.BuildAnimation(uidsDashVfx), "DashVfx");
+	//vector<uint> uidsSwordAttack = gl.LoadMultipleTexturesPng("Resources/Images/Anim/SwordAttack/ZagreusSword_Bink", ".png", 4, param);
+	//nts.Add(gl.BuildAnimation(uidsSwordAttack), "SWORDATTACK");
 	uint cutTexId = gl.CutTexture(nts.Find("Sprite"), Rect2D(Point2D(0, 940), Point2D(229, 1381)));
 	nts.Add(cutTexId, "cut");
 
@@ -69,6 +69,8 @@ void TestScene::Init()
 	mPlayerStatus.insert(make_pair(HIT, "HIT"));
 	mPlayerStatus.insert(make_pair(DIE, "DIE"));
 	mPlayerStatus.insert(make_pair(FISHING, "FISHING"));
+
+	ps = IDLE;
 }
 
 string TestScene::FindStatus(playerStatus ps)
@@ -92,7 +94,6 @@ void TestScene::tempPlayerStatueUpdate()
 	{
 		ps = DASH;
 	}
-	
 	else
 		ps = IDLE;
 		
@@ -280,47 +281,40 @@ void TestScene::setPlayerAngle(void)
 
 void TestScene::playerMove(playerMoveDir pmr)
 {
-	if(ps = MOVE)
+	if(ps == MOVE)
 	{
 		switch (pmr)
 		{
 		case RIGHT:
-			masterSceneObject.transformation.position.x -= 10;
 			testAnim.transformation.position.x += 10;
 			break;
 		case RIGHTUP:
-			masterSceneObject.transformation.position -= Vector2D(10, 10);
 			testAnim.transformation.position += Vector2D(10, 10);
 			break;
 		case UP:
-			masterSceneObject.transformation.position.y -= 10;
 			testAnim.transformation.position.y += 10;
 			break;
 		case LEFTUP:
-			masterSceneObject.transformation.position.x += 10;
 			testAnim.transformation.position.x -= 10;
-			masterSceneObject.transformation.position.y -= 10;
 			testAnim.transformation.position.y += 10;
 			break;
 		case LEFT:
-			masterSceneObject.transformation.position.x += 10;
 			testAnim.transformation.position.x -= 10;
 			break;
 		case LEFTDOWN:
-			masterSceneObject.transformation.position.y += 10;
 			testAnim.transformation.position.y -= 10;
 			break;
 		case DOWN:
-			masterSceneObject.transformation.position.y += 10;
 			testAnim.transformation.position.y -= 10;
 			break;
 		case RIGHTDOWN:
-			masterSceneObject.transformation.position.x -= 10;
 			testAnim.transformation.position.x += 10;
-			masterSceneObject.transformation.position.y += 10;
 			testAnim.transformation.position.y -= 10;
 			break;
 		}
+		masterSceneObject.transformation.position = Vector2D(-1, -1) * (testAnim.transformation.position - Vector2D(WINSIZE_X / 2, WINSIZE_Y / 2));
+		printf("scene = %f, %f", masterSceneObject.transformation.position.x, masterSceneObject.transformation.position.y);
+		printf("  player = %f, %f  \n", testAnim.transformation.position.x, testAnim.transformation.position.y);
 	}
 	else if (ps == DASH)
 	{
@@ -364,6 +358,7 @@ void TestScene::playerMove(playerMoveDir pmr)
 			break;
 		}
 	}
+	
 }
 
 void TestScene::OnBegin()
@@ -403,23 +398,6 @@ void TestScene::OnUpdate()
 		//float tempAngle = getAngle(testAnim.transformation.position.x, testAnim.transformation.position.y, _ptMouse.x - masterSceneObject.transformation.position.x, _ptMouse.y - masterSceneObject.transformation.position.y);
 		//angle = (360 - (tempAngle * 180 / PI)) / 10;
 	}
-	if (KEYMANAGER->isStayKeyDown(VK_LEFT)) {
-		
-	}
-	else if (KEYMANAGER->isStayKeyDown(VK_RIGHT)) {
-		
-	}
-	if (KEYMANAGER->isStayKeyDown(VK_UP)) {
-		
-	}
-	else if (KEYMANAGER->isStayKeyDown(VK_DOWN)) {
-
-		
-	}
-	if (KEYMANAGER->isOnceKeyDown(VK_SPACE))
-	{
-	}
-
 
 	setPlayerAngle();
 	tempPlayerStatueUpdate();

@@ -237,7 +237,6 @@ struct AnimatedTexture : TextureSource {
 	AnimatedTexture() : tids(), count(0) { }
 	AnimatedTexture(const vector<GLuint>& _tids) : tids(_tids), count(_tids.size()) { }
 	virtual GLuint Get(ullong frame) const { return count ? tids.at(frame % count) : 0; }
-	GLuint GetCount(void) { return count; }
 	vector<GLuint>::const_iterator Begin() { return tids.begin(); }
 	vector<GLuint>::const_iterator End() { return tids.end(); }
 };
