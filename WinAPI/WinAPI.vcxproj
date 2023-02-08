@@ -78,6 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDIr)WinAPI\FFmpeg\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)WinAPI\FFmpeg\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -154,6 +156,7 @@
     </ClCompile>
     <ClCompile Include="DeathArea.cpp" />
     <ClCompile Include="EngineLauncher.cpp" />
+    <ClCompile Include="FFmpeg.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameEngineBuilder.cpp" />
@@ -197,6 +200,7 @@
     <ClInclude Include="DeathArea.h" />
     <ClInclude Include="Engineapi.h" />
     <ClInclude Include="EngineLauncher.h" />
+    <ClInclude Include="FFmpeg.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameEngineBuilder.h" />

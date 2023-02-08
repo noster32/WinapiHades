@@ -197,65 +197,13 @@ uint GLAPI::LoadTexture(string fileName, TextureGenerateParam param)
 	return dst->uid;
 }
 
-//uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
-//{
-//	vector<unsigned char> image;
-//	unsigned width, height;
-//	unsigned error = lodepng::decode(image, width, height, fileName);
-//	
-//	if (error != 0)
-//		return 0;
-//
-//	size_t u2 = 1; while (u2 < width) u2 *= 2;
-//	size_t v2 = 1; while (v2 < height) v2 *= 2;
-//
-//	uint power = log2(max(u2, v2));
-//	ulong length = pow(2, power);
-//	ulong eSize = width * height * 4;
-//	ulong totalSize = length * length * 4;
-//	
-//	ulong temp = max(u2, v2);
-//	vector<unsigned char> image2(pow(temp, 2) * 4);
-//	for (size_t y = 0; y < height; y++)
-//		for (size_t x = 0; x < width; x++)
-//			for (size_t c = 0; c < 4; c++) {
-//				image2[4 * max(u2, v2) * y + 4 * x + c] = image[4 * width * (height - 1 - y) + 4 * x + c];
-//	}
-//
-//	GLuint id;
-//	glGenTextures(1, &id);
-//	glBindTexture(GL_TEXTURE_2D, id);
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param.GetMinFilter());
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param.GetMagFilter());
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-//	glTexImage2D(GL_TEXTURE_2D, 0, 4, length, length, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image2[0]);
-//	image2.clear();
-//	
-//	glColor4ub(255, 255, 255, 255);
-//	
-//	TextureSource* dst = new TextureSource(id);
-//	dst->power = power;
-//	dst->length = length;
-//	dst->totalSize = totalSize;
-//	dst->width = width;
-//	dst->height = height;
-//	dst->size = eSize;
-//	dst->coord = Vector2D((float)width / length, (float)height / length);
-//	dst->range.rightTop = Point2D(width, height);
-//
-//	textureStorage.Add(dst);
-//
-//	return dst->uid;
-//}
-
 uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 {
-	int width, height, nrChannels;
-	stbi_set_flip_vertically_on_load(1);
-	unsigned char* image = stbi_load(fileName.c_str(), &width, &height, &nrChannels, 4);
-
-	if (!image)
+	vector<unsigned char> image;
+	unsigned width, height;
+	unsigned error = lodepng::decode(image, width, height, fileName);
+	
+	if (error != 0)
 		return 0;
 
 	size_t u2 = 1; while (u2 < width) u2 *= 2;
@@ -265,7 +213,14 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 	ulong length = pow(2, power);
 	ulong eSize = width * height * 4;
 	ulong totalSize = length * length * 4;
-
+	
+	ulong temp = max(u2, v2);
+	vector<unsigned char> image2(pow(temp, 2) * 4);
+	for (size_t y = 0; y < height; y++)
+		for (size_t x = 0; x < width; x++)
+			for (size_t c = 0; c < 4; c++) {
+				image2[4 * max(u2, v2) * y + 4 * x + c] = image[4 * width * (height - 1 - y) + 4 * x + c];
+	}
 
 	GLuint id;
 	glGenTextures(1, &id);
@@ -274,8 +229,11 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param.GetMagFilter());
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
-
+	glTexImage2D(GL_TEXTURE_2D, 0, 4, length, length, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image2[0]);
+	image2.clear();
+	
+	glColor4ub(255, 255, 255, 255);
+	
 	TextureSource* dst = new TextureSource(id);
 	dst->power = power;
 	dst->length = length;
@@ -290,6 +248,48 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 
 	return dst->uid;
 }
+
+//uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
+//{
+//	int width, height, nrChannels;
+//	stbi_set_flip_vertically_on_load(1);
+//	unsigned char* image = stbi_load(fileName.c_str(), &width, &height, &nrChannels, 4);
+//
+//	if (!image)
+//		return 0;
+//
+//	size_t u2 = 1; while (u2 < width) u2 *= 2;
+//	size_t v2 = 1; while (v2 < height) v2 *= 2;
+//
+//	uint power = log2(max(u2, v2));
+//	ulong length = pow(2, power);
+//	ulong eSize = width * height * 4;
+//	ulong totalSize = length * length * 4;
+//
+//
+//	GLuint id;
+//	glGenTextures(1, &id);
+//	glBindTexture(GL_TEXTURE_2D, id);
+//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param.GetMinFilter());
+//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param.GetMagFilter());
+//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+//
+//	TextureSource* dst = new TextureSource(id);
+//	dst->power = power;
+//	dst->length = length;
+//	dst->totalSize = totalSize;
+//	dst->width = width;
+//	dst->height = height;
+//	dst->size = eSize;
+//	dst->coord = Vector2D((float)width / length, (float)height / length);
+//	dst->range.rightTop = Point2D(width, height);
+//
+//	textureStorage.Add(dst);
+//
+//	return dst->uid;
+//}
 
 uint GLAPI::BuildAnimation(const vector<uint>& uids)
 {

@@ -46,7 +46,7 @@ void TestScene::Init()
 
 	tempMap.texture = nts.Find("TempMap");
 	tempMap.SetDepth(1);
-	tempMap.transformation.scale -= 0.5f;
+	tempMap.transformation.scale -= 0.2f;
 
 	testCut.texture = nts.Find("cut");
 	testCut.SetDepth(10);

@@ -137,6 +137,9 @@
     <ClCompile Include="TextObject.cpp">
       <Filter>API FrameWork\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="FFmpeg.cpp">
+      <Filter>API FrameWork</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C3DMatrix.h">
@@ -238,5 +241,6 @@
     <ClInclude Include="stb_image.h">
       <Filter>API FrameWork</Filter>
     </ClInclude>
+    <ClInclude Include="FFmpeg.h" />
   </ItemGroup>
 </Project>
