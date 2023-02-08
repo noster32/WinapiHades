@@ -252,6 +252,7 @@ uint GLAPI::LoadTexture(string fileName, TextureGenerateParam param)
 uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 {
 	int width, height, nrChannels;
+	stbi_set_flip_vertically_on_load(1);
 	unsigned char* image = stbi_load(fileName.c_str(), &width, &height, &nrChannels, 4);
 
 	if (!image)
@@ -669,14 +670,18 @@ void GLAPI::DrawQuadTexture(const float x1, const float y1, const float x2, cons
 	if (tid == 0)   return; // ignore null texture
 	glBindTexture(GL_TEXTURE_2D, tid);
 	glBegin(GL_POLYGON);
-	//glTexCoord2d(tex_x1, tex_y1); glVertex2f(x1, y1);
-	//glTexCoord2d(tex_x2, tex_y1); glVertex2f(x2, y1);
-	//glTexCoord2d(tex_x2, tex_y2); glVertex2f(x2, y2);
-	//glTexCoord2d(tex_x1, tex_y2); glVertex2f(x1, y2);
 	glTexCoord2d(tex_x1, tex_y1); glVertex2f(x1, y1);
 	glTexCoord2d(tex_x2, tex_y1); glVertex2f(x2, y1);
 	glTexCoord2d(tex_x2, tex_y2); glVertex2f(x2, y2);
 	glTexCoord2d(tex_x1, tex_y2); glVertex2f(x1, y2);
+	//glTexCoord2d(tex_x1, tex_y1); glVertex2f(0, 0);
+	//glTexCoord2d(tex_x2, tex_y1); glVertex2f(1, 0);
+	//glTexCoord2d(tex_x2, tex_y2); glVertex2f(1, 1);
+	//glTexCoord2d(tex_x1, tex_y2); glVertex2f(0, 1);
+	//glTexCoord2d(0.0, 1.0); glVertex2f(0.0, 1.0);
+	//glTexCoord2d(0.0, 0.0); glVertex2f(0.0, 0.0);
+	//glTexCoord2d(1.0, 0.0); glVertex2f(1.0, 0.0);
+	//glTexCoord2d(1.0, 1.0); glVertex2f(1.0, 1.0);
 	glEnd();
 }
 
