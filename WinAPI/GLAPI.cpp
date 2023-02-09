@@ -372,9 +372,10 @@ void GLAPI::ClearTexture(const uint uid, const uint RGBA)
 		memcpy(&data[i * 4], color, sizeof(uchar) * 4);
 
 	glBindTexture(GL_TEXTURE_2D, ref.tid); 
+	//texture update;
 	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, ref.width, ref.height, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	delete data;
-
+	//프레임 데이터 -> 픽셀 버퍼 오브젝트 -> 렌더링
 }
 
 vector<uint> GLAPI::LoadMultipleTextures(string prefix, string suffix, uint digit, TextureGenerateParam param)
@@ -683,6 +684,11 @@ void GLAPI::DrawQuadTexture(const float x1, const float y1, const float x2, cons
 	//glTexCoord2d(1.0, 0.0); glVertex2f(1.0, 0.0);
 	//glTexCoord2d(1.0, 1.0); glVertex2f(1.0, 1.0);
 	glEnd();
+}
+
+void GLAPI::LoadFFmpeg(string filename)
+{
+	_ffmpeg.runFFmpeg(filename);
 }
 
 Vector2D GLAPI::PxCoordToVertex2f(const Point2D& pixel)

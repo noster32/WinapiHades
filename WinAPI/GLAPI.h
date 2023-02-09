@@ -1,6 +1,7 @@
 #pragma once
 
 #include "lodepng.h"
+#include "FFmpeg.h"
 
 class GLAPI
 {
@@ -14,6 +15,7 @@ private:
 	Vector2D viewportSize;
 	Vector2D unitVertex2f;
 	Vector2D centerVertex2f;
+	FFmpeg _ffmpeg;
 
 	uint charset;
 public:
@@ -58,6 +60,7 @@ public:
 	void DrawQuadTexture(const float x1, const float y1, const float x2, const float y2,
 						const float tex_x1, const float tex_y1, const float tex_x2, const float tex_y2, const GLuint tid);
 
+	void LoadFFmpeg(string filename);
 protected:
 	Vector2D PxCoordToVertex2f(const Point2D& pixel);
 	Vector2D PxCoordToTexCoord2f(const Point2D& pixel, const uchar power);

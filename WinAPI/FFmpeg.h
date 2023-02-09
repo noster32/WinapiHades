@@ -1,5 +1,5 @@
 #pragma once
-#define BUFFER_OFFSET(i) ((char *)NULLL + (i))
+#define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
 enum {
 	VERTICES = 0,
@@ -38,13 +38,15 @@ private:
 public:
 	string const vert_shader_source;
 	string const frag_shader_source;
-	void InitalizeAppData(AppData* data);
+	void InitializeAppData(AppData* data);
 	void clearAppdata(AppData* data);
 	bool readFrame(AppData* data);
 	bool buildShader(string const& shader_source, GLuint& shader, GLenum type);
 	bool buildProgram(AppData* data);
 	void drawFrame(AppData* data);
+	int runFFmpeg(string filename);
 
-	FFmpeg();
+	AppData GetAppData() { return _appdata; }
+	FFmpeg(); 
 };
 

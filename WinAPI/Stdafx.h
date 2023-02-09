@@ -30,6 +30,7 @@
 #include <libswresample/swresample.h>
 #include <libswscale/swscale.h>
 #include <libavutil/avutil.h>
+#include <libavutil/imgutils.h>
 
 #include <SDKDDKVer.h>
 
