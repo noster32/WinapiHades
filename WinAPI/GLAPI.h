@@ -1,7 +1,8 @@
 #pragma once
 
 #include "lodepng.h"
-#include "FFmpeg.h"
+//#include "FFmpeg.h"
+#include "nFFmpeg.h"
 
 class GLAPI
 {
@@ -15,7 +16,8 @@ private:
 	Vector2D viewportSize;
 	Vector2D unitVertex2f;
 	Vector2D centerVertex2f;
-	FFmpeg _ffmpeg;
+	//FFmpeg _ffmpeg;
+	nFFmpeg _nffmpeg;
 
 	uint charset;
 public:
@@ -34,11 +36,13 @@ public:
 	uint GenerateEmptyTexture(int width, int height, uint RGBA);
 	uint LoadTexture(string fileName, TextureGenerateParam param);
 	uint LoadTexturePng(string fileName, TextureGenerateParam param);
+	uint LoadTextureFFmpeg(string fileName, TextureGenerateParam param);
 	uint BuildAnimation(const vector<uint>& uids);
 	uint BuildAnimation(const vector<uint>& uids, const Rect2D& range);
 	uint BuildAnimationBySprite(uint uid, int width, int height);
 	uint CutTexture(const uint uid, const Rect2D& range);
 	void ClearTexture(const uint uid, const uint RGBA);
+	
 
 	vector<uint> LoadMultipleTextures(string prefix, string suffix, uint digit, TextureGenerateParam param);
 	vector<uint> LoadMultipleTexturesPng(string prefix, string suffix, uint digit, TextureGenerateParam param);
@@ -59,7 +63,7 @@ public:
 
 	void DrawQuadTexture(const float x1, const float y1, const float x2, const float y2,
 						const float tex_x1, const float tex_y1, const float tex_x2, const float tex_y2, const GLuint tid);
-
+	void DrawQuadVideoTexture(const float width, const float height, const GLuint tid);
 	void LoadFFmpeg(string filename);
 protected:
 	Vector2D PxCoordToVertex2f(const Point2D& pixel);

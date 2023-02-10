@@ -115,7 +115,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -125,8 +125,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)WinAPI\Dependencies\GLEW\lib\Release\x64;$(SolutionDir)WinAPI\Dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32s.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)WinAPI\Dependencies\GLEW\lib\Release\x64;$(SolutionDir)WinAPI\Dependencies\GLFW\lib-vc2022;$(SolutionDir)WinAPI\FFmpeg\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;glew32s.lib;avcodec.lib;avdevice.lib;avfilter.lib;avformat.lib;avutil.lib;swscale.lib;swresample.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -170,6 +170,7 @@
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MasterSceneObject.cpp" />
+    <ClCompile Include="nFFmpeg.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RenderObject.cpp" />
     <ClCompile Include="scene.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MasterSceneObject.h" />
+    <ClInclude Include="nFFmpeg.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RandomFunction.h" />
     <ClInclude Include="RenderObject.h" />

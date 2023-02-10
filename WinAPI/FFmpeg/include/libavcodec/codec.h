@@ -169,9 +169,9 @@
 #define AV_CODEC_CAP_HYBRID              (1 << 19)
 
 /**
- * This encoder can reorder user opaque values from input AVFrames and return
- * them with corresponding output packets.
- * @see AV_CODEC_FLAG_COPY_OPAQUE
+ * This codec takes the reordered_opaque field from input AVFrames
+ * and returns it in the corresponding field in AVCodecContext after
+ * encoding.
  */
 #define AV_CODEC_CAP_ENCODER_REORDERED_OPAQUE (1 << 20)
 
@@ -181,14 +181,6 @@
  * remain pending.
  */
 #define AV_CODEC_CAP_ENCODER_FLUSH   (1 << 21)
-
-/**
- * The encoder is able to output reconstructed frame data, i.e. raw frames that
- * would be produced by decoding the encoded bitstream.
- *
- * Reconstructed frame output is enabled by the AV_CODEC_FLAG_RECON_FRAME flag.
- */
-#define AV_CODEC_CAP_ENCODER_RECON_FRAME (1 << 22)
 
 /**
  * AVProfile.

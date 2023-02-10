@@ -43,7 +43,7 @@ private:
 	RenderObject testAnim;
 	RenderObject testAnimVfx;
 	RenderObject tempMap;
-	
+	RenderObject tempFFmpeg;
 
 	Animation tempAnim;
 	Animation tempAnimVfx;
@@ -58,6 +58,7 @@ private:
 	int dashAngle;
 	int animLength;
 	int animDelay;
+
 
 	int temp;
 public:

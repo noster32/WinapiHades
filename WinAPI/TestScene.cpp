@@ -18,7 +18,7 @@ void TestScene::Init()
 	nts.Add(gl.LoadTexturePng("Resources/Images/Object/DeathArea_Tilesets53.png", param), "Sprite");
 	nts.Add(gl.LoadTexturePng("Resources/Images/Map/TempMap.png", param), "TempMap");
 	
-	
+
 	vector<uint> uids = gl.LoadMultipleTexturesPng("Resources/Images/Anim/Idle/ZagreusIdle_Bink", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uids), "IDLE");
 	vector<uint> uidsMove = gl.LoadMultipleTexturesPng("Resources/Images/Anim/IdleMove/ZagreusRun_Bink", ".png", 3, param);
@@ -31,6 +31,9 @@ void TestScene::Init()
 	//nts.Add(gl.BuildAnimation(uidsSwordAttack), "SWORDATTACK");
 	uint cutTexId = gl.CutTexture(nts.Find("Sprite"), Rect2D(Point2D(0, 940), Point2D(229, 1381)));
 	nts.Add(cutTexId, "cut");
+	
+	nts.Add(gl.LoadTextureFFmpeg("Resources/Animation/ZagreusIdle_Bink.mp4", param), "TempFFmpeg");
+
 
 	RegisterObject(fade);
 	RegisterObject(testCut);
@@ -38,6 +41,7 @@ void TestScene::Init()
 	RegisterObject(testAnim);
 	RegisterObject(testAnimVfx);
 	RegisterObject(tempMap);
+	RegisterObject(tempFFmpeg);
 	//애니메이션 여러개 만들어서 활 당기는중일때는 "bow뭐시기" 하고 쏘면 -> "bow발사" 이런식으로 재생
 
 	fade.texture = nts.Find("fade");
@@ -51,6 +55,8 @@ void TestScene::Init()
 	testCut.texture = nts.Find("cut");
 	testCut.SetDepth(10);
 	
+	tempFFmpeg.texture = nts.Find("TempFFmpeg");
+	tempFFmpeg.SetDepth(3);
 	
 	testAnim.SetDepth(15);
 	testAnimVfx.SetDepth(16);
@@ -418,11 +424,13 @@ void TestScene::OnRenderLoading()
 	uint rgba = 0x00000000 | ((uchar)0xFF - c);
 	gl.ClearTexture(nts.Find("fade"), rgba);
 	masterSceneObject.Render();
+	
+
 }
 
 void TestScene::OnRender()
 {
-
+	//gl.DrawQuadVideoTexture(128, 224, testFFmpeg);
 }
 
 void TestScene::OnRenderClosing()

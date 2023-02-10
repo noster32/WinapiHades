@@ -23,14 +23,7 @@
 
 #include "inc/FMOD/fmod.hpp"
 //#include "JsonCPP/include/json/json.h"
-#include <libavformat/avformat.h>
-#include <libavcodec/avcodec.h>
-#include <libavfilter/avfilter.h>
-#include <libavdevice/avdevice.h>
-#include <libswresample/swresample.h>
-#include <libswscale/swscale.h>
-#include <libavutil/avutil.h>
-#include <libavutil/imgutils.h>
+
 
 #include <SDKDDKVer.h>
 
@@ -38,7 +31,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <gl/GL.h>
-
+#include <glm/ext.hpp>
 
 // =====================
 //! C 런타임 헤더 파일

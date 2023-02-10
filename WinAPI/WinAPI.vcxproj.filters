@@ -44,6 +44,9 @@
     <Filter Include="API FrameWork\Sprite">
       <UniqueIdentifier>{67c7c9d0-39e2-4c6e-922b-080d33f52b8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="API FrameWork\FFmpeg">
+      <UniqueIdentifier>{1b27fc1b-c708-43f7-97da-d83c5d96d712}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C3DMatrix.cpp">
@@ -138,7 +141,10 @@
       <Filter>API FrameWork\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="FFmpeg.cpp">
-      <Filter>API FrameWork</Filter>
+      <Filter>API FrameWork\FFmpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="nFFmpeg.cpp">
+      <Filter>API FrameWork\FFmpeg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +247,11 @@
     <ClInclude Include="stb_image.h">
       <Filter>API FrameWork</Filter>
     </ClInclude>
-    <ClInclude Include="FFmpeg.h" />
+    <ClInclude Include="FFmpeg.h">
+      <Filter>API FrameWork\FFmpeg</Filter>
+    </ClInclude>
+    <ClInclude Include="nFFmpeg.h">
+      <Filter>API FrameWork\FFmpeg</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -153,48 +153,48 @@ uint GLAPI::LoadTexture(string fileName, TextureGenerateParam param)
 	bool alphaExists = (bytePerRow == eWidth * 4);
 	uchar paddingByte = alphaExists ? 0 : bytePerRow - eWidth * 3; 
 
-	fseek(file, 54, 0);
-	if (alphaExists) {
-		for (int y = 0; y < eHeight; y++)
-			fread(&data[y * length], sizeof(uchar), eWidth * 4, file);
-	} 
-	else {
-		uchar buffer[4];
-		for (int y = 0; y < eHeight; y++)
+fseek(file, 54, 0);
+if (alphaExists) {
+	for (int y = 0; y < eHeight; y++)
+		fread(&data[y * length], sizeof(uchar), eWidth * 4, file);
+}
+else {
+	uchar buffer[4];
+	for (int y = 0; y < eHeight; y++)
+	{
+		for (int x = 0; x < eWidth; x++)
 		{
-			for (int x = 0; x < eWidth; x++)
-			{
-				fread(buffer, sizeof(char), 3, file);
-				buffer[3] = ((buffer[0] == 0xFF) && (buffer[1] == 0xFF) && (buffer[2] == 0xFF)) ? 0x00 : 0xFF;
-				memcpy(&data[(y * length + x) * 4], buffer, sizeof(uchar) * 4);
-			}
-			fread(buffer, sizeof(char), paddingByte, file);
+			fread(buffer, sizeof(char), 3, file);
+			buffer[3] = ((buffer[0] == 0xFF) && (buffer[1] == 0xFF) && (buffer[2] == 0xFF)) ? 0x00 : 0xFF;
+			memcpy(&data[(y * length + x) * 4], buffer, sizeof(uchar) * 4);
 		}
+		fread(buffer, sizeof(char), paddingByte, file);
 	}
-	fclose(file);
+}
+fclose(file);
 
-	GLuint id;
-	glGenTextures(1, &id);
-	glBindTexture(GL_TEXTURE_2D, id);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param.GetMinFilter());
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param.GetMagFilter());
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, length, length, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
-	delete data;
+GLuint id;
+glGenTextures(1, &id);
+glBindTexture(GL_TEXTURE_2D, id);
+glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param.GetMinFilter());
+glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param.GetMagFilter());
+glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, length, length, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
+delete data;
 
-	TextureSource* dst = new TextureSource(id);
-	dst->power = power;
-	dst->length = length;
-	dst->totalSize = totalSize;
-	dst->width = eWidth;
-	dst->height = eHeight;
-	dst->size = eSize;
-	dst->coord = Vector2D((float)eWidth / length, (float)eHeight / length);
-	dst->range.rightTop = Point2D(eWidth, eHeight);
+TextureSource* dst = new TextureSource(id);
+dst->power = power;
+dst->length = length;
+dst->totalSize = totalSize;
+dst->width = eWidth;
+dst->height = eHeight;
+dst->size = eSize;
+dst->coord = Vector2D((float)eWidth / length, (float)eHeight / length);
+dst->range.rightTop = Point2D(eWidth, eHeight);
 
-	textureStorage.Add(dst);
-	return dst->uid;
+textureStorage.Add(dst);
+return dst->uid;
 }
 
 uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
@@ -202,7 +202,7 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 	vector<unsigned char> image;
 	unsigned width, height;
 	unsigned error = lodepng::decode(image, width, height, fileName);
-	
+
 	if (error != 0)
 		return 0;
 
@@ -213,14 +213,14 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 	ulong length = pow(2, power);
 	ulong eSize = width * height * 4;
 	ulong totalSize = length * length * 4;
-	
+
 	ulong temp = max(u2, v2);
 	vector<unsigned char> image2(pow(temp, 2) * 4);
 	for (size_t y = 0; y < height; y++)
 		for (size_t x = 0; x < width; x++)
 			for (size_t c = 0; c < 4; c++) {
 				image2[4 * max(u2, v2) * y + 4 * x + c] = image[4 * width * (height - 1 - y) + 4 * x + c];
-	}
+			}
 
 	GLuint id;
 	glGenTextures(1, &id);
@@ -231,9 +231,9 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexImage2D(GL_TEXTURE_2D, 0, 4, length, length, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image2[0]);
 	image2.clear();
-	
+
 	glColor4ub(255, 255, 255, 255);
-	
+
 	TextureSource* dst = new TextureSource(id);
 	dst->power = power;
 	dst->length = length;
@@ -243,6 +243,49 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 	dst->size = eSize;
 	dst->coord = Vector2D((float)width / length, (float)height / length);
 	dst->range.rightTop = Point2D(width, height);
+
+	textureStorage.Add(dst);
+
+	return dst->uid;
+}
+
+uint GLAPI::LoadTextureFFmpeg(string fileName, TextureGenerateParam param)
+{
+	int frame_width, frame_height;
+	unsigned char* frame_data;
+	if (!_nffmpeg.load_frame(fileName, &frame_width, &frame_height, &frame_data)) {
+		printf("Couldnt load video frame\n");
+		return 0;
+	}
+
+
+	size_t u2 = 1; while (u2 < frame_width) u2 *= 2;
+	size_t v2 = 1; while (v2 < frame_height) v2 *= 2;
+	
+	uint power = log2(max(u2, v2));
+	ulong length = pow(2, power);
+	ulong eSize = frame_width * frame_height * 4;
+	ulong totalSize = length * length * 4;
+
+	GLuint id;
+	glGenTextures(1, &id);
+	glBindTexture(GL_TEXTURE_2D, id);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param.GetMinFilter());
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param.GetMagFilter());
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexImage2D(GL_TEXTURE_2D, 0, 4, frame_width, frame_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, frame_data);
+
+	TextureSource* dst = new TextureSource(id);
+	dst->power = power;
+	dst->length = length;
+	dst->totalSize = totalSize;
+	dst->width = frame_width;
+	dst->height = frame_height;
+	dst->size = eSize;
+	dst->coord = Vector2D((float)frame_width / length, (float)frame_height / length);
+	dst->range.rightTop = Point2D(frame_width, frame_height);
 
 	textureStorage.Add(dst);
 
@@ -686,9 +729,20 @@ void GLAPI::DrawQuadTexture(const float x1, const float y1, const float x2, cons
 	glEnd();
 }
 
+void GLAPI::DrawQuadVideoTexture(const float width, const float height, const GLuint tid)
+{
+	glBindTexture(GL_TEXTURE_2D, tid);
+	glBegin(GL_QUADS);
+	glTexCoord2d(0, 0); glVertex2i(200, 200);
+	glTexCoord2d(1, 0); glVertex2i(200 + width, 200);
+	glTexCoord2d(1, 1); glVertex2i(200 + width, 200 + height);
+	glTexCoord2d(0, 1); glVertex2i(200, 200 + height);
+	glEnd();
+}
+
 void GLAPI::LoadFFmpeg(string filename)
 {
-	_ffmpeg.runFFmpeg(filename);
+	//_ffmpeg.runFFmpeg(filename);
 }
 
 Vector2D GLAPI::PxCoordToVertex2f(const Point2D& pixel)
