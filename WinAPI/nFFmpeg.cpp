@@ -1,119 +1,197 @@
 #include "Stdafx.h"
 #include "nFFmpeg.h"
 
-bool nFFmpeg::load_frame(string filename, int* width_out, int* height_out, unsigned char** data_out)
+
+nFFmpeg::nFFmpeg()
 {
-	AVFormatContext* av_format_ctx = avformat_alloc_context();
-	if (!av_format_ctx) {
-		printf("AVFormatContext can't create \n");
+}
+
+bool nFFmpeg::load_frame(string filename)
+{
+	if (avformat_open_input(&fmtCtx, filename.c_str(), NULL, NULL) < 0) {
+		cout << "failed to open input" << endl;
 		return false;
 	}
 
-	if (avformat_open_input(&av_format_ctx, filename.c_str(), NULL, NULL) != 0) {
-		printf("can't open Video File \n");
+	if (avformat_find_stream_info(fmtCtx, NULL) < 0) {
+		cout << "failed to get stream info" << endl;
 		return false;
 	}
 
-	int video_stream_index = -1;
-	AVCodecParameters* av_codec_params;
-	const AVCodec* av_codec;
-	for (int i = 0; i < av_format_ctx->nb_streams; i++) {
-		av_codec_params = av_format_ctx->streams[i]->codecpar;
-		av_codec = avcodec_find_decoder(av_codec_params->codec_id);
-		if (!av_codec) {
-			continue;
-		}
-		if (av_codec_params->codec_type == AVMEDIA_TYPE_VIDEO) {
-			video_stream_index = i;
-			break;
-		}
-	}
-	if (video_stream_index == -1) {
-		printf("Couldn't find valid video stream inside file \n");
+	cout << "Amount of streams: " << fmtCtx->nb_streams << endl;
+
+
+	vidx = av_find_best_stream(fmtCtx, AVMEDIA_TYPE_VIDEO, -1, -1, NULL, 0);
+
+	if (vidx == -1)
+	{
+		cout << "failed to find video stream" << endl;
 		return false;
 	}
 
-	AVCodecContext* av_codec_ctx = avcodec_alloc_context3(av_codec);
-	if (!av_codec_ctx) {
-		printf("Couldn't create AVCodecContext\n");
-		return false; 
-	}
+	vStream = fmtCtx->streams[vidx];
+	vPara = vStream->codecpar;
+	vCtx = avcodec_alloc_context3(vCodec);
+	avcodec_parameters_to_context(vCtx, vPara);
 
-	if (avcodec_parameters_to_context(av_codec_ctx, av_codec_params) < 0) {
-		printf("Couldn't initialize AVCodecContext \n");
+	vCodec = avcodec_find_decoder(vPara->codec_id);
+	if (vCodec == NULL) {
+		cout << "failed to find decoder" << endl;
 		return false;
 	}
 
-	if (avcodec_open2(av_codec_ctx, av_codec, NULL) < 0) {
-		printf("Couldnt open codec \n");
+	if (avcodec_open2(vCtx, vCodec, NULL) < 0)
+	{
+		cout << "failed to open codec" << endl;
 		return false;
 	}
 
-	AVFrame* av_frame = av_frame_alloc();
-	if (!av_frame) {
-		printf("Couln't allocate AVFrame \n");
+	avFrame = av_frame_alloc();
+	glFrame = av_frame_alloc();
+	
+	int size = av_image_get_buffer_size(AV_PIX_FMT_RGBA, vCtx->width, vCtx->height, 1);
+	uint8_t* internal_buffer = (uint8_t*)av_malloc(size * sizeof(uint8_t));
+
+	av_image_fill_arrays(glFrame->data, glFrame->linesize, internal_buffer, AV_PIX_FMT_RGBA, vCtx->width, vCtx->height, 1);
+	packet = av_packet_alloc();
+
+	if (packet == NULL) {
+		cout << "Allocating packet failed" << endl;
 		return false;
 	}
 
-	AVPacket* av_packet = av_packet_alloc();
-	if (!av_packet) {
-		printf("Couldn't allocate AVPacket \n");
-		return false;
-	}
+	video = gl.LoadTextureFFmpeg(glFrame->data[0], vCtx->width, vCtx->height);
+}
 
-	int response;
-	while (av_read_frame(av_format_ctx, av_packet) >= 0) {
-		if (av_packet->stream_index != video_stream_index) {
-			continue;
-		}
+bool nFFmpeg::readFrame()
+{
 
-		response = avcodec_send_packet(av_codec_ctx, av_packet);
-		if (response < 0) {
-			char errorStr[AV_ERROR_MAX_STRING_SIZE] = { 0 };
-			av_make_error_string(errorStr, AV_ERROR_MAX_STRING_SIZE, response);
-			cout << "Failed to decode packet: "  << errorStr << endl;
+	do {
+		if (av_read_frame(fmtCtx, packet) < 0) {
+			av_packet_unref(packet);
 			return false;
 		}
 
-		response = avcodec_receive_frame(av_codec_ctx, av_frame);
-		if (response == AVERROR(EAGAIN) || response == AVERROR_EOF) {
-			continue;
+		if (packet->stream_index == vidx) {
+			int frame_finished = 0;
+
+			int response;
+			if (vCtx->codec_type == AVMEDIA_TYPE_VIDEO) {
+				response = avcodec_send_packet(vCtx, packet);
+				if (response < 0 && response != AVERROR(EAGAIN) && response != AVERROR_EOF) {
+
+				}
+				else {
+					if (response >= 0)
+						packet->size = 0;
+					response = avcodec_receive_frame(vCtx, avFrame);
+					if (response >= 0)
+						frame_finished = 1;
+				}
+			}
+
+			if (frame_finished) {
+				if (!convCtx) {
+					convCtx = sws_getContext(vCtx->width, vCtx->height, vCtx->pix_fmt,
+											vCtx->width, vCtx->height, AV_PIX_FMT_RGBA,
+											SWS_BICUBIC, NULL, NULL, NULL);
+				}
+				uint dataSize = vCtx->width * vCtx->height * 4;
+
+				
+				if (false)
+				{
+					GLuint pboIds[2];
+					const int DATA_SIZE = width * height * 4;
+
+					glGenBuffers(2, pboIds);
+					glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pboIds[0]);
+					glBufferData(GL_PIXEL_UNPACK_BUFFER, DATA_SIZE, 0, GL_STREAM_DRAW);
+					glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pboIds[1]);
+					glBufferData(GL_PIXEL_UNPACK_BUFFER, DATA_SIZE, 0, GL_STREAM_DRAW);
+					glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+
+					glBindTexture(GL_TEXTURE_2D, video);
+					glBindTexture(GL_PIXEL_UNPACK_BUFFER, pboIds[0]);
+
+					glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+
+
+					glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pboIds[0]);
+					glBufferData(GL_PIXEL_UNPACK_BUFFER, dataSize, 0, GL_STREAM_DRAW);
+					GLubyte* ptr = (GLubyte*)glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
+					if (ptr)
+					{
+						sws_scale(convCtx, avFrame->data, avFrame->linesize, 0,
+							vCtx->height, glFrame->data, glFrame->linesize);
+						glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
+					}
+
+
+					glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+
+					glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER | GL_STENCIL_BUFFER_BIT);
+				}
+				else
+				{
+					sws_scale(convCtx, avFrame->data, avFrame->linesize, 0,
+						vCtx->height, glFrame->data, glFrame->linesize);
+
+
+					glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, vCtx->width, vCtx->height, GL_RGBA, GL_UNSIGNED_BYTE, glFrame->data[0]);
+				}
+				
+			}
+			
 		}
-		else if (response < 0) {
-			char errorStr[AV_ERROR_MAX_STRING_SIZE] = { 0 };
-			av_make_error_string(errorStr, AV_ERROR_MAX_STRING_SIZE, response);
-			cout << "Failed to decode packet: " << errorStr << endl;
-			return false;
-		}
 
-		av_packet_unref(av_packet);
-		break;
-	}
+		av_packet_unref(packet);
 
-	uint8_t* data = new uint8_t[av_frame->width * av_frame->height * 4];
-
-	SwsContext* sws_scaler_ctx = sws_getContext(av_frame->width, av_frame->height, av_codec_ctx->pix_fmt, 
-		av_frame->width, av_frame->height, AV_PIX_FMT_RGB0, SWS_BILINEAR, NULL, NULL, NULL);
-
-	if (!sws_scaler_ctx) {
-		printf("Couldn't initialize sw scaler\n");
-		return false;
-	}
-
-	uint8_t* dest[4] = { data, NULL, NULL, NULL };
-	int dest_linesize[4] = { av_frame->width * 4, 0, 0, 0 };
-	sws_scale(sws_scaler_ctx, av_frame->data, av_frame->linesize, 0, av_frame->height, dest, dest_linesize);
-	sws_freeContext(sws_scaler_ctx);
-
-	*width_out = av_frame->width;
-	*height_out = av_frame->height;
-	*data_out = data;
-
-	avformat_close_input(&av_format_ctx);
-	avformat_free_context(av_format_ctx);
-	av_frame_free(&av_frame);
-	av_packet_free(&av_packet);
-	avcodec_free_context(&av_codec_ctx);
+	} while (packet->stream_index != vidx);
 
 	return true;
 }
+
+void nFFmpeg::clearData()
+{
+	if (avFrame) av_free(avFrame);
+	if (glFrame) av_free(glFrame);
+	if (packet) av_free(packet);
+	if (vCtx) avcodec_close(vCtx);
+	if (fmtCtx) avformat_free_context(fmtCtx);
+}
+
+void nFFmpeg::initData()
+{
+	fmtCtx = NULL;
+	vidx = NULL;
+	vStream = NULL;
+	vCtx = NULL;
+	vCodec = NULL;
+	avFrame = NULL;
+	glFrame = NULL;
+	convCtx = NULL;
+}
+
+void nFFmpeg::OnUpdate()
+{
+	
+}
+
+void nFFmpeg::Render()
+{
+	gl.PushMatrix();
+	gl.Transform(transformation);
+
+	readFrame();
+	gl.DrawVideoTexture(transformation, width, height, video);
+	
+	vector<SceneObject*>& children = GetChildrenVector();
+	vector<SceneObject*>::iterator iter;
+	for (iter = children.begin(); iter != children.end(); iter++) {
+		(*iter)->Render();
+	}
+	
+	gl.PopMatrix();	
+}
+

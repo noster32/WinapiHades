@@ -4,6 +4,7 @@
 bool EngineLauncher::launched = false;
 EngineLauncher* EngineLauncher::instance = NULL;
 Point2D _ptMouse = { 0,0 };
+bool openGLWindowOpen = false;
 
 EngineLauncher::EngineLauncher(GameEngine* instance, EngineInit init) : engine(*instance)
 {
@@ -154,12 +155,14 @@ int EngineLauncher::InternalLaunch()
     SetWindowSize(WINSTART_X, WINSTART_Y, param.windowSize.x, param.windowSize.y);
     ShowWindow(mainWnd, param.nCmdShow);
 
+   
 
     while (GetMessage(&messages, NULL, 0, 0))
     {
         TranslateMessage(&messages);
         DispatchMessage(&messages);
     }
+
     return messages.wParam;
 }
 

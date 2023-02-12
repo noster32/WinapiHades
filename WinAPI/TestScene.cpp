@@ -19,31 +19,23 @@ void TestScene::Init()
 	nts.Add(gl.LoadTexturePng("Resources/Images/Map/TempMap.png", param), "TempMap");
 	
 
-	vector<uint> uids = gl.LoadMultipleTexturesPng("Resources/Images/Anim/Idle/ZagreusIdle_Bink", ".png", 3, param);
-	nts.Add(gl.BuildAnimation(uids), "IDLE");
-	vector<uint> uidsMove = gl.LoadMultipleTexturesPng("Resources/Images/Anim/IdleMove/ZagreusRun_Bink", ".png", 3, param);
-	nts.Add(gl.BuildAnimation(uidsMove), "MOVE");
-	vector<uint> uidsDash = gl.LoadMultipleTexturesPng("Resources/Images/Anim/Dash/ZagreusDash_Bink", ".png", 3, param);
-	nts.Add(gl.BuildAnimation(uidsDash), "DASH");
-	vector<uint> uidsDashVfx = gl.LoadMultipleTexturesPng("Resources/Images/Anim/DashVfx/ZagreusDashVFX_Bink", ".png", 3, param);
-	nts.Add(gl.BuildAnimation(uidsDashVfx), "DashVfx");
-	//vector<uint> uidsSwordAttack = gl.LoadMultipleTexturesPng("Resources/Images/Anim/SwordAttack/ZagreusSword_Bink", ".png", 4, param);
-	//nts.Add(gl.BuildAnimation(uidsSwordAttack), "SWORDATTACK");
 	uint cutTexId = gl.CutTexture(nts.Find("Sprite"), Rect2D(Point2D(0, 940), Point2D(229, 1381)));
 	nts.Add(cutTexId, "cut");
 	
-	nts.Add(gl.LoadTextureFFmpeg("Resources/Animation/ZagreusIdle_Bink.mp4", param), "TempFFmpeg");
+	
 
-
+	testFFmpeg.load_frame("Resources/Animation/ZagreusIdle_Bink.mp4");
+	RegisterObject(testFFmpeg);
 	RegisterObject(fade);
 	RegisterObject(testCut);
 	RegisterObject(testSprite);
 	RegisterObject(testAnim);
 	RegisterObject(testAnimVfx);
 	RegisterObject(tempMap);
-	RegisterObject(tempFFmpeg);
-	//애니메이션 여러개 만들어서 활 당기는중일때는 "bow뭐시기" 하고 쏘면 -> "bow발사" 이런식으로 재생
+	
 
+	
+	//애니메이션 여러개 만들어서 활 당기는중일때는 "bow뭐시기" 하고 쏘면 -> "bow발사" 이런식으로 재생
 	fade.texture = nts.Find("fade");
 	fade.SetDepth(100);
 	fade.renderOp = RenderObject::FIT_TO_SCREEN;
@@ -52,11 +44,11 @@ void TestScene::Init()
 	tempMap.SetDepth(1);
 	tempMap.transformation.scale -= 0.2f;
 
-	testCut.texture = nts.Find("cut");
-	testCut.SetDepth(10);
+	//testCut.texture = nts.Find("cut");
+	//testCut.SetDepth(10);
 	
-	tempFFmpeg.texture = nts.Find("TempFFmpeg");
-	tempFFmpeg.SetDepth(3);
+	testFFmpeg.transformation.scale -= 0.2f;
+	
 	
 	testAnim.SetDepth(15);
 	testAnimVfx.SetDepth(16);

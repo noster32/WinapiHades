@@ -1,21 +1,43 @@
 #pragma once
+#include "SceneObject.h"
 
-extern "C" 
+class nFFmpeg : public SceneObject
 {
-#include <libavformat/avformat.h>
-#include <libavcodec/avcodec.h>
-#include <libavfilter/avfilter.h>
-#include <libavdevice/avdevice.h>
-#include <libswresample/swresample.h>
-#include <libswscale/swscale.h>
-#include <libavutil/avutil.h>
-#include <libavutil/imgutils.h>
-}
+private:
+	AVFormatContext* fmtCtx;
+	int vidx;
+	AVStream* vStream;
+	AVCodecParameters* vPara;
+	const AVCodec* vCodec;
+	AVCodecContext* vCtx;
+	SwsContext* swsCtx;
+	AVFrame RGBFrame;
+	AVFrame* avFrame;
+	AVFrame* glFrame;
+	uint8_t* rgbbuf;
 
+	struct SwsContext* convCtx;
 
-class nFFmpeg
-{
+	AVFrame vFrame;
+	AVPacket* packet;
+	int ret;
+
+	Timer timer, t1, t2;
+
 public:
-	bool load_frame(string filename, int* width_out, int* height_out, unsigned char** data_out);
+	uint video;
+	uint pBuf;
+	uint width;
+	uint height;
+	
+
+	bool load_frame(string filename);
+	bool readFrame(); 
+	void clearData();
+	void initData();
+	virtual void OnUpdate();
+	virtual void Render();
+
+	nFFmpeg();
 };
 

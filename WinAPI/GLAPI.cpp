@@ -197,30 +197,64 @@ textureStorage.Add(dst);
 return dst->uid;
 }
 
+uint GLAPI::LoadTextureFFmpeg(uint8_t* data, int width, int height)
+{
+	size_t u2 = 1; while (u2 < width) u2 *= 2;
+	size_t v2 = 1; while (v2 < height) v2 *= 2;
+	
+
+	GLuint id;
+	GLuint pboIds[2];
+	glGenTextures(1, &id);
+	glBindTexture(GL_TEXTURE_2D, id);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexImage2D(GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	
+	return id;
+}
+
+uint GLAPI::LoadPixelBufferFFmpeg(const int width, const int height)
+{
+	GLuint pboIds[2];
+	const int DATA_SIZE = width * height * 4;
+	if (openGLWindowOpen)
+	{
+		glGenBuffers(2, pboIds);
+		glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pboIds[0]);
+		glBufferData(GL_PIXEL_UNPACK_BUFFER, DATA_SIZE, 0, GL_STREAM_DRAW);
+		glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pboIds[1]);
+		glBufferData(GL_PIXEL_UNPACK_BUFFER, DATA_SIZE, 0, GL_STREAM_DRAW);
+		glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+		pixelBufferLoad = true;
+	}
+
+	return pboIds[0];
+}
+
 uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 {
-	vector<unsigned char> image;
-	unsigned width, height;
-	unsigned error = lodepng::decode(image, width, height, fileName);
+	int width, height, nrChannels;
+	stbi_set_flip_vertically_on_load(1);
+	unsigned char* image = stbi_load(fileName.c_str(), &width, &height, &nrChannels, 4);
 
-	if (error != 0)
+	if (!image)
 		return 0;
 
+	//POT resize
 	size_t u2 = 1; while (u2 < width) u2 *= 2;
 	size_t v2 = 1; while (v2 < height) v2 *= 2;
 
-	uint power = log2(max(u2, v2));
-	ulong length = pow(2, power);
+	uint powerX = log2(u2);
+	uint powerY = log2(v2);
+	ulong tempX = pow(2, powerX);
+	ulong tempY = pow(2, powerY);
 	ulong eSize = width * height * 4;
-	ulong totalSize = length * length * 4;
+	ulong totalSize = tempX * tempY * 4;
 
-	ulong temp = max(u2, v2);
-	vector<unsigned char> image2(pow(temp, 2) * 4);
-	for (size_t y = 0; y < height; y++)
-		for (size_t x = 0; x < width; x++)
-			for (size_t c = 0; c < 4; c++) {
-				image2[4 * max(u2, v2) * y + 4 * x + c] = image[4 * width * (height - 1 - y) + 4 * x + c];
-			}
 
 	GLuint id;
 	glGenTextures(1, &id);
@@ -229,110 +263,23 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param.GetMagFilter());
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexImage2D(GL_TEXTURE_2D, 0, 4, length, length, 0, GL_RGBA, GL_UNSIGNED_BYTE, &image2[0]);
-	image2.clear();
-
-	glColor4ub(255, 255, 255, 255);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+	stbi_image_free(image);
 
 	TextureSource* dst = new TextureSource(id);
-	dst->power = power;
-	dst->length = length;
+	dst->texPowerOfX = powerX;
+	dst->texPowerOfY = powerY;
 	dst->totalSize = totalSize;
 	dst->width = width;
 	dst->height = height;
 	dst->size = eSize;
-	dst->coord = Vector2D((float)width / length, (float)height / length);
+	dst->coord = Vector2D((float)width / tempX, (float)height / tempY);
 	dst->range.rightTop = Point2D(width, height);
 
 	textureStorage.Add(dst);
 
 	return dst->uid;
 }
-
-uint GLAPI::LoadTextureFFmpeg(string fileName, TextureGenerateParam param)
-{
-	int frame_width, frame_height;
-	unsigned char* frame_data;
-	if (!_nffmpeg.load_frame(fileName, &frame_width, &frame_height, &frame_data)) {
-		printf("Couldnt load video frame\n");
-		return 0;
-	}
-
-
-	size_t u2 = 1; while (u2 < frame_width) u2 *= 2;
-	size_t v2 = 1; while (v2 < frame_height) v2 *= 2;
-	
-	uint power = log2(max(u2, v2));
-	ulong length = pow(2, power);
-	ulong eSize = frame_width * frame_height * 4;
-	ulong totalSize = length * length * 4;
-
-	GLuint id;
-	glGenTextures(1, &id);
-	glBindTexture(GL_TEXTURE_2D, id);
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param.GetMinFilter());
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param.GetMagFilter());
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexImage2D(GL_TEXTURE_2D, 0, 4, frame_width, frame_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, frame_data);
-
-	TextureSource* dst = new TextureSource(id);
-	dst->power = power;
-	dst->length = length;
-	dst->totalSize = totalSize;
-	dst->width = frame_width;
-	dst->height = frame_height;
-	dst->size = eSize;
-	dst->coord = Vector2D((float)frame_width / length, (float)frame_height / length);
-	dst->range.rightTop = Point2D(frame_width, frame_height);
-
-	textureStorage.Add(dst);
-
-	return dst->uid;
-}
-
-//uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
-//{
-//	int width, height, nrChannels;
-//	stbi_set_flip_vertically_on_load(1);
-//	unsigned char* image = stbi_load(fileName.c_str(), &width, &height, &nrChannels, 4);
-//
-//	if (!image)
-//		return 0;
-//
-//	size_t u2 = 1; while (u2 < width) u2 *= 2;
-//	size_t v2 = 1; while (v2 < height) v2 *= 2;
-//
-//	uint power = log2(max(u2, v2));
-//	ulong length = pow(2, power);
-//	ulong eSize = width * height * 4;
-//	ulong totalSize = length * length * 4;
-//
-//
-//	GLuint id;
-//	glGenTextures(1, &id);
-//	glBindTexture(GL_TEXTURE_2D, id);
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param.GetMinFilter());
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param.GetMagFilter());
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-//	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
-//
-//	TextureSource* dst = new TextureSource(id);
-//	dst->power = power;
-//	dst->length = length;
-//	dst->totalSize = totalSize;
-//	dst->width = width;
-//	dst->height = height;
-//	dst->size = eSize;
-//	dst->coord = Vector2D((float)width / length, (float)height / length);
-//	dst->range.rightTop = Point2D(width, height);
-//
-//	textureStorage.Add(dst);
-//
-//	return dst->uid;
-//}
 
 uint GLAPI::BuildAnimation(const vector<uint>& uids)
 {
@@ -353,7 +300,8 @@ uint GLAPI::BuildAnimation(const vector<uint>& uids, const Rect2D& range)
 	}
 	AnimatedTexture* anim = new AnimatedTexture(tids);
 	const TextureSource& ref = textureStorage.Find(uids.at(0));
-	anim->power = ref.power;
+	anim->texPowerOfX = ref.texPowerOfX;
+	anim->texPowerOfY = ref.texPowerOfY;
 	anim->width = ref.width;
 	anim->height = ref.height;
 	anim->SetRange(range);
@@ -388,7 +336,8 @@ uint GLAPI::CutTexture(const uint uid, const Rect2D& range)
 	const TextureSource& ref = textureStorage.Find(uid);
 	if (!ref.tid) return 0;
 	TextureSource* tex = new TextureSource(ref.tid);
-	tex->power = ref.power;
+	tex->texPowerOfX = ref.texPowerOfX;
+	tex->texPowerOfY = ref.texPowerOfY;
 	tex->width = ref.width;
 	tex->height = ref.height;
 	tex->SetRange(range);
@@ -396,7 +345,7 @@ uint GLAPI::CutTexture(const uint uid, const Rect2D& range)
 
 	return tex->uid;
 }
-
+//프레임 데이터 -> 픽셀 버퍼 오브젝트 -> 렌더링
 void GLAPI::ClearTexture(const uint uid, const uint RGBA)
 {
 	const TextureSource& ref = textureStorage.Find(uid);
@@ -418,7 +367,7 @@ void GLAPI::ClearTexture(const uint uid, const uint RGBA)
 	//texture update;
 	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, ref.width, ref.height, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	delete data;
-	//프레임 데이터 -> 픽셀 버퍼 오브젝트 -> 렌더링
+	
 }
 
 vector<uint> GLAPI::LoadMultipleTextures(string prefix, string suffix, uint digit, TextureGenerateParam param)
@@ -523,9 +472,11 @@ void GLAPI::DrawTextureAuto(const Transformation& tf, const uint uid, const ullo
 	lbVer = rtVer / -2.0f;
 	rtVer = rtVer / 2.0f;
 
-	Vector2D lbTex = PxCoordToTexCoord2f(ref.range.leftBottom, ref.power);
-	Vector2D rtTex = PxCoordToTexCoord2f(ref.range.rightTop, ref.power);
-
+	float leftTex = PxCoordToTexCoord2fTest(ref.range.leftBottom.x, ref.width);
+	float rightTex = PxCoordToTexCoord2fTest(ref.range.rightTop.x, ref.width);
+	float bottomTex = PxCoordToTexCoord2fTest(ref.range.leftBottom.y, ref.height);
+	float topTex = PxCoordToTexCoord2fTest(ref.range.rightTop.y, ref.height);
+	
 	Vector2D ac = rtVer;
 	switch (tf.anchor.Get()) {
 	case Anchor::LEFT_BOTTOM:
@@ -544,14 +495,14 @@ void GLAPI::DrawTextureAuto(const Transformation& tf, const uint uid, const ullo
 		ac = Vector2D();
 		break;
 	}
-
+	
 	GLuint tid = ref.Get(frame);
 
 	Transform(tf);
 
 	glPushMatrix();
 	glTranslatef(ac.x, ac.y, 0.0f);
-	DrawQuadTexture(lbVer.x, lbVer.y, rtVer.x, rtVer.y, lbTex.x, lbTex.y, rtTex.x, rtTex.y, tid);
+	DrawQuadTexture(lbVer.x, lbVer.y, rtVer.x, rtVer.y, leftTex, bottomTex, rightTex, topTex, tid);
 	glPopMatrix();
 
 }
@@ -718,32 +669,88 @@ void GLAPI::DrawQuadTexture(const float x1, const float y1, const float x2, cons
 	glTexCoord2d(tex_x2, tex_y1); glVertex2f(x2, y1);
 	glTexCoord2d(tex_x2, tex_y2); glVertex2f(x2, y2);
 	glTexCoord2d(tex_x1, tex_y2); glVertex2f(x1, y2);
-	//glTexCoord2d(tex_x1, tex_y1); glVertex2f(0, 0);
-	//glTexCoord2d(tex_x2, tex_y1); glVertex2f(1, 0);
-	//glTexCoord2d(tex_x2, tex_y2); glVertex2f(1, 1);
-	//glTexCoord2d(tex_x1, tex_y2); glVertex2f(0, 1);
-	//glTexCoord2d(0.0, 1.0); glVertex2f(0.0, 1.0);
-	//glTexCoord2d(0.0, 0.0); glVertex2f(0.0, 0.0);
-	//glTexCoord2d(1.0, 0.0); glVertex2f(1.0, 0.0);
-	//glTexCoord2d(1.0, 1.0); glVertex2f(1.0, 1.0);
 	glEnd();
 }
 
-void GLAPI::DrawQuadVideoTexture(const float width, const float height, const GLuint tid)
+void GLAPI::DrawVideoTexture(const Transformation& tf, uint width, uint height, const uint id)
 {
-	glBindTexture(GL_TEXTURE_2D, tid);
-	glBegin(GL_QUADS);
-	glTexCoord2d(0, 0); glVertex2i(200, 200);
-	glTexCoord2d(1, 0); glVertex2i(200 + width, 200);
-	glTexCoord2d(1, 1); glVertex2i(200 + width, 200 + height);
-	glTexCoord2d(0, 1); glVertex2i(200, 200 + height);
-	glEnd();
+
+	Point2D rtPx;
+	Point2D texSize = Point2D(width, height);
+	rtPx = texSize;
+
+	Vector2D lbVer, rtVer;
+	rtVer = PxCoordToVertex2f(rtPx);
+	lbVer = rtVer / -2.0f;
+	rtVer = rtVer / 2.0f;
+
+	float leftTex = PxCoordToTexCoord2fTest(0, width);
+	float rightTex = PxCoordToTexCoord2fTest(width, width);
+	float bottomTex = PxCoordToTexCoord2fTest(0, height);
+	float topTex = PxCoordToTexCoord2fTest(height, height);
+
+	Vector2D ac = rtVer;
+	switch (tf.anchor.Get()) {
+	case Anchor::LEFT_BOTTOM:
+		break;
+	case Anchor::RIGHT_BOTTOM:
+		ac.x *= -1;
+		break;
+	case Anchor::LEFT_TOP:
+		ac.y += -1;
+		break;
+	case Anchor::RIGHT_TOP:
+		ac.x *= -1;
+		ac.y *= -1;
+		break;
+	case Anchor::CENTER:
+		ac = Vector2D();
+		break;
+	}
+
+	Transform(tf);
+
+	glPushMatrix();
+	glTranslatef(ac.x, ac.y, 0.0f);
+	DrawQuadTexture(rtVer.x, rtVer.y, lbVer.x, lbVer.y, leftTex, bottomTex, rightTex, topTex, id);
+	glPopMatrix();
 }
 
-void GLAPI::LoadFFmpeg(string filename)
+void GLAPI::DrawVideoBuffer(uint width, uint height, const uint id, const uint pboIds)
 {
-	//_ffmpeg.runFFmpeg(filename);
+	static int index = 0;
+	int nextIndex = 0;
+	double dataSize = width * height * 4;
+	index = nextIndex = 0;
+
+	t1.start();
+
+	glBindTexture(GL_TEXTURE_2D, id);
+	glBindTexture(GL_PIXEL_UNPACK_BUFFER, pboIds);
+
+	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+
+	t1.stop();
+	//copyTime = t1.getElapsedTimeInMilliSec();
+
+	t1.start();
+	glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pboIds);
+	glBufferData(GL_PIXEL_UNPACK_BUFFER, dataSize, 0, GL_STREAM_DRAW);
+	GLubyte* ptr = (GLubyte*)glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
+	if (ptr)
+	{
+		//updatePixel;
+		glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
+	}
+
+	t1.stop();
+
+	glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER | GL_STENCIL_BUFFER_BIT);
 }
+
+
 
 Vector2D GLAPI::PxCoordToVertex2f(const Point2D& pixel)
 {
@@ -757,6 +764,14 @@ Vector2D GLAPI::PxCoordToTexCoord2f(const Point2D& pixel, const uchar power)
 {
 	Vector2D tex(pixel);
 	tex /= (1 << power);
+	return tex;
+}
+
+float GLAPI::PxCoordToTexCoord2fTest(const uint coord, const uint power)
+{
+	float tex = coord;
+	//tex /= (1 << power);
+	tex /= power;
 	return tex;
 }
 

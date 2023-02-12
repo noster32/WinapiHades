@@ -208,10 +208,13 @@ public:
 	const uint      uid;
 	const GLuint    tid;
 
-	// Memory Size
+	// Memory Size(Not use)
 	uchar power;
 	ulong length;  
 	ulong totalSize;
+
+	double texPowerOfX;
+	double texPowerOfY;
 
 	// Effective Range (Actual Data Available Range)
 	ulong width, height;
@@ -220,6 +223,8 @@ public:
 
 	// Used Range
 	Rect2D range;
+
+
 
 
 	TextureSource() : uid(counter++), tid(0), power(0), length(0), totalSize(0),

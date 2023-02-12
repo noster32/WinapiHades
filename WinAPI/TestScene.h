@@ -43,7 +43,8 @@ private:
 	RenderObject testAnim;
 	RenderObject testAnimVfx;
 	RenderObject tempMap;
-	RenderObject tempFFmpeg;
+
+	nFFmpeg testFFmpeg;
 
 	Animation tempAnim;
 	Animation tempAnimVfx;

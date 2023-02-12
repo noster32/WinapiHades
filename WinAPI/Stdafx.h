@@ -23,7 +23,17 @@
 
 #include "inc/FMOD/fmod.hpp"
 //#include "JsonCPP/include/json/json.h"
-
+extern "C"
+{
+#include <libavformat/avformat.h>
+#include <libavcodec/avcodec.h>
+#include <libavfilter/avfilter.h>
+#include <libavdevice/avdevice.h>
+#include <libswresample/swresample.h>
+#include <libswscale/swscale.h>
+#include <libavutil/avutil.h>
+#include <libavutil/imgutils.h>
+}
 
 #include <SDKDDKVer.h>
 
@@ -76,9 +86,10 @@ using namespace std;
 #include "KeyManager.h"
 #include "FontManager.h"
 #include "Utils.h"
-#include "TimeManager.h"
+#include "Timer.h"
 #include "SoundManager.h"
 #include "GLAPI.h"
+
 
 using namespace MY_UTIL;
 
@@ -90,7 +101,6 @@ using namespace MY_UTIL;
 #define KEYMANAGER KeyManager::getSingleton()
 #define FONTMANAGER FontManager::getSingleton()
 #define SOUNDMANAGER SoundManager::getSingleton()
-#define TIMEMANAGER TimeManager::getSingleton()
 
 
 //==============================
@@ -138,3 +148,4 @@ using namespace MY_UTIL;
 //==============================
 //X좌표와 Y좌표를 평면의 좌표에 정의할 때 사용 -2D에서 좌표 표현 적합
 extern Point2D _ptMouse;
+extern bool openGLWindowOpen;

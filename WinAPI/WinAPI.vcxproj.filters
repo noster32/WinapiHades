@@ -122,9 +122,6 @@
       <Filter>API FrameWork\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="TestScene.cpp" />
-    <ClCompile Include="lodepng.cpp">
-      <Filter>API FrameWork</Filter>
-    </ClCompile>
     <ClCompile Include="DeathArea.cpp">
       <Filter>API FrameWork</Filter>
     </ClCompile>
@@ -230,9 +227,6 @@
       <Filter>API FrameWork\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="TestScene.h" />
-    <ClInclude Include="lodepng.h">
-      <Filter>API FrameWork</Filter>
-    </ClInclude>
     <ClInclude Include="DeathArea.h" />
     <ClInclude Include="Sprite.h">
       <Filter>API FrameWork\Sprite</Filter>

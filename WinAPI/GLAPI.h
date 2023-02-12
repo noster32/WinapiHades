@@ -1,9 +1,5 @@
 #pragma once
 
-#include "lodepng.h"
-//#include "FFmpeg.h"
-#include "nFFmpeg.h"
-
 class GLAPI
 {
 private:
@@ -16,10 +12,11 @@ private:
 	Vector2D viewportSize;
 	Vector2D unitVertex2f;
 	Vector2D centerVertex2f;
-	//FFmpeg _ffmpeg;
-	nFFmpeg _nffmpeg;
 
 	uint charset;
+
+	Timer t1, t2;
+	bool pixelBufferLoad;
 public:
 	static GLAPI& GetInstance() {
 		static GLAPI instance;
@@ -32,11 +29,13 @@ public:
 	void DisableOpenGL(HWND hwnd, HDC hdc, HGLRC hrc);
 
 	Point2D GetWindowSize() { return windowSize; }
+	bool GetPixelBufferLoad() { return pixelBufferLoad; }
 
 	uint GenerateEmptyTexture(int width, int height, uint RGBA);
 	uint LoadTexture(string fileName, TextureGenerateParam param);
 	uint LoadTexturePng(string fileName, TextureGenerateParam param);
-	uint LoadTextureFFmpeg(string fileName, TextureGenerateParam param);
+	uint LoadTextureFFmpeg(uint8_t* data, int width, int height);
+	uint LoadPixelBufferFFmpeg(const int width, const int height);
 	uint BuildAnimation(const vector<uint>& uids);
 	uint BuildAnimation(const vector<uint>& uids, const Rect2D& range);
 	uint BuildAnimationBySprite(uint uid, int width, int height);
@@ -63,11 +62,12 @@ public:
 
 	void DrawQuadTexture(const float x1, const float y1, const float x2, const float y2,
 						const float tex_x1, const float tex_y1, const float tex_x2, const float tex_y2, const GLuint tid);
-	void DrawQuadVideoTexture(const float width, const float height, const GLuint tid);
-	void LoadFFmpeg(string filename);
+	void DrawVideoTexture(const Transformation& tf, uint width, uint height, const uint id);
+	void DrawVideoBuffer(uint width, uint height, const uint id, const uint pboIds);
 protected:
 	Vector2D PxCoordToVertex2f(const Point2D& pixel);
 	Vector2D PxCoordToTexCoord2f(const Point2D& pixel, const uchar power);
+	float PxCoordToTexCoord2fTest(const uint coord, const uint power);
 
 	bool ValidateChar(const uint msb, const uint lsb);
 	void FindCharTexCoord(uint msb, uint lsb, Vector2D& lbTex, Vector2D& rtTex);
