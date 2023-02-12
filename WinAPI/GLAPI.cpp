@@ -712,7 +712,7 @@ void GLAPI::DrawVideoTexture(const Transformation& tf, uint width, uint height, 
 
 	glPushMatrix();
 	glTranslatef(ac.x, ac.y, 0.0f);
-	DrawQuadTexture(rtVer.x, rtVer.y, lbVer.x, lbVer.y, leftTex, bottomTex, rightTex, topTex, id);
+	DrawQuadTexture(lbVer.x, lbVer.y, rtVer.x, rtVer.y, leftTex, bottomTex, rightTex, topTex, id);
 	glPopMatrix();
 }
 
