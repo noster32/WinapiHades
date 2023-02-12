@@ -712,8 +712,20 @@ void GLAPI::DrawVideoTexture(const Transformation& tf, uint width, uint height, 
 
 	glPushMatrix();
 	glTranslatef(ac.x, ac.y, 0.0f);
-	DrawQuadTexture(lbVer.x, lbVer.y, rtVer.x, rtVer.y, leftTex, bottomTex, rightTex, topTex, id);
+	DrawQuadVideoTexture(lbVer.x, lbVer.y, rtVer.x, rtVer.y, leftTex, bottomTex, rightTex, topTex, id);
 	glPopMatrix();
+}
+
+void GLAPI::DrawQuadVideoTexture(const float x1, const float y1, const float x2, const float y2, const float tex_x1, const float tex_y1, const float tex_x2, const float tex_y2, const GLuint tid)
+{
+	if (tid == 0)   return; // ignore null texture
+	glBindTexture(GL_TEXTURE_2D, tid);
+	glBegin(GL_POLYGON);
+	glTexCoord2d(tex_x1, tex_y1); glVertex2f(x1, y2);
+	glTexCoord2d(tex_x2, tex_y1); glVertex2f(x2, y2);
+	glTexCoord2d(tex_x2, tex_y2); glVertex2f(x2, y1);
+	glTexCoord2d(tex_x1, tex_y2); glVertex2f(x1, y1);
+	glEnd();
 }
 
 void GLAPI::DrawVideoBuffer(uint width, uint height, const uint id, const uint pboIds)

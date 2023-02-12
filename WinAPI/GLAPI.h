@@ -63,6 +63,8 @@ public:
 	void DrawQuadTexture(const float x1, const float y1, const float x2, const float y2,
 						const float tex_x1, const float tex_y1, const float tex_x2, const float tex_y2, const GLuint tid);
 	void DrawVideoTexture(const Transformation& tf, uint width, uint height, const uint id);
+	void DrawQuadVideoTexture(const float x1, const float y1, const float x2, const float y2,
+		const float tex_x1, const float tex_y1, const float tex_x2, const float tex_y2, const GLuint tid);
 	void DrawVideoBuffer(uint width, uint height, const uint id, const uint pboIds);
 protected:
 	Vector2D PxCoordToVertex2f(const Point2D& pixel);

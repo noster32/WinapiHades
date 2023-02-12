@@ -48,6 +48,8 @@ void TestScene::Init()
 	//testCut.SetDepth(10);
 	
 	testFFmpeg.transformation.scale -= 0.2f;
+	testFFmpeg.transformation.position = Vector2D(300, 300);
+	
 	
 	
 	testAnim.SetDepth(15);
@@ -348,7 +350,7 @@ void TestScene::OnUpdate()
 	//	return;
 	//}
 	
-
+	//testFFmpeg.transformation.rotate -= 0.1f;
 
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{

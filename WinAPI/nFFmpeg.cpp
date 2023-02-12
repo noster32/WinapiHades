@@ -8,6 +8,8 @@ nFFmpeg::nFFmpeg()
 
 bool nFFmpeg::load_frame(string filename)
 {
+	clearData();
+	initData();
 	if (avformat_open_input(&fmtCtx, filename.c_str(), NULL, NULL) < 0) {
 		cout << "failed to open input" << endl;
 		return false;
@@ -96,13 +98,14 @@ bool nFFmpeg::readFrame()
 											vCtx->width, vCtx->height, AV_PIX_FMT_RGBA,
 											SWS_BICUBIC, NULL, NULL, NULL);
 				}
-				uint dataSize = vCtx->width * vCtx->height * 4;
+				
 
 				
 				if (false)
 				{
 					GLuint pboIds[2];
 					const int DATA_SIZE = width * height * 4;
+					uint dataSize = vCtx->width * vCtx->height * 4;
 
 					glGenBuffers(2, pboIds);
 					glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pboIds[0]);
@@ -184,7 +187,7 @@ void nFFmpeg::Render()
 	gl.Transform(transformation);
 
 	readFrame();
-	gl.DrawVideoTexture(transformation, width, height, video);
+	gl.DrawVideoTexture(transformation, vCtx->width, vCtx->height, video);
 	
 	vector<SceneObject*>& children = GetChildrenVector();
 	vector<SceneObject*>::iterator iter;
