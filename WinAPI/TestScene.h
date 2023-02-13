@@ -43,8 +43,7 @@ private:
 	RenderObject testAnim;
 	RenderObject testAnimVfx;
 	RenderObject tempMap;
-
-	nFFmpeg testFFmpeg;
+	RenderObject testOrb;
 
 	Animation tempAnim;
 	Animation tempAnimVfx;
@@ -60,6 +59,9 @@ private:
 	int animLength;
 	int animDelay;
 
+
+	int tempX;
+	int tempY;
 
 	int temp;
 public:

@@ -221,16 +221,15 @@ uint GLAPI::LoadPixelBufferFFmpeg(const int width, const int height)
 {
 	GLuint pboIds[2];
 	const int DATA_SIZE = width * height * 4;
-	if (openGLWindowOpen)
-	{
+	//if (openGLWindowOpen)
+	//{
 		glGenBuffers(2, pboIds);
 		glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pboIds[0]);
 		glBufferData(GL_PIXEL_UNPACK_BUFFER, DATA_SIZE, 0, GL_STREAM_DRAW);
 		glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pboIds[1]);
 		glBufferData(GL_PIXEL_UNPACK_BUFFER, DATA_SIZE, 0, GL_STREAM_DRAW);
 		glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
-		pixelBufferLoad = true;
-	}
+	//}
 
 	return pboIds[0];
 }
@@ -281,6 +280,54 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 	return dst->uid;
 }
 
+uint GLAPI::LoadTexturePngAnim(string fileName, TextureGenerateParam param, uint animWidth, uint animheight)
+{
+	int width, height, nrChannels;
+	stbi_set_flip_vertically_on_load(1);
+	unsigned char* image = stbi_load(fileName.c_str(), &width, &height, &nrChannels, 4);
+
+	if (!image)
+		return 0;
+
+	//POT resize
+	size_t u2 = 1; while (u2 < width) u2 *= 2;
+	size_t v2 = 1; while (v2 < height) v2 *= 2;
+
+	uint powerX = log2(u2);
+	uint powerY = log2(v2);
+	ulong tempX = pow(2, powerX);
+	ulong tempY = pow(2, powerY);
+	ulong eSize = width * height * 4;
+	ulong totalSize = tempX * tempY * 4;
+
+
+	GLuint id;
+	glGenTextures(1, &id);
+	glBindTexture(GL_TEXTURE_2D, id);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param.GetMinFilter());
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param.GetMagFilter());
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+	stbi_image_free(image);
+
+	TextureSource* dst = new TextureSource(id);
+	dst->texPowerOfX = powerX;
+	dst->texPowerOfY = powerY;
+	dst->totalSize = totalSize;
+	dst->width = width;
+	dst->height = height;
+	dst->size = eSize;
+	dst->coord = Vector2D((float)width / tempX, (float)height / tempY);
+	dst->range.rightTop = Point2D(width, height);
+	dst->spriteWidth = animWidth;
+	dst->spriteHeight = animheight;
+
+	textureStorage.Add(dst);
+
+	return dst->uid;
+}
+
 uint GLAPI::BuildAnimation(const vector<uint>& uids)
 {
 	if (uids.empty()) return 0; // empty
@@ -300,8 +347,6 @@ uint GLAPI::BuildAnimation(const vector<uint>& uids, const Rect2D& range)
 	}
 	AnimatedTexture* anim = new AnimatedTexture(tids);
 	const TextureSource& ref = textureStorage.Find(uids.at(0));
-	anim->texPowerOfX = ref.texPowerOfX;
-	anim->texPowerOfY = ref.texPowerOfY;
 	anim->width = ref.width;
 	anim->height = ref.height;
 	anim->SetRange(range);
@@ -310,25 +355,27 @@ uint GLAPI::BuildAnimation(const vector<uint>& uids, const Rect2D& range)
 	return anim->uid;
 }
 
-uint GLAPI::BuildAnimationBySprite(uint uid, int width, int height)
+uint GLAPI::BuildAnimationBySprite(uint uid)
 {
-	vector<GLuint> tids;
 	const TextureSource& ref = textureStorage.Find(uid);
-	int tempWidthNum = ref.width / width;
-	int tempHeightNum = ref.height / height;
-	for (int y = 0; y < tempHeightNum; y++)
+	vector<Rect2D> range;
+	uint tempRangeWidth = ref.width / ref.spriteWidth;
+	uint tempRangeHeight = ref.height / ref.spriteHeight;
+
+	for (int y = 0; y < ref.spriteHeight; y++)
 	{
-		for (int x = 0; x < tempWidthNum; x++)
+		for (int x = 0; x < ref.spriteWidth ; x++)
 		{
-			tids.push_back(ref.Get(0) + ((y * tempWidthNum) + x));
+			range.push_back(Rect2D(Point2D(tempRangeWidth * x, tempRangeHeight * y), 
+								   Point2D(tempRangeWidth * (x + 1), tempRangeHeight * (y + 1)) ));
 		}
 	}
-	AnimatedTexture* anim = new AnimatedTexture(tids);
-	anim->power = ref.power;
-	anim->width = ref.width;
-	anim->height = ref.height;
-	//anim->SetRange(Rect2D(Point2D(x * width, ), Point2D()));
-	return uint();
+	AnimatedSpriteTexture* animSprite = new AnimatedSpriteTexture(uid, range);
+	animSprite->width = ref.width;
+	animSprite->height = ref.height;
+	animSprite->spriteWidth = ref.spriteWidth;
+	animSprite->spriteHeight = ref.spriteHeight;
+	return animSprite->uid;
 }
 
 uint GLAPI::CutTexture(const uint uid, const Rect2D& range)
@@ -336,8 +383,6 @@ uint GLAPI::CutTexture(const uint uid, const Rect2D& range)
 	const TextureSource& ref = textureStorage.Find(uid);
 	if (!ref.tid) return 0;
 	TextureSource* tex = new TextureSource(ref.tid);
-	tex->texPowerOfX = ref.texPowerOfX;
-	tex->texPowerOfY = ref.texPowerOfY;
 	tex->width = ref.width;
 	tex->height = ref.height;
 	tex->SetRange(range);
@@ -461,7 +506,8 @@ void GLAPI::DrawTextureAuto(const Transformation& tf, const uint uid, const ullo
 	const TextureSource& ref = textureStorage.Find(uid);
 
 	Point2D rtPx = size;
-	Point2D texSize = Point2D(ref.range.rightTop) - ref.range.leftBottom;
+	//Point2D texSize = Point2D(ref.range.rightTop) - ref.range.leftBottom;
+	Point2D texSize = Point2D(ref.GetRange(frame).rightTop) - ref.GetRange(frame).leftBottom;
 	if (size.x == 0)
 		rtPx.x = texSize.x;
 	if (size.y == 0)
@@ -472,10 +518,14 @@ void GLAPI::DrawTextureAuto(const Transformation& tf, const uint uid, const ullo
 	lbVer = rtVer / -2.0f;
 	rtVer = rtVer / 2.0f;
 
-	float leftTex = PxCoordToTexCoord2fTest(ref.range.leftBottom.x, ref.width);
-	float rightTex = PxCoordToTexCoord2fTest(ref.range.rightTop.x, ref.width);
-	float bottomTex = PxCoordToTexCoord2fTest(ref.range.leftBottom.y, ref.height);
-	float topTex = PxCoordToTexCoord2fTest(ref.range.rightTop.y, ref.height);
+	//float leftTex = PxCoordToTexCoord2fTest(ref.range.leftBottom.x, ref.width);
+	//float rightTex = PxCoordToTexCoord2fTest(ref.range.rightTop.x, ref.width);
+	//float bottomTex = PxCoordToTexCoord2fTest(ref.range.leftBottom.y, ref.height);
+	//float topTex = PxCoordToTexCoord2fTest(ref.range.rightTop.y, ref.height);
+	float leftTex = PxCoordToTexCoord2fTest(ref.GetRange(frame).leftBottom.x, ref.width);
+	float rightTex = PxCoordToTexCoord2fTest(ref.GetRange(frame).rightTop.x, ref.width);
+	float bottomTex = PxCoordToTexCoord2fTest(ref.GetRange(frame).leftBottom.y, ref.height);
+	float topTex = PxCoordToTexCoord2fTest(ref.GetRange(frame).rightTop.y, ref.height);
 	
 	Vector2D ac = rtVer;
 	switch (tf.anchor.Get()) {
@@ -730,36 +780,36 @@ void GLAPI::DrawQuadVideoTexture(const float x1, const float y1, const float x2,
 
 void GLAPI::DrawVideoBuffer(uint width, uint height, const uint id, const uint pboIds)
 {
-	static int index = 0;
-	int nextIndex = 0;
-	double dataSize = width * height * 4;
-	index = nextIndex = 0;
-
-	t1.start();
-
-	glBindTexture(GL_TEXTURE_2D, id);
-	glBindTexture(GL_PIXEL_UNPACK_BUFFER, pboIds);
-
-	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-
-	t1.stop();
-	//copyTime = t1.getElapsedTimeInMilliSec();
-
-	t1.start();
-	glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pboIds);
-	glBufferData(GL_PIXEL_UNPACK_BUFFER, dataSize, 0, GL_STREAM_DRAW);
-	GLubyte* ptr = (GLubyte*)glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
-	if (ptr)
-	{
-		//updatePixel;
-		glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
-	}
-
-	t1.stop();
-
-	glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER | GL_STENCIL_BUFFER_BIT);
+	//static int index = 0;
+	//int nextIndex = 0;
+	//double dataSize = width * height * 4;
+	//index = nextIndex = 0;
+	//
+	//t1.start();
+	//
+	//glBindTexture(GL_TEXTURE_2D, id);
+	//glBindTexture(GL_PIXEL_UNPACK_BUFFER, pboIds);
+	//
+	//glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+	//
+	//t1.stop();
+	////copyTime = t1.getElapsedTimeInMilliSec();
+	//
+	//t1.start();
+	//glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pboIds);
+	//glBufferData(GL_PIXEL_UNPACK_BUFFER, dataSize, 0, GL_STREAM_DRAW);
+	//GLubyte* ptr = (GLubyte*)glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
+	//if (ptr)
+	//{
+	//	//updatePixel;
+	//	glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
+	//}
+	//
+	//t1.stop();
+	//
+	//glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+	//
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER | GL_STENCIL_BUFFER_BIT);
 }
 
 

@@ -15,8 +15,7 @@ private:
 
 	uint charset;
 
-	Timer t1, t2;
-	bool pixelBufferLoad;
+
 public:
 	static GLAPI& GetInstance() {
 		static GLAPI instance;
@@ -29,16 +28,16 @@ public:
 	void DisableOpenGL(HWND hwnd, HDC hdc, HGLRC hrc);
 
 	Point2D GetWindowSize() { return windowSize; }
-	bool GetPixelBufferLoad() { return pixelBufferLoad; }
 
 	uint GenerateEmptyTexture(int width, int height, uint RGBA);
 	uint LoadTexture(string fileName, TextureGenerateParam param);
 	uint LoadTexturePng(string fileName, TextureGenerateParam param);
+	uint LoadTexturePngAnim(string fileName, TextureGenerateParam param, uint animWidth, uint animheight);
 	uint LoadTextureFFmpeg(uint8_t* data, int width, int height);
 	uint LoadPixelBufferFFmpeg(const int width, const int height);
 	uint BuildAnimation(const vector<uint>& uids);
 	uint BuildAnimation(const vector<uint>& uids, const Rect2D& range);
-	uint BuildAnimationBySprite(uint uid, int width, int height);
+	uint BuildAnimationBySprite(uint uid);
 	uint CutTexture(const uint uid, const Rect2D& range);
 	void ClearTexture(const uint uid, const uint RGBA);
 	

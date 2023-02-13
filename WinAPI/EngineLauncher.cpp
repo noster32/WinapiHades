@@ -4,7 +4,6 @@
 bool EngineLauncher::launched = false;
 EngineLauncher* EngineLauncher::instance = NULL;
 Point2D _ptMouse = { 0,0 };
-bool openGLWindowOpen = false;
 
 EngineLauncher::EngineLauncher(GameEngine* instance, EngineInit init) : engine(*instance)
 {

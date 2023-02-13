@@ -17,15 +17,23 @@ void TestScene::Init()
 	nts.Add(gl.GenerateEmptyTexture(30, 30, 0xFFFFFFFF), "fade");
 	nts.Add(gl.LoadTexturePng("Resources/Images/Object/DeathArea_Tilesets53.png", param), "Sprite");
 	nts.Add(gl.LoadTexturePng("Resources/Images/Map/TempMap.png", param), "TempMap");
+	vector<uint> uids = gl.LoadMultipleTexturesPng("Resources/Images/Anim/Idle/ZagreusIdle_Bink", ".png", 3, param);
+	nts.Add(gl.BuildAnimation(uids), "IDLE");
+	vector<uint> uidsMove = gl.LoadMultipleTexturesPng("Resources/Images/Anim/IdleMove/ZagreusRun_Bink", ".png", 3, param);
+	nts.Add(gl.BuildAnimation(uidsMove), "MOVE");
+	vector<uint> uidsDash = gl.LoadMultipleTexturesPng("Resources/Images/Anim/Dash/ZagreusDash_Bink", ".png", 3, param);
+	nts.Add(gl.BuildAnimation(uidsDash), "DASH");
+	vector<uint> uidsDashVfx = gl.LoadMultipleTexturesPng("Resources/Images/Anim/DashVfx/ZagreusDashVFX_Bink", ".png", 3, param);
+	nts.Add(gl.BuildAnimation(uidsDashVfx), "DashVfx");
 	
-
+	
 	uint cutTexId = gl.CutTexture(nts.Find("Sprite"), Rect2D(Point2D(0, 940), Point2D(229, 1381)));
 	nts.Add(cutTexId, "cut");
 	
+	uint uidsOrb = gl.LoadTexturePngAnim("Resources/Images/Object/orb.png", param, 13, 3);
+	nts.Add(gl.BuildAnimationBySprite(uidsOrb), "Orb");
 	
 
-	testFFmpeg.load_frame("Resources/Animation/ZagreusIdle_Bink.mp4");
-	RegisterObject(testFFmpeg);
 	RegisterObject(fade);
 	RegisterObject(testCut);
 	RegisterObject(testSprite);
@@ -33,7 +41,7 @@ void TestScene::Init()
 	RegisterObject(testAnimVfx);
 	RegisterObject(tempMap);
 	
-
+	RegisterObject(testOrb);
 	
 	//애니메이션 여러개 만들어서 활 당기는중일때는 "bow뭐시기" 하고 쏘면 -> "bow발사" 이런식으로 재생
 	fade.texture = nts.Find("fade");
@@ -47,10 +55,8 @@ void TestScene::Init()
 	//testCut.texture = nts.Find("cut");
 	//testCut.SetDepth(10);
 	
-	testFFmpeg.transformation.scale -= 0.2f;
-	testFFmpeg.transformation.position = Vector2D(300, 300);
-	
-	
+	testOrb.texture = nts.Find("Orb");
+	testOrb.SetDepth(10);
 	
 	testAnim.SetDepth(15);
 	testAnimVfx.SetDepth(16);
@@ -73,6 +79,9 @@ void TestScene::Init()
 	mPlayerStatus.insert(make_pair(FISHING, "FISHING"));
 
 	ps = IDLE;
+
+	tempX = 0;
+	tempY = 0;
 }
 
 string TestScene::FindStatus(playerStatus ps)
@@ -351,6 +360,13 @@ void TestScene::OnUpdate()
 	//}
 	
 	//testFFmpeg.transformation.rotate -= 0.1f;
+
+	tempX++;
+	tempY++;
+	
+
+
+
 
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{

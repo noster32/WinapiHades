@@ -2,6 +2,8 @@
 #include "GameEngineBuilder.h"
 #include "GameEngineImplement.h"
 
+bool openGLWindowOpen = false;
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszArgument, int nCmdShow) {
 
 	GameEngineBuilder builder(hInstance, nCmdShow);
@@ -13,7 +15,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszArgum
 	builder.EnableRenderOnBackground();
 	builder.EnableUpdateOnBackground();
 	builder.Build()
-		   .launch();
+		.launch();
 	
 	return 0;
 }

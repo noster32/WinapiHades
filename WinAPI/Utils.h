@@ -224,14 +224,15 @@ public:
 	// Used Range
 	Rect2D range;
 
-
-
+	uint spriteWidth;
+	uint spriteHeight;
 
 	TextureSource() : uid(counter++), tid(0), power(0), length(0), totalSize(0),
-		width(0), height(0), size(0), coord(), range() { }
+		width(0), height(0), size(0), coord(), range(), spriteWidth(1), spriteHeight(1) { }
 	TextureSource(GLuint _tid) : uid(counter++), tid(_tid), power(0), length(0), totalSize(0),
-		width(0), height(0), size(0), coord(), range() { }
+		width(0), height(0), size(0), coord(), range(), spriteWidth(1), spriteHeight(1) { }
 	virtual inline GLuint Get(ullong frame) const { return tid; }
+	virtual inline Rect2D GetRange(ullong frame) const { return range; }
 	void SetRange(Rect2D range);
 };
 
@@ -244,6 +245,16 @@ struct AnimatedTexture : TextureSource {
 	virtual GLuint Get(ullong frame) const { return count ? tids.at(frame % count) : 0; }
 	vector<GLuint>::const_iterator Begin() { return tids.begin(); }
 	vector<GLuint>::const_iterator End() { return tids.end(); }
+};
+
+struct AnimatedSpriteTexture : TextureSource {
+	const GLuint    tid;
+	const vector<Rect2D> ranges;
+	uint count;
+
+	AnimatedSpriteTexture() : tid(0), ranges(), count(0) { }
+	AnimatedSpriteTexture(GLuint _tid, const vector<Rect2D> _ranges) : tid(_tid), ranges(_ranges), count(_ranges.size()) { }
+	virtual Rect2D GetRange(ullong frame) const { return count ? ranges.at(frame % count) : ranges[0]; }
 };
 
 struct TextureStorage {

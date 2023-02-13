@@ -42,7 +42,6 @@ extern "C"
 #include <GLFW/glfw3.h>
 #include <gl/GL.h>
 #include <glm/ext.hpp>
-
 // =====================
 //! C 런타임 헤더 파일
 // =====================

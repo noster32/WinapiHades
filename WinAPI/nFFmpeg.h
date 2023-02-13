@@ -1,7 +1,6 @@
 #pragma once
-#include "SceneObject.h"
 
-class nFFmpeg : public SceneObject
+class nFFmpeg
 {
 private:
 	AVFormatContext* fmtCtx;
