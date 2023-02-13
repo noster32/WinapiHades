@@ -375,6 +375,7 @@ uint GLAPI::BuildAnimationBySprite(uint uid)
 	animSprite->height = ref.height;
 	animSprite->spriteWidth = ref.spriteWidth;
 	animSprite->spriteHeight = ref.spriteHeight;
+	textureStorage.Add(animSprite);
 	return animSprite->uid;
 }
 
@@ -554,7 +555,6 @@ void GLAPI::DrawTextureAuto(const Transformation& tf, const uint uid, const ullo
 	glTranslatef(ac.x, ac.y, 0.0f);
 	DrawQuadTexture(lbVer.x, lbVer.y, rtVer.x, rtVer.y, leftTex, bottomTex, rightTex, topTex, tid);
 	glPopMatrix();
-
 }
 
 void GLAPI::LoadCharacterSet()

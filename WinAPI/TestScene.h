@@ -45,8 +45,11 @@ private:
 	RenderObject tempMap;
 	RenderObject testOrb;
 
+	nFFmpeg testFFmpeg;
+
 	Animation tempAnim;
 	Animation tempAnimVfx;
+	Animation tempObjAnim;
 
 	SceneObject* animSelected;
 

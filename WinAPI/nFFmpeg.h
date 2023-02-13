@@ -1,6 +1,7 @@
 #pragma once
+#include "SceneObject.h"
 
-class nFFmpeg
+class nFFmpeg : public SceneObject
 {
 private:
 	AVFormatContext* fmtCtx;
@@ -36,6 +37,8 @@ public:
 	void initData();
 	virtual void OnUpdate();
 	virtual void Render();
+
+	void SeekTo(uint pos);
 
 	nFFmpeg();
 };

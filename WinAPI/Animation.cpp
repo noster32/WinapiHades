@@ -79,6 +79,23 @@ void Animation::playAnimVFX(SceneObject& tex, uint start, uint length, uint fram
 	}
 }
 
+void Animation::playObjAnim(SceneObject& tex, uint length, uint frame)
+{
+	animTickDelay++;
+	if (animTickDelay % frame == 0)
+	{
+		tex.SetTick(animTickObj);
+		animTickObj++;
+		animTickDelay = 0;
+	}
+
+	if (animTickObj > length)
+	{
+		animTickObj = 0;
+		animTickDelay = 0;
+	}
+}
+
 
 
 void Animation::playIdle(uint start, uint end, bool loop)

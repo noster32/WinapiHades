@@ -10,12 +10,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszArgum
 	builder.SetEngineInstance(&GameEngineImplement::GetInstance());
 	builder.SetWindowSize(WINSIZE_X, WINSIZE_Y);
 	builder.SetWindowTitle("Hades");
-	builder.SetUpdateDelay(1000000 / 60);
-	builder.SetRenderDelay(1000000 / 60);
+	builder.SetUpdateDelay(1000000 / 144);
+	builder.SetRenderDelay(1000000 / 144);
 	builder.EnableRenderOnBackground();
 	builder.EnableUpdateOnBackground();
 	builder.Build()
 		.launch();
 	
+	openGLWindowOpen = true;
 	return 0;
 }

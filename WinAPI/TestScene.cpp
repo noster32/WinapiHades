@@ -26,14 +26,15 @@ void TestScene::Init()
 	vector<uint> uidsDashVfx = gl.LoadMultipleTexturesPng("Resources/Images/Anim/DashVfx/ZagreusDashVFX_Bink", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uidsDashVfx), "DashVfx");
 	
-	
+
 	uint cutTexId = gl.CutTexture(nts.Find("Sprite"), Rect2D(Point2D(0, 940), Point2D(229, 1381)));
 	nts.Add(cutTexId, "cut");
 	
 	uint uidsOrb = gl.LoadTexturePngAnim("Resources/Images/Object/orb.png", param, 13, 3);
 	nts.Add(gl.BuildAnimationBySprite(uidsOrb), "Orb");
 	
-
+	testFFmpeg.load_frame("Resources/Animation/ZagreusIdle_Bink.mp4");
+	RegisterObject(testFFmpeg);
 	RegisterObject(fade);
 	RegisterObject(testCut);
 	RegisterObject(testSprite);
@@ -54,10 +55,12 @@ void TestScene::Init()
 
 	//testCut.texture = nts.Find("cut");
 	//testCut.SetDepth(10);
-	
-	testOrb.texture = nts.Find("Orb");
-	testOrb.SetDepth(10);
-	
+	//
+	//testOrb.texture = nts.Find("Orb");
+	//testOrb.SetDepth(10);
+	//
+	//testFFmpeg.transformation.scale -= 0.1f;
+	testFFmpeg.SetDepth(20);
 	testAnim.SetDepth(15);
 	testAnimVfx.SetDepth(16);
 	testAnim.transformation.position = Vector2D(WINSIZE_X / 2, WINSIZE_Y / 2);
@@ -358,14 +361,10 @@ void TestScene::OnUpdate()
 	//	SceneEndOfUpdate();
 	//	return;
 	//}
-	
-	//testFFmpeg.transformation.rotate -= 0.1f;
-
-	tempX++;
-	tempY++;
-	
-
-
+	if (KEYMANAGER->isOnceKeyDown(VK_F6))
+	{
+		testFFmpeg.SeekTo(10);
+	}
 
 
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
@@ -401,6 +400,9 @@ void TestScene::OnUpdate()
 	}
 	else
 		tempAnim.playAnim(testAnim, transformAngle(angle, ps), animLength, animDelay, true, ps);
+
+
+	tempObjAnim.playObjAnim(testOrb, 39, 2);
 }
 
 void TestScene::OnUpdateLoading()

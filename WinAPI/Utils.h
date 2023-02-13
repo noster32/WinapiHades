@@ -252,8 +252,9 @@ struct AnimatedSpriteTexture : TextureSource {
 	const vector<Rect2D> ranges;
 	uint count;
 
-	AnimatedSpriteTexture() : tid(0), ranges(), count(0) { }
+	AnimatedSpriteTexture() : tid(), ranges(), count(0) { }
 	AnimatedSpriteTexture(GLuint _tid, const vector<Rect2D> _ranges) : tid(_tid), ranges(_ranges), count(_ranges.size()) { }
+	virtual GLuint Get(ullong frame) const { return tid; }
 	virtual Rect2D GetRange(ullong frame) const { return count ? ranges.at(frame % count) : ranges[0]; }
 };
 
