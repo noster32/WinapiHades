@@ -11,7 +11,6 @@ private:
 	const AVCodec* vCodec;
 	AVCodecContext* vCtx;
 	SwsContext* swsCtx;
-	AVFrame RGBFrame;
 	AVFrame* avFrame;
 	AVFrame* glFrame;
 	uint8_t* rgbbuf;
@@ -24,13 +23,16 @@ private:
 
 	Timer timer, t1, t2;
 
-public:
+	bool enable;
+
 	uint video;
 	uint pBuf;
 	uint width;
 	uint height;
-	
+	uint pts;
+	uint duration;
 
+public:
 	bool load_frame(string filename);
 	bool readFrame(); 
 	void clearData();
@@ -38,7 +40,11 @@ public:
 	virtual void OnUpdate();
 	virtual void Render();
 
-	void SeekTo(uint pos);
+	void SeekTo(uint pos, uchar angle);
+	void loop(uint pos, uchar angle);
+
+	void SetEnable(bool _ena) { enable = _ena; }
+	uint GetPts() { return pts; }
 
 	nFFmpeg();
 };

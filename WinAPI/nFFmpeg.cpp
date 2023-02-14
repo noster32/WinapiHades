@@ -2,7 +2,7 @@
 #include "nFFmpeg.h"
 
 
-nFFmpeg::nFFmpeg()
+nFFmpeg::nFFmpeg() : enable(true)
 {
 }
 
@@ -21,7 +21,8 @@ bool nFFmpeg::load_frame(string filename)
 	}
 
 	cout << "Amount of streams: " << fmtCtx->nb_streams << endl;
-
+	duration = fmtCtx->duration;
+	cout << "Duration" << duration << endl;
 
 	vidx = av_find_best_stream(fmtCtx, AVMEDIA_TYPE_VIDEO, -1, -1, NULL, 0);
 
@@ -109,7 +110,9 @@ bool nFFmpeg::readFrame()
 			}
 			
 		}
-
+		pts = avFrame->best_effort_timestamp;
+		//uint tempTime = ((pts - vStream->start_time) * av_q2d(vStream->time_base) * AV_TIME_BASE);
+		//cout << "pts: " << tempTime << endl;
 		av_packet_unref(packet);
 
 	} while (packet->stream_index != vidx);
@@ -148,8 +151,11 @@ void nFFmpeg::Render()
 	gl.PushMatrix();
 	gl.Transform(transformation);
 	
-	readFrame();
-	gl.DrawVideoTexture(transformation, vCtx->width, vCtx->height, video);
+	if(enable)
+	{
+		readFrame();
+		gl.DrawVideoTexture(transformation, vCtx->width, vCtx->height, video);
+	}
 	
 	vector<SceneObject*>& children = GetChildrenVector();
 	vector<SceneObject*>::iterator iter;
@@ -159,16 +165,33 @@ void nFFmpeg::Render()
 	
 	gl.PopMatrix();	
 }
-void nFFmpeg::SeekTo(uint pos)
+void nFFmpeg::SeekTo(uint pos, uchar angle)
 {
-	uint temp = pos * AV_TIME_BASE;
+	uint tempAngleVal = duration / angle;
+	uint temp = pos * tempAngleVal;
 	
 	if (vCtx) avcodec_flush_buffers(vCtx);
-	av_seek_frame(fmtCtx, -1, fmtCtx->start_time + temp, AVSEEK_FLAG_FRAME);
+	av_seek_frame(fmtCtx, -1, temp, AVSEEK_FLAG_FRAME);
+}
 
+void nFFmpeg::loop(uint pos, uchar angle)
+{
+	uint tempAngleVal = duration / angle;
+	uint temp = pos * tempAngleVal;
+	uint temp2 = (pos + 1) * tempAngleVal;
+	uint tempTime = ((pts - vStream->start_time) * av_q2d(vStream->time_base) * AV_TIME_BASE);
+	cout << "pts: " << tempTime << endl;
+	if (temp2 > duration)
+		temp2 == duration;
 	
-	//if (avFrame) av_frame_unref(avFrame);
-	//if (glFrame) av_frame_unref(glFrame);
+	if (tempTime > temp2)
+	{
+		tempTime = temp;
+		
+		av_seek_frame(fmtCtx, -1, vStream->start_time+ temp, AVSEEK_F);
+		if (vCtx) avcodec_flush_buffers(vCtx);
+		cout << "pts: " << tempTime << endl;
+	}
 }
 
 

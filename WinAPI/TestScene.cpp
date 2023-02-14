@@ -59,7 +59,7 @@ void TestScene::Init()
 	//testOrb.texture = nts.Find("Orb");
 	//testOrb.SetDepth(10);
 	//
-	//testFFmpeg.transformation.scale -= 0.1f;
+	testFFmpeg.transformation.scale -= 0.1f;
 	testFFmpeg.SetDepth(20);
 	testAnim.SetDepth(15);
 	testAnimVfx.SetDepth(16);
@@ -361,12 +361,25 @@ void TestScene::OnUpdate()
 	//	SceneEndOfUpdate();
 	//	return;
 	//}
-	if (KEYMANAGER->isOnceKeyDown(VK_F6))
+
+	if (KEYMANAGER->isOnceKeyDown('O'))
 	{
-		testFFmpeg.SeekTo(10);
+		tempX++;
+		if (tempX > 33)
+			tempX = 32;
+		testFFmpeg.SeekTo(tempX, 33);
+		cout << tempX << endl;
 	}
-
-
+	if (KEYMANAGER->isOnceKeyDown('P'))
+	{
+		tempX--;
+		if (tempX < 0)
+			tempX = 0;
+		testFFmpeg.SeekTo(tempX, 33);
+		cout << tempX << endl; 
+	}
+	
+	testFFmpeg.loop(tempX, 33);
 	if (KEYMANAGER->isOnceKeyDown(VK_F1))
 	{
 		testAnim.enabled = false;		
