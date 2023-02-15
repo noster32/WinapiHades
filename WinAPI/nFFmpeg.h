@@ -40,10 +40,15 @@ public:
 	virtual void OnUpdate();
 	virtual void Render();
 
+	void SeekTo(void);
 	void SeekTo(uint pos, uchar angle);
+	
+	void loop(void);
 	void loop(uint pos, uchar angle);
 
+	void SetEnable(void) { enable ? enable = false : enable = true; }
 	void SetEnable(bool _ena) { enable = _ena; }
+	
 	uint GetPts() { return pts; }
 
 	nFFmpeg();

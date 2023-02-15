@@ -40,16 +40,21 @@ private:
 	RenderObject test;
 	RenderObject testCut;
 	RenderObject testSprite;
-	RenderObject testAnim;
-	RenderObject testAnimVfx;
 	RenderObject tempMap;
 	RenderObject testOrb;
+	RenderObject Orb1;
 
 	nFFmpeg testFFmpeg;
+	nFFmpeg playerRunAnim;
+	nFFmpeg playerDashAnim;
+	nFFmpeg playerAttackSwordAnim;
+	
+	nFFmpeg Skelly;
 
 	Animation tempAnim;
 	Animation tempAnimVfx;
 	Animation tempObjAnim;
+	Animation OrbAnim;
 
 	SceneObject* animSelected;
 

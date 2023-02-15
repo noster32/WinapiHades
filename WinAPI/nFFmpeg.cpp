@@ -165,13 +165,27 @@ void nFFmpeg::Render()
 	
 	gl.PopMatrix();	
 }
+void nFFmpeg::SeekTo(void)
+{
+	if (vCtx) avcodec_flush_buffers(vCtx);
+	av_seek_frame(fmtCtx, -1, vStream->start_time, AVSEEK_FLAG_FRAME);
+}
+
 void nFFmpeg::SeekTo(uint pos, uchar angle)
 {
 	uint tempAngleVal = duration / angle;
 	uint temp = pos * tempAngleVal;
+
 	
 	if (vCtx) avcodec_flush_buffers(vCtx);
 	av_seek_frame(fmtCtx, -1, temp, AVSEEK_FLAG_FRAME);
+}
+
+void nFFmpeg::loop(void)
+{
+	uint tempTime = ((pts - vStream->start_time) * av_q2d(vStream->time_base) * AV_TIME_BASE);
+	if (tempTime >= duration - 100000)
+		SeekTo();
 }
 
 void nFFmpeg::loop(uint pos, uchar angle)
@@ -180,17 +194,13 @@ void nFFmpeg::loop(uint pos, uchar angle)
 	uint temp = pos * tempAngleVal;
 	uint temp2 = (pos + 1) * tempAngleVal;
 	uint tempTime = ((pts - vStream->start_time) * av_q2d(vStream->time_base) * AV_TIME_BASE);
-	cout << "pts: " << tempTime << endl;
+	temp2 -= 100000;
 	if (temp2 > duration)
 		temp2 == duration;
 	
 	if (tempTime > temp2)
 	{
-		tempTime = temp;
-		
-		av_seek_frame(fmtCtx, -1, vStream->start_time+ temp, AVSEEK_F);
-		if (vCtx) avcodec_flush_buffers(vCtx);
-		cout << "pts: " << tempTime << endl;
+		SeekTo(pos, angle);
 	}
 }
 

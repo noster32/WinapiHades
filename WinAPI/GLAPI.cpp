@@ -119,83 +119,6 @@ uint GLAPI::GenerateEmptyTexture(int width, int height, uint RGBA)
 	return dst->uid;
 }
 
-uint GLAPI::LoadTexture(string fileName, TextureGenerateParam param)
-{
-	FILE* file;
-	fopen_s(&file,fileName.c_str(), "rb");
-	if (!file)
-		return 0;
-
-	char filedef[2];
-	fread(&filedef, sizeof(char), 2, file);
-	if (filedef[0] != 'B' || filedef[1] != 'M')
-		return 0;
-
-	ullong filesize;
-	fread(&filesize, sizeof(ullong), 1, file);
-
-	ulong eWidth, eHeight;
-	fseek(file, 18, 0);
-	fread(&eWidth, sizeof(ulong), 1, file);
-	fread(&eHeight, sizeof(ulong), 1, file);
-	ulong eSize = eWidth * eHeight * 4;
-	
-	uint power = 0;
-	while ((1 << power) < eWidth)
-		power++;
-	ulong length = (1 << power);
-	ulong totalSize = length * length * 4;
-	uchar* data = new uchar[totalSize];
-	memset(data, 0x0, sizeof(uchar) * totalSize);
-
-	filesize -= 54;
-	ulong bytePerRow = filesize / eHeight;
-	bool alphaExists = (bytePerRow == eWidth * 4);
-	uchar paddingByte = alphaExists ? 0 : bytePerRow - eWidth * 3; 
-
-fseek(file, 54, 0);
-if (alphaExists) {
-	for (int y = 0; y < eHeight; y++)
-		fread(&data[y * length], sizeof(uchar), eWidth * 4, file);
-}
-else {
-	uchar buffer[4];
-	for (int y = 0; y < eHeight; y++)
-	{
-		for (int x = 0; x < eWidth; x++)
-		{
-			fread(buffer, sizeof(char), 3, file);
-			buffer[3] = ((buffer[0] == 0xFF) && (buffer[1] == 0xFF) && (buffer[2] == 0xFF)) ? 0x00 : 0xFF;
-			memcpy(&data[(y * length + x) * 4], buffer, sizeof(uchar) * 4);
-		}
-		fread(buffer, sizeof(char), paddingByte, file);
-	}
-}
-fclose(file);
-
-GLuint id;
-glGenTextures(1, &id);
-glBindTexture(GL_TEXTURE_2D, id);
-glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param.GetMinFilter());
-glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param.GetMagFilter());
-glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, length, length, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
-delete data;
-
-TextureSource* dst = new TextureSource(id);
-dst->power = power;
-dst->length = length;
-dst->totalSize = totalSize;
-dst->width = eWidth;
-dst->height = eHeight;
-dst->size = eSize;
-dst->coord = Vector2D((float)eWidth / length, (float)eHeight / length);
-dst->range.rightTop = Point2D(eWidth, eHeight);
-
-textureStorage.Add(dst);
-return dst->uid;
-}
 
 uint GLAPI::LoadTextureFFmpeg(uint8_t* data, int width, int height)
 {
@@ -416,36 +339,10 @@ void GLAPI::ClearTexture(const uint uid, const uint RGBA)
 	
 }
 
-vector<uint> GLAPI::LoadMultipleTextures(string prefix, string suffix, uint digit, TextureGenerateParam param)
-{
-	int index = 1;
-	stringstream ss;
-	stringstream len;
-	vector<uint> uids;
-
-	while (1) {
-		ss.str(string());
-		len.str(string());
-
-		ss << prefix;
-		len << index;
-		int zeros = digit - len.str().length();
-		for (int i = 0; i < zeros; i++)
-			ss << "0";
-		ss << index << suffix;
-		uint uid = LoadTexture(ss.str(), param);
-		if (!uid)
-			break;
-		uids.push_back(uid);
-		index++;
-	}
-
-	return uids;
-}
 
 vector<uint> GLAPI::LoadMultipleTexturesPng(string prefix, string suffix, uint digit, TextureGenerateParam param)
 {
-	int index = 0;
+	int index = 1;
 	stringstream ss;
 	stringstream len;
 	vector<uint> uids;

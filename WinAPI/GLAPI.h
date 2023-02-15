@@ -30,7 +30,6 @@ public:
 	Point2D GetWindowSize() { return windowSize; }
 
 	uint GenerateEmptyTexture(int width, int height, uint RGBA);
-	uint LoadTexture(string fileName, TextureGenerateParam param);
 	uint LoadTexturePng(string fileName, TextureGenerateParam param);
 	uint LoadTexturePngAnim(string fileName, TextureGenerateParam param, uint animWidth, uint animheight);
 	uint LoadTextureFFmpeg(uint8_t* data, int width, int height);
@@ -41,8 +40,6 @@ public:
 	uint CutTexture(const uint uid, const Rect2D& range);
 	void ClearTexture(const uint uid, const uint RGBA);
 	
-
-	vector<uint> LoadMultipleTextures(string prefix, string suffix, uint digit, TextureGenerateParam param);
 	vector<uint> LoadMultipleTexturesPng(string prefix, string suffix, uint digit, TextureGenerateParam param);
 	const TextureSource& GetTextureInformation(const uint uid) { return textureStorage.Find(uid); }
 
