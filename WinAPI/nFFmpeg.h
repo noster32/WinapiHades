@@ -32,6 +32,10 @@ private:
 	uint pts;
 	uint duration;
 
+	bool animPlaying;
+	bool bPause;
+	bool animDone;
+
 public:
 	bool load_frame(string filename);
 	bool readFrame(); 
@@ -42,15 +46,23 @@ public:
 
 	void SeekTo(void);
 	void SeekTo(uint pos, uchar angle);
+	void SeekTo(uint pos, uchar angle, uint min);
 	
 	void loop(void);
 	void loop(uint pos, uchar angle);
+	void loop(uint pos, uchar angle, uint min, uint max);
+
+	void pause(uint pos, uchar angle, uint point);
+
+	void playOnce(uint pos, uchar angle, uint min, uint max);
 
 	void SetEnable(void) { enable ? enable = false : enable = true; }
 	void SetEnable(bool _ena) { enable = _ena; }
 	
 	uint GetPts() { return pts; }
 
+	bool GetAnimPlaying() { return animPlaying; }
+	void SetAnimPlaying() { animPlaying = true; }
 	nFFmpeg();
 };
 

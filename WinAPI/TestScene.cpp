@@ -26,16 +26,22 @@ void TestScene::Init()
 	vector<uint> uidsOrb = gl.LoadMultipleTexturesPng("Resources/Images/Object/Anim/Orb/Orb", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uidsOrb), "Orb");
 	
-	testFFmpeg.load_frame("Resources/Animation/ZagreusIdle_Bink.avi");
-	playerRunAnim.load_frame("Resources/Animation/ZagreusRun_Bink.avi");
-	playerAttackSwordAnim.load_frame("Resources/Animation/ZagreusSword_Bink.avi");
+	//testFFmpeg.load_frame("Resources/Animation/ZagreusIdle_Bink.avi");
+	//playerRunAnim.load_frame("Resources/Animation/ZagreusRun_Bink.avi");
+	//playerAttackSwordAnim.load_frame("Resources/Animation/ZagreusSword_Bink.avi");
+	testFFmpeg.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
+	playerRunAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
+	playerDashAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
+	playerDashVFX.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
+	playerAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
 
-
-	Skelly.load_frame("Resources/Animation/SkellyAssistTrait_Bink.avi");
+	Skelly.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
 	
 
 	RegisterObject(testFFmpeg);
 	RegisterObject(playerRunAnim);
+	RegisterObject(playerDashAnim);
+	RegisterObject(playerDashVFX);
 	RegisterObject(playerAttackSwordAnim);
 
 	RegisterObject(Skelly);
@@ -46,7 +52,6 @@ void TestScene::Init()
 	RegisterObject(testCut);
 	RegisterObject(testSprite);
 	RegisterObject(tempMap);
-	RegisterObject(testOrb);
 	
 	//애니메이션 여러개 만들어서 활 당기는중일때는 "bow뭐시기" 하고 쏘면 -> "bow발사" 이런식으로 재생
 	fade.texture = nts.Find("fade");
@@ -57,7 +62,7 @@ void TestScene::Init()
 	tempMap.SetDepth(1);
 	tempMap.transformation.scale -= 0.2f;
 
-	testFFmpeg.transformation.position = Vector2D(1010, 300);
+	testFFmpeg.transformation.position = Vector2D(1970, 600);
 	testFFmpeg.transformation.anchor = Anchor::CENTER;
 	testFFmpeg.transformation.scale -= 0.1f;
 	testFFmpeg.SetDepth(20);
@@ -65,12 +70,20 @@ void TestScene::Init()
 	playerRunAnim.transformation.anchor = Anchor::CENTER;
 	playerRunAnim.transformation.scale -= 0.1f;
 	playerRunAnim.SetDepth(20);
+	playerDashAnim.transformation.position = testFFmpeg.transformation.position;
+	playerDashAnim.transformation.anchor = Anchor::CENTER;
+	playerDashAnim.transformation.scale -= 0.1f;
+	playerDashAnim.SetDepth(20);
+	playerDashVFX.transformation.position = testFFmpeg.transformation.position;
+	playerDashVFX.transformation.anchor = Anchor::CENTER;
+	playerDashVFX.transformation.scale -= 0.1f;
+	playerDashVFX.SetDepth(20);
 	playerAttackSwordAnim.transformation.position = testFFmpeg.transformation.position + Vector2D(0, 10);
 	playerAttackSwordAnim.transformation.anchor = Anchor::CENTER;
 	playerAttackSwordAnim.transformation.scale -= 0.1f;
 	playerAttackSwordAnim.SetDepth(20);
 
-	Skelly.transformation.position = Vector2D(1440, 520);
+	Skelly.transformation.position = Vector2D(2730, 1000);
 	Skelly.transformation.anchor = Anchor::CENTER;
 	Skelly.transformation.scale -= 0.3f;
 	Skelly.SetDepth(20);
@@ -78,7 +91,7 @@ void TestScene::Init()
 	Orb1.texture = nts.Find("Orb");
 	Orb1.transformation.position = Vector2D(2100, 900);
 	Orb1.transformation.anchor = Anchor::CENTER;
-	Orb1.SetDepth(10);
+	Orb1.SetDepth(3000);
 
 	masterSceneObject.transformation.anchor = Anchor::CENTER;
 	
@@ -109,7 +122,11 @@ string TestScene::FindStatus(playerStatus ps)
 
 void TestScene::tempPlayerStatueUpdate()
 {
-	if (KEYMANAGER->isStayKeyDown('W') || KEYMANAGER->isStayKeyDown('A') || KEYMANAGER->isStayKeyDown('S') || KEYMANAGER->isStayKeyDown('D'))
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) || playerAttackSwordAnim.GetAnimPlaying())
+	{
+		ps = ATTACK;
+	}
+	else if (KEYMANAGER->isStayKeyDown('W') || KEYMANAGER->isStayKeyDown('A') || KEYMANAGER->isStayKeyDown('S') || KEYMANAGER->isStayKeyDown('D'))
 	{
 		if (KEYMANAGER->isStayKeyDown(VK_SPACE) || tempAnim.GetAnimDashPlaying())
 		{
@@ -118,13 +135,9 @@ void TestScene::tempPlayerStatueUpdate()
 		else
 			ps = MOVE;
 	}
-	else if (KEYMANAGER->isStayKeyDown(VK_SPACE) || tempAnim.GetAnimDashPlaying())
+	else if (KEYMANAGER->isOnceKeyDown(VK_SPACE) || playerDashAnim.GetAnimPlaying())
 	{
 		ps = DASH;
-	}
-	else if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))
-	{
-		ps = ATTACK;
 	}
 	else
 		ps = IDLE;
@@ -136,18 +149,21 @@ void TestScene::tempPlayerStatueUpdate()
 		testFFmpeg.SetEnable(true);
 		playerRunAnim.SetEnable(false);
 		playerDashAnim.SetEnable(false);
+		playerDashVFX.SetEnable(false);
 		playerAttackSwordAnim.SetEnable(false);
 		break;
 	case MOVE:
 		testFFmpeg.SetEnable(false);
 		playerRunAnim.SetEnable(true);
 		playerDashAnim.SetEnable(false);
+		playerDashVFX.SetEnable(false);
 		playerAttackSwordAnim.SetEnable(false);
 		break;
 	case DASH:
 		testFFmpeg.SetEnable(false);
 		playerRunAnim.SetEnable(false);
 		playerDashAnim.SetEnable(true);
+		playerDashVFX.SetEnable(true);
 		playerAttackSwordAnim.SetEnable(false);
 		break;
 	case MOVESTOP:
@@ -156,6 +172,7 @@ void TestScene::tempPlayerStatueUpdate()
 		testFFmpeg.SetEnable(false);
 		playerRunAnim.SetEnable(false);
 		playerDashAnim.SetEnable(false);
+		playerDashVFX.SetEnable(false);
 		playerAttackSwordAnim.SetEnable(true);
 		break;
 	case SPECIAL_ATTACK:
@@ -217,6 +234,7 @@ int TestScene::transformAngle(int angle, playerStatus ps)
 
 void TestScene::setPlayerAngle(void)
 {
+
 	if (KEYMANAGER->isStayKeyDown('A')) {
 		if (KEYMANAGER->isStayKeyDown('W')) {
 			pmr = LEFTUP;
@@ -230,7 +248,6 @@ void TestScene::setPlayerAngle(void)
 			pmr = LEFT;
 			angle = 17;
 		}
-
 	}
 	else if (KEYMANAGER->isStayKeyDown('D')) {
 		if (KEYMANAGER->isStayKeyDown('W')) {
@@ -275,73 +292,29 @@ void TestScene::setPlayerAngle(void)
 		}
 	}
 
-	if (KEYMANAGER->isOnceKeyDown('A')) {
-		if (KEYMANAGER->isOnceKeyDown('W')) {
-			testFFmpeg.SeekTo(angle, 32);
-			playerRunAnim.SeekTo(angle * 2, 64);
-		}
-		else if (KEYMANAGER->isOnceKeyDown('S')) {
-			testFFmpeg.SeekTo(angle, 32);
-			playerRunAnim.SeekTo(angle * 2, 64);
-		}
-		else {
-			testFFmpeg.SeekTo(angle, 32);
-			playerRunAnim.SeekTo(angle * 2, 64);
-		}
 
-	}
-	else if (KEYMANAGER->isOnceKeyDown('D')) {
-		if (KEYMANAGER->isOnceKeyDown('W')) {
-			testFFmpeg.SeekTo(angle, 32);
-			playerRunAnim.SeekTo(angle * 2, 64);
-		}
-		else if (KEYMANAGER->isOnceKeyDown('S')) {
-			testFFmpeg.SeekTo(angle, 32);
-			playerRunAnim.SeekTo(angle * 2, 64);
-		}
-		else {
-			testFFmpeg.SeekTo(angle, 32);
-			playerRunAnim.SeekTo(angle * 2, 64);
-		}
-	}
-	else if (KEYMANAGER->isOnceKeyDown('W')) {
-		if (KEYMANAGER->isOnceKeyDown('A')) {
-			testFFmpeg.SeekTo(angle, 32);
-			playerRunAnim.SeekTo(angle * 2, 64);
-		}
-		else if (KEYMANAGER->isOnceKeyDown('D')) {
-			testFFmpeg.SeekTo(angle, 32);
-			playerRunAnim.SeekTo(angle * 2, 64);
-		}
-		else {
-			testFFmpeg.SeekTo(angle, 32);
-			playerRunAnim.SeekTo(angle * 2, 64);
-		}
-	}
-	else if (KEYMANAGER->isOnceKeyDown('S')) {
-		if (KEYMANAGER->isOnceKeyDown('A')) {
-			testFFmpeg.SeekTo(angle, 32);
-			playerRunAnim.SeekTo(angle * 2, 64);
-		}
-		else if (KEYMANAGER->isOnceKeyDown('D')) {
-			testFFmpeg.SeekTo(angle, 32);
-			playerRunAnim.SeekTo(angle * 2, 64);
-		}
-		else {
-			testFFmpeg.SeekTo(angle, 32);
-			playerRunAnim.SeekTo(angle * 2, 64);
-		}
+	//Set Player FFmpeg
+	if (KEYMANAGER->isOnceKeyDown('W') || KEYMANAGER->isOnceKeyDown('A') || KEYMANAGER->isOnceKeyDown('S') || KEYMANAGER->isOnceKeyDown('D')) {
+		testFFmpeg.SeekTo(angle, 32);
+		playerRunAnim.SeekTo(angle * 2, 64);
 	}
 
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
-	{
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON)) {
 		cout << "Mouse : " << (_ptMouse.x - WINSIZE_X / 2) + testFFmpeg.transformation.position.x << ", " << (_ptMouse.y - WINSIZE_Y / 2) + testFFmpeg.transformation.position.y << endl;
 		float tempAngle = getAngle(testFFmpeg.transformation.position.x, testFFmpeg.transformation.position.y, (_ptMouse.x - WINSIZE_X / 2) + testFFmpeg.transformation.position.x, (_ptMouse.y - WINSIZE_Y / 2) + testFFmpeg.transformation.position.y);
 		float tempAngle2 = (360 - (tempAngle * 180 / PI)) / 11;
 		cout << tempAngle2 << endl;
 		angle = tempAngle2;
 		playerAttackSwordAnim.SeekTo(angle, 32);
+		playerAttackSwordAnim.SetAnimPlaying();
 		testFFmpeg.SeekTo(angle, 32);
+	}
+
+	if (KEYMANAGER->isOnceKeyDown(VK_SPACE)) {
+		playerDashAnim.SeekTo(angle / 2, 32);
+		playerDashAnim.SetAnimPlaying();
+		playerDashVFX.SeekTo(angle / 2, 32);
+		playerDashVFX.SetAnimPlaying();
 	}
 }
 
@@ -352,53 +325,45 @@ void TestScene::playerMove(playerMoveDir pmr)
 		switch (pmr)
 		{
 		case RIGHT:
-			testFFmpeg.transformation.position.x += 10;
+			testFFmpeg.transformation.position.x += 20;
 			cout << "position : " << testFFmpeg.transformation.position.x << ", " << testFFmpeg.transformation.position.y << endl;
-			cout << "masterPosition : " << masterSceneObject.transformation.position.x << ", " << masterSceneObject.transformation.position.y << endl;
 			cout << "angle : " << angle << endl;
 			break;
 		case RIGHTUP:
-			testFFmpeg.transformation.position += Vector2D(10, 10);
+			testFFmpeg.transformation.position += Vector2D(20, 20);
 			cout << "position : " << testFFmpeg.transformation.position.x << ", " << testFFmpeg.transformation.position.y << endl;
-			cout << "masterPosition : " << masterSceneObject.transformation.position.x << ", " << masterSceneObject.transformation.position.y << endl;
 			cout << "angle : " << angle << endl;
 			break;
 		case UP:
-			testFFmpeg.transformation.position.y += 10;
+			testFFmpeg.transformation.position.y += 20;
 			cout << "position : " << testFFmpeg.transformation.position.x << ", " << testFFmpeg.transformation.position.y << endl;
-			cout << "masterPosition : " << masterSceneObject.transformation.position.x << ", " << masterSceneObject.transformation.position.y << endl;
 			cout << "angle : " << angle << endl;
 			break;
 		case LEFTUP:
-			testFFmpeg.transformation.position.x -= 10;
-			testFFmpeg.transformation.position.y += 10;
+			testFFmpeg.transformation.position.x -= 20;
+			testFFmpeg.transformation.position.y += 20;
 			cout << "position : " << testFFmpeg.transformation.position.x << ", " << testFFmpeg.transformation.position.y << endl;
-			cout << "masterPosition : " << masterSceneObject.transformation.position.x << ", " << masterSceneObject.transformation.position.y << endl;
 			cout << "angle : " << angle << endl;
 			break;
 		case LEFT:
-			testFFmpeg.transformation.position.x -= 10;
+			testFFmpeg.transformation.position.x -= 20;
 			cout << "position : " << testFFmpeg.transformation.position.x << ", " << testFFmpeg.transformation.position.y << endl;
-			cout << "masterPosition : " << masterSceneObject.transformation.position.x << ", " << masterSceneObject.transformation.position.y << endl;
 			cout << "angle : " << angle << endl;
 			break;
 		case LEFTDOWN:
-			testFFmpeg.transformation.position.y -= 10;
+			testFFmpeg.transformation.position.y -= 20;
 			cout << "position : " << testFFmpeg.transformation.position.x << ", " << testFFmpeg.transformation.position.y << endl;
-			cout << "masterPosition : " << masterSceneObject.transformation.position.x << ", " << masterSceneObject.transformation.position.y << endl;
 			cout << "angle : " << angle << endl;
 			break;
 		case DOWN:
-			testFFmpeg.transformation.position.y -= 10;
+			testFFmpeg.transformation.position.y -= 20;
 			cout << "position : " << testFFmpeg.transformation.position.x << ", " << testFFmpeg.transformation.position.y << endl;
-			cout << "masterPosition : " << masterSceneObject.transformation.position.x << ", " << masterSceneObject.transformation.position.y << endl;
 			cout << "angle : " << angle << endl;
 			break;
 		case RIGHTDOWN:
-			testFFmpeg.transformation.position.x += 10;
-			testFFmpeg.transformation.position.y -= 10;
+			testFFmpeg.transformation.position.x += 20;
+			testFFmpeg.transformation.position.y -= 20;
 			cout << "position : " << testFFmpeg.transformation.position.x << ", " << testFFmpeg.transformation.position.y << endl;
-			cout << "masterPosition : " << masterSceneObject.transformation.position.x << ", " << masterSceneObject.transformation.position.y << endl;
 			cout << "angle : " << angle << endl;
 			break;
 		}
@@ -412,14 +377,15 @@ void TestScene::playerMove(playerMoveDir pmr)
 			fAngle = (31 * 11.25) * PI / 180;
 
 		Vector2D dir = Vector2D(cos(fAngle), sin(fAngle));
-
-		//testAnim.transformation.position += dir * 30;
+		testFFmpeg.transformation.position += dir * 30;
 	}
 
 	
 
-	masterSceneObject.transformation.position = testFFmpeg.transformation.position * -1.0f * 1.9f;
+	masterSceneObject.transformation.position = testFFmpeg.transformation.position * -1.0f;
 	playerRunAnim.transformation.position = testFFmpeg.transformation.position;
+	playerDashAnim.transformation.position = testFFmpeg.transformation.position;
+	playerDashVFX.transformation.position = testFFmpeg.transformation.position;
 	playerAttackSwordAnim.transformation.position = testFFmpeg.transformation.position + Vector2D(0, 10);
 }
 
@@ -438,28 +404,22 @@ void TestScene::OnUpdate()
 	setPlayerAngle();
 	tempPlayerStatueUpdate();
 	playerMove(pmr);
+	uint tempDepth = testFFmpeg.transformation.position.x + testFFmpeg.transformation.position.y;
+
+	testFFmpeg.SetDepth(tempDepth);
+	playerRunAnim.SetDepth(tempDepth);
 
 	testFFmpeg.loop(angle, 32);
 	playerRunAnim.loop(angle * 2, 64);
-	playerAttackSwordAnim.loop(angle, 32);
+	playerDashAnim.playOnce(angle / 2, 16, 0, 1500000);
+	playerDashVFX.playOnce(angle / 2, 16, 0, 1500000);
+	playerAttackSwordAnim.playOnce(angle, 32, 0, 700000);
 	Skelly.loop();
-
-
-	if (ps == DASH)
-	{
-		//testAnimVfx.texture = nts.Find("DashVfx");
-		//testAnimVfx.transformation.position = testAnim.transformation.position;
-		//Dash 90' = 48  = 12장씩 /  4
-		//Idle 90' = 240 = 24장씩 / 10
-		//Move 90' = 104 = 6장씩 / 16
-		//tempAnimVfx.playAnimVFX(testAnimVfx, transformAngle(angle, ps), animLength, animDelay, ps);
-		//tempAnim.playAnim(testAnim, transformAngle(angle, ps), animLength, animDelay, false, ps);
-	}
-	else
-		//tempAnim.playAnim(testAnim, transformAngle(angle, ps), animLength, animDelay, true, ps);
-
 	OrbAnim.playObjAnim(Orb1, 39, 2);
 	tempObjAnim.playObjAnim(testOrb, 39, 2);
+
+	
+	//cout << ps << endl;
 }
 
 void TestScene::OnUpdateLoading()

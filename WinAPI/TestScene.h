@@ -47,7 +47,9 @@ private:
 	nFFmpeg testFFmpeg;
 	nFFmpeg playerRunAnim;
 	nFFmpeg playerDashAnim;
+	nFFmpeg playerDashVFX;
 	nFFmpeg playerAttackSwordAnim;
+
 	
 	nFFmpeg Skelly;
 
