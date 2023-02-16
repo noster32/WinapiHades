@@ -166,7 +166,8 @@ struct Anchor {
 		RIGHT_BOTTOM,
 		LEFT_TOP,
 		RIGHT_TOP,
-		CENTER
+		CENTER,
+		BOTTOM
 	};
 	AnchorPos ap;
 	Anchor() : ap(Anchor::LEFT_BOTTOM) { }

@@ -90,7 +90,7 @@ uint GLAPI::GenerateEmptyTexture(int width, int height, uint RGBA)
 	color[3] = (unsigned char)( RGBA		& 0xFF);
 
 	ulong totalSize = length * length * 4;
-	uchar* data = new uchar[totalSize];
+	uchar* data = new uchar[width * height];
 	int repeat = length * length;
 	for (int i = 0; i < repeat; i++)
 		memcpy(&data[i * 4], color, sizeof(uchar) * 4);
@@ -442,6 +442,8 @@ void GLAPI::DrawTextureAuto(const Transformation& tf, const uint uid, const ullo
 	case Anchor::CENTER:
 		ac = Vector2D();
 		break;
+	case Anchor::BOTTOM:
+		ac.x = 0;
 	}
 	
 	GLuint tid = ref.Get(frame);

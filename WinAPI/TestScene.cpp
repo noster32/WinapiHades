@@ -26,19 +26,19 @@ void TestScene::Init()
 	vector<uint> uidsOrb = gl.LoadMultipleTexturesPng("Resources/Images/Object/Anim/Orb/Orb", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uidsOrb), "Orb");
 	
-	testFFmpeg.load_frame("Resources/Animation/ZagreusIdle_Bink.avi");
-	playerRunAnim.load_frame("Resources/Animation/ZagreusRun_Bink.avi");
-	playerDashAnim.load_frame("Resources/Animation/ZagreusDash_Bink.avi");
-	playerDashVFX.load_frame("Resources/Animation/ZagreusDashVFX_Bink.avi");
-	playerAttackSwordAnim.load_frame("Resources/Animation/ZagreusSword_Bink.avi");
-	//testFFmpeg.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
-	//playerRunAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
-	//playerDashAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
-	//playerDashVFX.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
-	//playerAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
+	//testFFmpeg.load_frame("Resources/Animation/ZagreusIdle_Bink.avi");
+	//playerRunAnim.load_frame("Resources/Animation/ZagreusRun_Bink.avi");
+	//playerDashAnim.load_frame("Resources/Animation/ZagreusDash_Bink.avi");
+	//playerDashVFX.load_frame("Resources/Animation/ZagreusDashVFX_Bink.avi");
+	//playerAttackSwordAnim.load_frame("Resources/Animation/ZagreusSword_Bink.avi");
+	testFFmpeg.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
+	playerRunAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
+	playerDashAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
+	playerDashVFX.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
+	playerAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
 
-	Skelly.load_frame("Resources/Animation/SkellyAssistTrait_Bink.avi");
-	//Skelly.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
+	//Skelly.load_frame("Resources/Animation/SkellyAssistTrait_Bink.avi");
+	Skelly.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
 	
 	nts.Add(gl.GenerateEmptyTexture(150, 150, 0xFFFF0000), "EnemyHitbox");
 	
@@ -104,7 +104,7 @@ void TestScene::Init()
 	
 	Orb1.texture = nts.Find("Orb");
 	Orb1.transformation.position = Vector2D(2100, 900);
-	Orb1.transformation.anchor = Anchor::CENTER;
+	Orb1.transformation.anchor = Anchor::BOTTOM;
 	Orb1.SetDepth(3000);
 
 	masterSceneObject.transformation.anchor = Anchor::CENTER;
