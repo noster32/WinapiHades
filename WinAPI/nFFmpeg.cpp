@@ -250,7 +250,7 @@ void nFFmpeg::playOnce(uint pos, uchar angle, uint min, uint max)
 		uint temp = pos * tempAngleVal;
 		uint temp2 = (pos + 1) * tempAngleVal;
 		uint tempTime = ((pts - vStream->start_time) * av_q2d(vStream->time_base) * AV_TIME_BASE);
-		cout << tempTime << endl;
+		//cout << tempTime << endl;
 		temp2 -= 100000;
 		if (temp2 > duration)
 			temp2 == duration;

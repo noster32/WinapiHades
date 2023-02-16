@@ -26,16 +26,21 @@ void TestScene::Init()
 	vector<uint> uidsOrb = gl.LoadMultipleTexturesPng("Resources/Images/Object/Anim/Orb/Orb", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uidsOrb), "Orb");
 	
-	//testFFmpeg.load_frame("Resources/Animation/ZagreusIdle_Bink.avi");
-	//playerRunAnim.load_frame("Resources/Animation/ZagreusRun_Bink.avi");
-	//playerAttackSwordAnim.load_frame("Resources/Animation/ZagreusSword_Bink.avi");
-	testFFmpeg.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
-	playerRunAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
-	playerDashAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
-	playerDashVFX.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
-	playerAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
+	testFFmpeg.load_frame("Resources/Animation/ZagreusIdle_Bink.avi");
+	playerRunAnim.load_frame("Resources/Animation/ZagreusRun_Bink.avi");
+	playerDashAnim.load_frame("Resources/Animation/ZagreusDash_Bink.avi");
+	playerDashVFX.load_frame("Resources/Animation/ZagreusDashVFX_Bink.avi");
+	playerAttackSwordAnim.load_frame("Resources/Animation/ZagreusSword_Bink.avi");
+	//testFFmpeg.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
+	//playerRunAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
+	//playerDashAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
+	//playerDashVFX.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
+	//playerAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
 
-	Skelly.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
+	Skelly.load_frame("Resources/Animation/SkellyAssistTrait_Bink.avi");
+	//Skelly.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
+	
+	nts.Add(gl.GenerateEmptyTexture(150, 150, 0xFFFF0000), "EnemyHitbox");
 	
 
 	RegisterObject(testFFmpeg);
@@ -53,6 +58,8 @@ void TestScene::Init()
 	RegisterObject(testSprite);
 	RegisterObject(tempMap);
 	
+	RegisterObject(enemyHitbox);
+
 	//애니메이션 여러개 만들어서 활 당기는중일때는 "bow뭐시기" 하고 쏘면 -> "bow발사" 이런식으로 재생
 	fade.texture = nts.Find("fade");
 	fade.SetDepth(100);
@@ -61,6 +68,8 @@ void TestScene::Init()
 	tempMap.texture = nts.Find("TempMap");
 	tempMap.SetDepth(1);
 	tempMap.transformation.scale -= 0.2f;
+
+	
 
 	testFFmpeg.transformation.position = Vector2D(1970, 600);
 	testFFmpeg.transformation.anchor = Anchor::CENTER;
@@ -87,6 +96,11 @@ void TestScene::Init()
 	Skelly.transformation.anchor = Anchor::CENTER;
 	Skelly.transformation.scale -= 0.3f;
 	Skelly.SetDepth(20);
+
+	enemyHitbox.texture = nts.Find("EnemyHitbox");
+	enemyHitbox.SetDepth(21);
+	enemyHitbox.transformation.position = Skelly.transformation.position;
+	enemyHitbox.transformation.anchor = Anchor::CENTER;
 	
 	Orb1.texture = nts.Find("Orb");
 	Orb1.transformation.position = Vector2D(2100, 900);
@@ -112,6 +126,9 @@ void TestScene::Init()
 
 	tempX = 0;
 	tempY = 0;
+	SwordAttack1 = false;
+	SwordAttack2 = false;
+	SwordAttack3 = false;
 }
 
 string TestScene::FindStatus(playerStatus ps)
@@ -128,7 +145,7 @@ void TestScene::tempPlayerStatueUpdate()
 	}
 	else if (KEYMANAGER->isStayKeyDown('W') || KEYMANAGER->isStayKeyDown('A') || KEYMANAGER->isStayKeyDown('S') || KEYMANAGER->isStayKeyDown('D'))
 	{
-		if (KEYMANAGER->isStayKeyDown(VK_SPACE) || tempAnim.GetAnimDashPlaying())
+		if (KEYMANAGER->isOnceKeyDown(VK_SPACE) || playerDashAnim.GetAnimPlaying())
 		{
 			ps = DASH;
 		}
@@ -151,6 +168,8 @@ void TestScene::tempPlayerStatueUpdate()
 		playerDashAnim.SetEnable(false);
 		playerDashVFX.SetEnable(false);
 		playerAttackSwordAnim.SetEnable(false);
+
+		attackResetDelay--;
 		break;
 	case MOVE:
 		testFFmpeg.SetEnable(false);
@@ -191,6 +210,16 @@ void TestScene::tempPlayerStatueUpdate()
 		animLength = 24;
 		break;
 	}
+
+
+	if (attackResetDelay <= 0) {
+		attackResetDelay = 0;
+		SwordAttack1 = false;
+		SwordAttack2 = false;
+		SwordAttack3 = false;
+	}
+	else
+		cout << attackResetDelay << endl;
 }
 
 int TestScene::transformAngle(int angle, playerStatus ps)
@@ -299,15 +328,41 @@ void TestScene::setPlayerAngle(void)
 		playerRunAnim.SeekTo(angle * 2, 64);
 	}
 
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON)) {
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && !playerAttackSwordAnim.GetAnimPlaying() && attackResetDelay != 20) {
 		cout << "Mouse : " << (_ptMouse.x - WINSIZE_X / 2) + testFFmpeg.transformation.position.x << ", " << (_ptMouse.y - WINSIZE_Y / 2) + testFFmpeg.transformation.position.y << endl;
 		float tempAngle = getAngle(testFFmpeg.transformation.position.x, testFFmpeg.transformation.position.y, (_ptMouse.x - WINSIZE_X / 2) + testFFmpeg.transformation.position.x, (_ptMouse.y - WINSIZE_Y / 2) + testFFmpeg.transformation.position.y);
 		float tempAngle2 = (360 - (tempAngle * 180 / PI)) / 11;
 		cout << tempAngle2 << endl;
 		angle = tempAngle2;
-		playerAttackSwordAnim.SeekTo(angle, 32);
+		
+		SwordAttack1 = true;
+		attackAnimMin = 0;
+
+		if (attackResetDelay > 0 && SwordAttack2) {
+			SwordAttack3 = true;
+			attackAnimMin = 1400000;
+			cout << "SwordAttack3" << endl;
+			
+		}	
+		else if (attackResetDelay > 0) {
+
+			SwordAttack2 = true;
+			attackAnimMin = 800000;
+			cout << "SwordAttack2" << endl;
+			attackResetDelay = 20;
+		}
+		else {
+			cout << "SwordAttack1" << endl;
+			attackResetDelay = 20;
+		}
+			
+
+		playerAttackSwordAnim.SeekTo(angle, 32, attackAnimMin);
 		playerAttackSwordAnim.SetAnimPlaying();
 		testFFmpeg.SeekTo(angle, 32);
+
+		
+		
 	}
 
 	if (KEYMANAGER->isOnceKeyDown(VK_SPACE)) {
@@ -315,6 +370,16 @@ void TestScene::setPlayerAngle(void)
 		playerDashAnim.SetAnimPlaying();
 		playerDashVFX.SeekTo(angle / 2, 32);
 		playerDashVFX.SetAnimPlaying();
+		float fAngle;
+		if (angle != 0)
+			fAngle = ((angle - 1) * 11.25) * PI / 180;
+		else
+			fAngle = (31 * 11.25) * PI / 180;
+
+		dir = Vector2D(cos(fAngle), sin(fAngle));
+		dashDistance = testFFmpeg.transformation.position + dir * 320;
+		cout << dashDistance.x << ", " << dashDistance.y << endl;
+
 	}
 }
 
@@ -368,16 +433,17 @@ void TestScene::playerMove(playerMoveDir pmr)
 			break;
 		}
 	}
-	else if (ps == DASH)
-	{
-		float fAngle;
-		if (angle != 0)
-			fAngle = ((angle - 1) * 11.25) * PI / 180;
-		else
-			fAngle = (31 * 11.25) * PI / 180;
 
-		Vector2D dir = Vector2D(cos(fAngle), sin(fAngle));
-		testFFmpeg.transformation.position += dir * 30;
+	if(ps == DASH)
+	{
+		Point2D tempA = Point2D(testFFmpeg.transformation.position.x, testFFmpeg.transformation.position.y);
+		Point2D tempB = Point2D(dashDistance.x, dashDistance.y);
+
+		if (tempA != tempB)
+		{
+			testFFmpeg.transformation.position += dir * 80;
+			cout << testFFmpeg.transformation.position.x << ", " << testFFmpeg.transformation.position.y << endl;
+		}
 	}
 
 	
@@ -413,10 +479,31 @@ void TestScene::OnUpdate()
 	playerRunAnim.loop(angle * 2, 64);
 	playerDashAnim.playOnce(angle / 2, 16, 0, 1500000);
 	playerDashVFX.playOnce(angle / 2, 16, 0, 1500000);
-	playerAttackSwordAnim.playOnce(angle, 32, 0, 700000);
 	Skelly.loop();
 	OrbAnim.playObjAnim(Orb1, 39, 2);
 	tempObjAnim.playObjAnim(testOrb, 39, 2);
+
+
+	
+	if (SwordAttack3 && SwordAttack2 && SwordAttack1) {
+		playerAttackSwordAnim.playOnce(angle, 32, 1600000, 3300000);
+	}
+	else if (SwordAttack2 && SwordAttack1) {
+		playerAttackSwordAnim.playOnce(angle, 32, 700000, 1500000);
+	}
+	else if (SwordAttack1) {
+		playerAttackSwordAnim.playOnce(angle, 32, 0, 800000);
+	}
+	
+
+	
+
+	if (attackResetDelay <= 0) {
+		attackResetDelay = 0;
+		SwordAttack1 = false;
+		SwordAttack2 = false;
+		SwordAttack3 = false;
+	}
 
 	
 	//cout << ps << endl;
@@ -453,13 +540,10 @@ void TestScene::OnRenderLoading()
 	uint rgba = 0x00000000 | ((uchar)0xFF - c);
 	gl.ClearTexture(nts.Find("fade"), rgba);
 	masterSceneObject.Render();
-	
-
 }
 
 void TestScene::OnRender()
 {
-	//gl.DrawQuadVideoTexture(128, 224, testFFmpeg);
 }
 
 void TestScene::OnRenderClosing()

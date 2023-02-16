@@ -43,6 +43,7 @@ private:
 	RenderObject tempMap;
 	RenderObject testOrb;
 	RenderObject Orb1;
+	RenderObject enemyHitbox;
 
 	nFFmpeg testFFmpeg;
 	nFFmpeg playerRunAnim;
@@ -74,6 +75,15 @@ private:
 	int tempY;
 
 	int temp;
+
+	Vector2D dashDistance;
+	Vector2D dir;
+
+	bool SwordAttack1;
+	bool SwordAttack2;
+	bool SwordAttack3;
+	int attackResetDelay;
+	int attackAnimMin;
 public:
 	void Init();
 	string FindStatus(playerStatus ps);
