@@ -27,12 +27,13 @@ HRESULT GameEngine::engineInitializer(EngineInit& param)
     gl.EnableOpenGL(_mainhWnd, &_hdc, &_hrc, WINSIZE_PT);
     updateOnBackground = param.updateOnBackground;
     renderOnBackground = param.renderOnBackground;
-    CustomInitialize();
-    engineStateUpdate();
-
     RND->init();
     KEYMANAGER->init();
     SOUNDMANAGER->init();
+    CustomInitialize();
+    engineStateUpdate();
+
+    
 
     
     return S_OK;
@@ -99,7 +100,7 @@ void GameEngine::engineUpdate(void)
         sCurrent->InternalOnRenderClosing();
         break;
     }
-
+    //gl.SwapBuffer();
     _mutex.unlock();
 }
 

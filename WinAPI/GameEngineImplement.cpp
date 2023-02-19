@@ -4,8 +4,9 @@
 void GameEngineImplement::CustomInitialize()
 {
 	//Scene
+	sMainMenu.Init();
 	test.Init();
-	SetInitialScene(&test);
+	SetInitialScene(&sMainMenu);
 }
 
 void GameEngineImplement::CustomOnEngineRelease()

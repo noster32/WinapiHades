@@ -143,6 +143,12 @@
     <ClCompile Include="nFFmpeg.cpp">
       <Filter>API FrameWork\FFmpeg</Filter>
     </ClCompile>
+    <ClCompile Include="BossScene.cpp">
+      <Filter>API FrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuScene.cpp">
+      <Filter>API FrameWork</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C3DMatrix.h">
@@ -247,5 +253,7 @@
     <ClInclude Include="nFFmpeg.h">
       <Filter>API FrameWork\FFmpeg</Filter>
     </ClInclude>
+    <ClInclude Include="BossScene.h" />
+    <ClInclude Include="MainMenuScene.h" />
   </ItemGroup>
 </Project>

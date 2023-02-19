@@ -121,13 +121,15 @@ struct Vector2D {
 };
 
 struct Rect2D {
-	Point2D leftBottom, rightTop;
+	Point2D leftBottom, rightTop, center;
 
 	Rect2D() : leftBottom(), rightTop() {}
 	Rect2D(int left, int bottom, int right, int top) : leftBottom(Point2D(left, bottom)), rightTop(Point2D(right, top)) { }
 	Rect2D(Point2D lb, Point2D rt) : leftBottom(lb), rightTop(rt) { }
+	Rect2D(Point2D center, int width, int height) : leftBottom(Point2D(center.x - width / 2, center.y - height / 2)), rightTop(Point2D(center.x + width / 2, center.y + height / 2)), center(center) { }
+	Rect2D(int centerX, int centerY, int width, int height, uchar center) : leftBottom(Point2D(centerX - width / 2, centerY - height / 2)), rightTop(Point2D(centerX + width / 2, centerY + height / 2)), center(Point2D(centerX, centerY)) { }
 
-	bool IntersectRect(const Rect2D& r) const {
+	bool IntersectRect2D(const Rect2D& r) const {
 		return (leftBottom.x >= r.leftBottom.x && leftBottom.x <= r.rightTop.x && leftBottom.y >= r.leftBottom.y && leftBottom.y <= r.rightTop.y) ||
 			(rightTop.x >= r.leftBottom.x && rightTop.x <= r.rightTop.x && leftBottom.y >= r.leftBottom.y && leftBottom.y <= r.rightTop.y) ||
 			(leftBottom.x >= r.leftBottom.x && leftBottom.x <= r.rightTop.x && rightTop.y >= r.leftBottom.y && rightTop.y <= r.rightTop.y) ||
@@ -181,8 +183,9 @@ struct Transformation {
 	Vector2D scale;
 	Angle rotate;
 	Anchor anchor;
-	Transformation() : position(), scale(1.0f, 1.0f), rotate(), anchor() { }
-	Transformation(Vector2D _pos, Vector2D _sca, Angle _rot) : position(_pos), scale(_sca), rotate(_rot), anchor() { }
+	float alpha;
+	Transformation() : position(), scale(1.0f, 1.0f), rotate(), anchor(), alpha(1.0f) { }
+	Transformation(Vector2D _pos, Vector2D _sca, Angle _rot) : position(_pos), scale(_sca), rotate(_rot), anchor(), alpha(1.0f) { }
 };
 
 struct TextureGenerateParam {
@@ -228,10 +231,13 @@ public:
 	uint spriteWidth;
 	uint spriteHeight;
 
+	//alpha
+	float alpha;
+
 	TextureSource() : uid(counter++), tid(0), power(0), length(0), totalSize(0),
-		width(0), height(0), size(0), coord(), range(), spriteWidth(1), spriteHeight(1) { }
+		width(0), height(0), size(0), coord(), range(), spriteWidth(1), spriteHeight(1), alpha(1.0f) { }
 	TextureSource(GLuint _tid) : uid(counter++), tid(_tid), power(0), length(0), totalSize(0),
-		width(0), height(0), size(0), coord(), range(), spriteWidth(1), spriteHeight(1) { }
+		width(0), height(0), size(0), coord(), range(), spriteWidth(1), spriteHeight(1), alpha(1.0f) { }
 	virtual inline GLuint Get(ullong frame) const { return tid; }
 	virtual inline Rect2D GetRange(ullong frame) const { return range; }
 	void SetRange(Rect2D range);

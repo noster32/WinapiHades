@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneObject.h"
+//#include "GLAPI.h"
 
 class nFFmpeg : public SceneObject
 {
@@ -43,6 +44,7 @@ public:
 	void initData();
 	virtual void OnUpdate();
 	virtual void Render();
+	void RenderTest();
 
 	void SeekTo(void);
 	void SeekTo(uint pos, uchar angle);

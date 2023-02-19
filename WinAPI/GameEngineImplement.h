@@ -1,10 +1,12 @@
 #pragma once
 #include "GameEngine.h"
 #include "TestScene.h"
+#include "MainMenuScene.h"
 
 class GameEngineImplement : public GameEngine
 {
 private:
+	MainMenuScene sMainMenu;
 	TestScene test;
 public:
 

@@ -157,13 +157,25 @@ void nFFmpeg::Render()
 		gl.DrawVideoTexture(transformation, vCtx->width, vCtx->height, video);
 	}
 	
-	vector<SceneObject*>& children = GetChildrenVector();
-	vector<SceneObject*>::iterator iter;
-	for (iter = children.begin(); iter != children.end(); iter++) {
-		(*iter)->Render();
-	}
+	//vector<SceneObject*>& children = GetChildrenVector();
+	//vector<SceneObject*>::iterator iter;
+	//for (iter = children.begin(); iter != children.end(); iter++) {
+	//	(*iter)->Render();
+	//}
 	
 	gl.PopMatrix();	
+}
+void nFFmpeg::RenderTest()
+{
+	gl.PushMatrix();
+
+	if (enable)
+	{
+		readFrame();
+		gl.DrawVideoTexture(transformation, vCtx->width, vCtx->height, video);
+	}
+
+	gl.PopMatrix();
 }
 void nFFmpeg::SeekTo(void)
 {
@@ -182,6 +194,8 @@ void nFFmpeg::SeekTo(uint pos, uchar angle)
 
 void nFFmpeg::SeekTo(uint pos, uchar angle, uint min)
 {
+	if (pos >= angle)
+		pos -= 1;
 	uint tempAngleVal = duration / angle;
 	uint temp = pos * tempAngleVal;
 
@@ -202,6 +216,8 @@ void nFFmpeg::loop(void)
 
 void nFFmpeg::loop(uint pos, uchar angle)
 {
+	if (pos >= angle)
+		pos -= 1;
 	uint tempAngleVal = duration / angle;
 	uint temp = pos * tempAngleVal;
 	uint temp2 = (pos + 1) * tempAngleVal;
@@ -218,6 +234,8 @@ void nFFmpeg::loop(uint pos, uchar angle)
 
 void nFFmpeg::loop(uint pos, uchar angle, uint min, uint max)
 {
+	if (pos >= angle)
+		pos -= 1;
 	uint tempAngleVal = duration / angle;
 	uint temp = pos * tempAngleVal;
 	uint temp2 = (pos + 1) * tempAngleVal;
@@ -246,7 +264,13 @@ void nFFmpeg::playOnce(uint pos, uchar angle, uint min, uint max)
 {
 	if(animPlaying)
 	{
-		uint tempAngleVal = duration / angle;
+		if (pos >= angle)
+			pos -= 1;
+		uint tempAngleVal;
+		if (angle == 0)
+			tempAngleVal = duration;
+		else
+			tempAngleVal = duration / angle;
 		uint temp = pos * tempAngleVal;
 		uint temp2 = (pos + 1) * tempAngleVal;
 		uint tempTime = ((pts - vStream->start_time) * av_q2d(vStream->time_base) * AV_TIME_BASE);

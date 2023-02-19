@@ -1,39 +1,12 @@
 #pragma once
 #include "scene.h"
 #include "Animation.h"
-
-enum playerStatus {
-	IDLE = 0,
-	MOVE,
-	DASH,
-	MOVESTOP,
-	ATTACK,
-	SPECIAL_ATTACK,
-	MAGIC,
-	CALL,
-	HIT,
-	DIE,
-	FISHING
-};
-
-enum playerMoveDir {
-	RIGHT,
-	RIGHTUP,
-	UP,
-	LEFTUP,
-	LEFT,
-	LEFTDOWN,
-	DOWN,
-	RIGHTDOWN
-};
+#include "Player.h"
 
 class TestScene : public scene
 {
 private:
-	map<playerStatus, string> mPlayerStatus;
 	NamedTextureStorage nts;
-	playerStatus ps;
-	playerMoveDir pmr;
 	
 	RenderObject fade;
 	RenderObject bg;
@@ -43,54 +16,38 @@ private:
 	RenderObject tempMap;
 	RenderObject testOrb;
 	RenderObject Orb1;
+	RenderObject MobSpawn;
 	RenderObject enemyHitbox;
+	RenderObject playerAttack;
+	RenderObject playerAttack2;
+	RenderObject playerHitBox;
+	RenderObject UpdateInPlayer;
 
-	nFFmpeg testFFmpeg;
-	nFFmpeg playerRunAnim;
-	nFFmpeg playerDashAnim;
-	nFFmpeg playerDashVFX;
-	nFFmpeg playerAttackSwordAnim;
+	Player playerObjTest;
 
-	
+
 	nFFmpeg Skelly;
 
 	Animation tempAnim;
 	Animation tempAnimVfx;
 	Animation tempObjAnim;
 	Animation OrbAnim;
-
+	Animation MobSpawnAnim;
 	SceneObject* animSelected;
 
 	int frame;
 	int tick, increment;
 	int jump;
 	bool gg;
-	int angle;
-	int dashAngle;
-	int animLength;
-	int animDelay;
 
+	Rect2D test1;
+	Rect2D test2;
 
-	int tempX;
-	int tempY;
+	bool start;
 
-	int temp;
-
-	Vector2D dashDistance;
-	Vector2D dir;
-
-	bool SwordAttack1;
-	bool SwordAttack2;
-	bool SwordAttack3;
-	int attackResetDelay;
-	int attackAnimMin;
+	void MonSpawn();
 public:
 	void Init();
-	string FindStatus(playerStatus ps);
-	void tempPlayerStatueUpdate();
-	int transformAngle(int angle, playerStatus ps);
-	void setPlayerAngle(void);
-	void playerMove(playerMoveDir pmr);
 
 	virtual void OnBegin();
 	virtual void OnEnd();
@@ -102,5 +59,6 @@ public:
 	virtual void OnRenderLoading();
 	virtual void OnRender();
 	virtual void OnRenderClosing();
+
 };
 

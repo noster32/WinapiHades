@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AssetIter.cpp" />
+    <ClCompile Include="BossScene.cpp" />
     <ClCompile Include="C3DMatrix.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -167,6 +168,7 @@
     </ClCompile>
     <ClCompile Include="JsonSaveLoader.cpp" />
     <ClCompile Include="KeyManager.cpp" />
+    <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MasterSceneObject.cpp" />
     <ClCompile Include="nFFmpeg.cpp" />
@@ -190,6 +192,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AssetIter.h" />
+    <ClInclude Include="BossScene.h" />
     <ClInclude Include="C3DMatrix.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
@@ -211,6 +214,7 @@
     </ClInclude>
     <ClInclude Include="JsonSaveLoader.h" />
     <ClInclude Include="KeyManager.h" />
+    <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MasterSceneObject.h" />
     <ClInclude Include="nFFmpeg.h" />

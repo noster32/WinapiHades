@@ -81,7 +81,6 @@ uint GLAPI::GenerateEmptyTexture(int width, int height, uint RGBA)
 	while ((1 << power) < longer)
 		power++;
 	ulong length = (1 << power);
-	return uint();
 
 	unsigned char color[4];
 	color[0] = (unsigned char)((RGBA >> 24) & 0xFF);
@@ -90,7 +89,7 @@ uint GLAPI::GenerateEmptyTexture(int width, int height, uint RGBA)
 	color[3] = (unsigned char)( RGBA		& 0xFF);
 
 	ulong totalSize = length * length * 4;
-	uchar* data = new uchar[width * height];
+	unsigned char* data = new uchar[totalSize];
 	int repeat = length * length;
 	for (int i = 0; i < repeat; i++)
 		memcpy(&data[i * 4], color, sizeof(uchar) * 4);
@@ -162,7 +161,6 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 	int width, height, nrChannels;
 	stbi_set_flip_vertically_on_load(1);
 	unsigned char* image = stbi_load(fileName.c_str(), &width, &height, &nrChannels, 4);
-
 	if (!image)
 		return 0;
 
@@ -373,6 +371,7 @@ void GLAPI::Transform(const Transformation& tf)
 	glTranslatef(pos.x, pos.y, 0.0f);
 	glRotatef(tf.rotate.getDegree(), 0.0f, 0.0f, 1.0f);
 	glScalef(tf.scale.x, tf.scale.y, 1.0f);
+	glColor4f(1, 1, 1, tf.alpha);
 }
 
 void GLAPI::TransformMasterSO(const Transformation& tf)
@@ -404,7 +403,6 @@ void GLAPI::DrawTextureAuto(const Transformation& tf, const uint uid, const ullo
 	const TextureSource& ref = textureStorage.Find(uid);
 
 	Point2D rtPx = size;
-	//Point2D texSize = Point2D(ref.range.rightTop) - ref.range.leftBottom;
 	Point2D texSize = Point2D(ref.GetRange(frame).rightTop) - ref.GetRange(frame).leftBottom;
 	if (size.x == 0)
 		rtPx.x = texSize.x;
@@ -420,10 +418,23 @@ void GLAPI::DrawTextureAuto(const Transformation& tf, const uint uid, const ullo
 	//float rightTex = PxCoordToTexCoord2fTest(ref.range.rightTop.x, ref.width);
 	//float bottomTex = PxCoordToTexCoord2fTest(ref.range.leftBottom.y, ref.height);
 	//float topTex = PxCoordToTexCoord2fTest(ref.range.rightTop.y, ref.height);
-	float leftTex = PxCoordToTexCoord2fTest(ref.GetRange(frame).leftBottom.x, ref.width);
-	float rightTex = PxCoordToTexCoord2fTest(ref.GetRange(frame).rightTop.x, ref.width);
-	float bottomTex = PxCoordToTexCoord2fTest(ref.GetRange(frame).leftBottom.y, ref.height);
-	float topTex = PxCoordToTexCoord2fTest(ref.GetRange(frame).rightTop.y, ref.height);
+	float leftTex;
+	float rightTex;
+	float bottomTex;
+	float topTex;
+	Vector2D lbTex;
+	Vector2D rtTex;
+	if (ref.power == 0)
+	{
+		leftTex = PxCoordToTexCoord2fTest(ref.GetRange(frame).leftBottom.x, ref.width);
+		rightTex = PxCoordToTexCoord2fTest(ref.GetRange(frame).rightTop.x, ref.width);
+		bottomTex = PxCoordToTexCoord2fTest(ref.GetRange(frame).leftBottom.y, ref.height);
+		topTex = PxCoordToTexCoord2fTest(ref.GetRange(frame).rightTop.y, ref.height);
+	}
+	else
+		lbTex = PxCoordToTexCoord2f(ref.range.leftBottom, ref.power);
+		rtTex = PxCoordToTexCoord2f(ref.range.rightTop, ref.power);
+	
 	
 	Vector2D ac = rtVer;
 	switch (tf.anchor.Get()) {
@@ -452,7 +463,13 @@ void GLAPI::DrawTextureAuto(const Transformation& tf, const uint uid, const ullo
 
 	glPushMatrix();
 	glTranslatef(ac.x, ac.y, 0.0f);
-	DrawQuadTexture(lbVer.x, lbVer.y, rtVer.x, rtVer.y, leftTex, bottomTex, rightTex, topTex, tid);
+	if (ref.power == 0)
+	{
+		DrawQuadTexture(lbVer.x, lbVer.y, rtVer.x, rtVer.y, leftTex, bottomTex, rightTex, topTex, tid);
+	}
+	else
+		DrawQuadTexture(lbVer.x, lbVer.y, rtVer.x, rtVer.y, lbTex.x, lbTex.y, rtTex.x, rtTex.y, tid);
+	glClearColor(0, 0, 0, 0);
 	glPopMatrix();
 }
 

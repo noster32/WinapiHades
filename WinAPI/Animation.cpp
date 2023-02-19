@@ -96,7 +96,23 @@ void Animation::playObjAnim(SceneObject& tex, uint length, uint frame)
 	}
 }
 
+void Animation::playObjAnimOnce(SceneObject& tex, uint length, uint frame)
+{
+	animDone = false;
+	animTickDelay++;
+	if (animTickDelay % frame == 0)
+	{
+		tex.SetTick(animTickObj);
+		animTickObj++;
+		animTickDelay = 0;
+	}
 
+	if (animTickObj > length)
+	{
+		tex.enabled = false;
+		animDone = true;
+	}
+}
 
 void Animation::playIdle(uint start, uint end, bool loop)
 {
