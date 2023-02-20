@@ -672,6 +672,8 @@ void GLAPI::DrawVideoTexture(const Transformation& tf, uint width, uint height, 
 	case Anchor::CENTER:
 		ac = Vector2D();
 		break;
+	case Anchor::BOTTOM:
+		ac.x = 0;
 	}
 
 	Transform(tf);

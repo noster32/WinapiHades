@@ -47,16 +47,16 @@ public:
 	void RenderTest();
 
 	void SeekTo(void);
-	void SeekTo(uint pos, uchar angle);
-	void SeekTo(uint pos, uchar angle, uint min);
+	void SeekTo(uint pos, uint angle);
+	void SeekTo(uint pos, uint angle, uint min);
 	
 	void loop(void);
-	void loop(uint pos, uchar angle);
-	void loop(uint pos, uchar angle, uint min, uint max);
+	void loop(uint pos, uint angle);
+	void loop(uint pos, uint angle, uint min, uint max);
 
-	void pause(uint pos, uchar angle, uint point);
+	void pause(uint pos, uint angle, uint point);
 
-	void playOnce(uint pos, uchar angle, uint min, uint max);
+	void playOnce(uint pos, uint angle, uint min, uint max);
 
 	void SetEnable(void) { enable ? enable = false : enable = true; }
 	void SetEnable(bool _ena) { enable = _ena; }

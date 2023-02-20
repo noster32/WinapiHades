@@ -49,18 +49,12 @@ private:
 	nFFmpeg playerDashAnim;
 	nFFmpeg playerDashVFX;
 	nFFmpeg playerAttackSwordAnim;
+	nFFmpeg playerSpacialAttackSwordAnim;
 
-	int frame;
-	int tick, increment;
-	int jump;
-	bool gg;
 	int angle;
 	int dashAngle;
 	int animLength;
 	int animDelay;
-
-	Rect2D test1;
-	Rect2D test2;
 
 	int tempX;
 	int tempY;
@@ -75,6 +69,9 @@ private:
 	bool SwordAttack3;
 	int attackResetDelay;
 	int attackAnimMin;
+
+	Rect2D playerHitbox;
+	Rect2D playerAttack;
 public:
 	uint texture;
 	uint renderOp;
@@ -88,6 +85,9 @@ public:
 	void playerMove(playerMoveDir pmr);
 
 	void playerUpdate();
+
+	void playerCommand();
+	
 
 	Vector2D getPlayerPosition() { return testFFmpeg.transformation.position; }
 
