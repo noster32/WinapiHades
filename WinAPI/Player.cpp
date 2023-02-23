@@ -257,13 +257,12 @@ void Player::playerMove(playerMoveDir pmr)
 	}
 
 
-
 	//masterSceneObject.transformation.position = testFFmpeg.transformation.position * -1.0f;
 	playerRunAnim.transformation.position = testFFmpeg.transformation.position;
 	playerDashAnim.transformation.position = testFFmpeg.transformation.position;
 	playerDashVFX.transformation.position = testFFmpeg.transformation.position;
 	playerAttackSwordAnim.transformation.position = testFFmpeg.transformation.position + Vector2D(0, 30);
-	playerSpacialAttackSwordAnim.transformation.position = testFFmpeg.transformation.position;
+	playerSpacialAttackSwordAnim.transformation.position = testFFmpeg.transformation.position + Vector2D(0, 30);
 }
 
 void Player::playerUpdate()
@@ -322,8 +321,6 @@ void Player::playerUpdate()
 	else if (SwordAttack1) {
 		playerAttackSwordAnim.playOnce(angle, 32, 0, 800000);
 	}
-
-
 
 
 	if (attackResetDelay <= 0) {
@@ -556,50 +553,13 @@ void Player::Render()
 
 	gl.PushMatrix();
 
-	Point2D arg;
-	if (renderOp & RenderObject::FIT_TO_SCREEN_KEEP_RATIO) {
-		const TextureSource& ref = gl.GetTextureInformation(texture);
-		Point2D usedRange = Point2D(ref.range.rightTop) - ref.range.leftBottom;
-		float aspect = (float)usedRange.x / usedRange.y;
-
-		Point2D winsize = gl.GetWindowSize();
-		Vector2D stretchRatio = Vector2D(winsize) / usedRange;
-
-		if (stretchRatio.x < stretchRatio.y) {
-			arg = Point2D(winsize.x, (int)(stretchRatio.x * usedRange.y));
-		}
-		else {
-			arg = Point2D((int)(stretchRatio.y * usedRange.x), winsize.y);
-		}
-	}
-	else {
-		if (renderOp & RenderObject::TEXTURE_SIZE) {
-			arg = Point2D();
-		}
-		else if (renderOp & RenderObject::GIVEN_SIZE) {
-			arg = renderSize;
-		}
-	}
-
-	if (renderOp & RenderObject::STRETCH_HOR)
-		arg.x = gl.GetWindowSize().x;
-
-	if (renderOp & RenderObject::STRETCH_VER)
-		arg.y = gl.GetWindowSize().y;
-
 	testFFmpeg.RenderTest();
 	playerRunAnim.RenderTest();
 	playerDashAnim.RenderTest();
 	playerDashVFX.RenderTest();
 	playerAttackSwordAnim.RenderTest();
 	playerSpacialAttackSwordAnim.RenderTest();
-	gl.DrawTextureAuto(transformation, texture, tick, arg);
-
-	vector<SceneObject*>& children = GetChildrenVector();
-	vector<SceneObject*>::iterator iter;
-	for (iter = children.begin(); iter != children.end(); iter++) {
-		(*iter)->Render();
-	}
+	gl.DrawTextureAuto(transformation, texture, tick, Point2D(0,0));
 
 	gl.PopMatrix();
 }

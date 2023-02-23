@@ -371,7 +371,7 @@ void GLAPI::Transform(const Transformation& tf)
 	glTranslatef(pos.x, pos.y, 0.0f);
 	glRotatef(tf.rotate.getDegree(), 0.0f, 0.0f, 1.0f);
 	glScalef(tf.scale.x, tf.scale.y, 1.0f);
-	glColor4f(1, 1, 1, tf.alpha);
+	glColor4f(tf.color.r, tf.color.g, tf.color.b, tf.alpha);
 }
 
 void GLAPI::TransformMasterSO(const Transformation& tf)

@@ -140,6 +140,14 @@ struct Rect2D {
 	}
 };
 
+struct Color2D {
+	float r, g, b;
+
+	Color2D() : r(1.0f), g(1.0f), b(1.0f) {}
+	Color2D(float _r, float _g, float _b) : r(_r), g(_g), b(_b) { }
+	void SetColor(float _r, float _g, float _b) { r = _r, g = _g, b = _b; }
+};
+
 class Angle {
 private:
 	float degree;
@@ -183,9 +191,10 @@ struct Transformation {
 	Vector2D scale;
 	Angle rotate;
 	Anchor anchor;
+	Color2D color;
 	float alpha;
-	Transformation() : position(), scale(1.0f, 1.0f), rotate(), anchor(), alpha(1.0f) { }
-	Transformation(Vector2D _pos, Vector2D _sca, Angle _rot) : position(_pos), scale(_sca), rotate(_rot), anchor(), alpha(1.0f) { }
+	Transformation() : position(), scale(1.0f, 1.0f), rotate(), anchor(), alpha(1.0f), color(1.0f, 1.0f, 1.0f)  { }
+	Transformation(Vector2D _pos, Vector2D _sca, Angle _rot) : position(_pos), scale(_sca), rotate(_rot), anchor(), alpha(1.0f), color(1.0f, 1.0f, 1.0f) { }
 };
 
 struct TextureGenerateParam {

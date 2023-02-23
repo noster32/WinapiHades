@@ -1,5 +1,5 @@
 #pragma once
-#include "SceneObject.h"
+#include "RenderObject.h"
 #include "nFFmpeg.h"
 #include "Animation.h"
 
@@ -28,7 +28,7 @@ enum playerMoveDir {
 	RIGHTDOWN
 };
 
-class Player : public SceneObject
+class Player : public RenderObject
 {
 private:
 	enum RenderingOption {
@@ -95,6 +95,6 @@ public:
 	void SetTexture();
 	void SetFFmpeg();
 
-	virtual void Render();
+	virtual void Render() override;
 };
 

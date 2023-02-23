@@ -100,6 +100,7 @@ void TestScene::Init()
 	Orb1.transformation.position = Vector2D(2100, 900);
 	Orb1.transformation.anchor = Anchor::BOTTOM;
 	Orb1.SetDepth(3000);
+	Orb1.transformation.color.SetColor(1.0f, 0, 0);
 
 	MobSpawn.texture = nts.Find("MobSpawn");
 	MobSpawn.transformation.position = Vector2D(2730, 1000);
@@ -133,6 +134,8 @@ void TestScene::OnUpdate()
 	Orb1.enabled = true;
 	playerObjTest.enabled = true;
 
+	if (KEYMANAGER->isOnceKeyDown(VK_F2))
+		Skelly.transformation.color.SetColor(10.0f, 10.0f, 10.0f);
 	playerObjTest.playerUpdate();
 	masterSceneObject.transformation.position = playerObjTest.getPlayerPosition() * -1.0f;
 	
@@ -144,9 +147,6 @@ void TestScene::OnUpdate()
 	OrbAnim.playObjAnim(Orb1, 39, 2);
 
 	tempObjAnim.playObjAnim(testOrb, 39, 2);
-
-	
-
 }
 
 void TestScene::OnUpdateLoading()
@@ -192,7 +192,6 @@ void TestScene::OnRenderLoading()
 
 void TestScene::OnRender()
 {
-	playerObjTest.Render();
 }
 
 void TestScene::OnRenderClosing()
