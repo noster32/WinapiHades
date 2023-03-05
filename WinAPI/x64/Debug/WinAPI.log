@@ -1,12 +1,1 @@
-﻿  nFFmpeg.cpp
-C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(27,19): warning C4244: '=': 'int64_t'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(71,40): error C3867: 'nFFmpeg::ffmpegThreadUpdate': 비표준 구문입니다. '&'를 사용하여 멤버 포인터를 만드세요.
-C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(115,16): warning C4244: '=': 'int64_t'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(209,16): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(225,16): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(228,9): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
-C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(243,16): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(247,9): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
-C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(277,17): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(281,10): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
-C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(301,55): warning C4244: '=': 'LONGLONG'에서 'ulong'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  WinAPI.vcxproj -> C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\x64\Debug\WinAPI.exe

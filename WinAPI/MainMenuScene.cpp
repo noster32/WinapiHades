@@ -9,12 +9,14 @@ void MainMenuScene::Init()
 	//SOUNDMANAGER->addSound("InSound", , false, false);
 	//SOUNDMANAGER->addSound("MainMenuBGM", "Resources/Sounds/01 No Escape 44khz 16bit HDK MSTR.wav", true, true);
 	SOUNDMANAGER->addSound("MainMenuBGM", "Resources/Sounds/MainMenu.wav", false, true);
-	//MainMenuIn.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
-	//MainMenuLoop.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
-	MainMenuIn.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
-	MainMenuLoop.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
-	MainMenuLoop.transformation.anchor = Anchor::CENTER;
-	MainMenuLoop.transformation.scale -= 0.15f;
+	MainMenuIn.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
+
+	MainMenuLoop = new nFFmpeg;
+	MainMenuLoop->load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
+	//MainMenuIn.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
+	//MainMenuLoop.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
+	MainMenuLoop->transformation.anchor = Anchor::CENTER;
+	MainMenuLoop->transformation.scale -= 0.15f;
 
 	nts.Add(gl.LoadTexturePng("Resources/Images/Object/start.png", param), "startButton");
 	nts.Add(gl.LoadTexturePng("Resources/Images/Object/end.png", param), "endButton");
@@ -35,8 +37,8 @@ void MainMenuScene::Init()
 
 	start = false;
 	startInEnd = false;
-	MainMenuLoop.enable = true;
-	MainMenuLoop.SetUpdateFrame(30);
+	MainMenuLoop->enable = true;
+	MainMenuLoop->SetUpdateFrame(30);
 }
 
 void MainMenuScene::OnBegin()
@@ -49,7 +51,6 @@ void MainMenuScene::OnEnd()
 
 void MainMenuScene::OnUpdate()
 {
-	
 	if (!start) {
 		start = true;
 		SOUNDMANAGER->play("MainMenuBGM", 0.6f);
@@ -61,7 +62,7 @@ void MainMenuScene::OnUpdate()
 			startInEnd = true;
 	}
 	else
-		MainMenuLoop.loop();
+		MainMenuLoop->loop();
 		
 	//printf("test");
 

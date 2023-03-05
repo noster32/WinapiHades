@@ -11,7 +11,7 @@ private:
 	RenderObject endbutton;
 
 	nFFmpeg MainMenuIn;
-	nFFmpeg MainMenuLoop;
+	nFFmpeg* MainMenuLoop;
 	
 	Rect2D startbuttonInter;
 	bool start;

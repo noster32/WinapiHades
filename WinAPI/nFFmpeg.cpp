@@ -11,7 +11,7 @@ nFFmpeg::nFFmpeg() : enable(true), animPlaying(false), bPause(false), animDone(f
 
 bool nFFmpeg::load_frame(string filename)
 {
-	clearData();
+	//clearData();
 	initData();
 	if (avformat_open_input(&fmtCtx, filename.c_str(), NULL, NULL) < 0) {
 		cout << "failed to open input" << endl;
@@ -68,7 +68,7 @@ bool nFFmpeg::load_frame(string filename)
 
 	video = gl.LoadTextureFFmpeg(glFrame->data[0], vCtx->width, vCtx->height);
 	//pBuf = gl.LoadPixelBufferFFmpeg(vCtx->width, vCtx->height);
-	testThread = thread(ffmpegThreadUpdateN3);
+
 }
 
 bool nFFmpeg::readFrame()
@@ -145,7 +145,7 @@ void nFFmpeg::initData()
 
 void nFFmpeg::OnUpdate()
 {
-	
+	testThread = thread(&nFFmpeg::ffmpegThreadUpdate, this);
 }
 
 void nFFmpeg::Render()
@@ -158,12 +158,6 @@ void nFFmpeg::Render()
 		gl.DrawVideoTexture(transformation, vCtx->width, vCtx->height, video);
 	}
 	
-	//vector<SceneObject*>& children = GetChildrenVector();
-	//vector<SceneObject*>::iterator iter;
-	//for (iter = children.begin(); iter != children.end(); iter++) {
-	//	(*iter)->Render();
-	//}
-	
 	gl.PopMatrix();	
 }
 void nFFmpeg::RenderTest()
@@ -175,6 +169,7 @@ void nFFmpeg::RenderTest()
 		readFrame();
 		gl.DrawVideoTexture(transformation, vCtx->width, vCtx->height, video);
 	}
+	cout << "aaa" << endl; 
 
 	gl.PopMatrix();
 }
@@ -289,7 +284,8 @@ void nFFmpeg::playOnce(uint pos, uint angle, uint min, uint max)
 }
 DWORD nFFmpeg::ffmpegThreadUpdateEntry()
 {
-	return ffmpegThreadUpdate();
+	//return ffmpegThreadUpdate();
+	return 0;
 }
 
 DWORD nFFmpeg::ffmpegThreadUpdate()
@@ -299,15 +295,16 @@ DWORD nFFmpeg::ffmpegThreadUpdate()
 	ulong elapsed, delay;
 
 	QueryPerformanceFrequency(&freq);
-		QueryPerformanceCounter(&begin);
-		RenderTest();
-		QueryPerformanceCounter(&end);
-		elapsed = (end.QuadPart - begin.QuadPart) * 1000000 / freq.QuadPart;
-		if (updateFrame > elapsed) {
-			delay = (updateFrame - elapsed) / 1000;
-			Sleep(delay);
+	QueryPerformanceCounter(&begin);
+	RenderTest();
+	QueryPerformanceCounter(&end);
+	elapsed = (end.QuadPart - begin.QuadPart) * 1000000 / freq.QuadPart;
+	if (updateFrame > elapsed) {
+		delay = (updateFrame - elapsed) / 1000;
+		Sleep(delay);
 	}
-	return 0;
+
+ 	return 0;
 }
 
 
