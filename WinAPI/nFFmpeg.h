@@ -1,8 +1,8 @@
 #pragma once
-#include "SceneObject.h"
-//#include "GLAPI.h"
+//#include "SceneObject.h"
+#include "GLAPI.h"
 
-class nFFmpeg : public SceneObject
+class nFFmpeg
 {
 private:
 	AVFormatContext* fmtCtx;
@@ -24,7 +24,7 @@ private:
 
 	Timer timer, t1, t2;
 
-	bool enable;
+	
 
 	uint video;
 	uint pBuf;
@@ -37,7 +37,16 @@ private:
 	bool bPause;
 	bool animDone;
 
+	uint updateFrame;
+	mutex _mutex;
+
+	static nFFmpeg* instance;
+	GLAPI& gl;
+	thread testThread;
 public:
+	Transformation transformation;
+	bool enable;
+
 	bool load_frame(string filename);
 	bool readFrame(); 
 	void clearData();
@@ -65,6 +74,13 @@ public:
 
 	bool GetAnimPlaying() { return animPlaying; }
 	void SetAnimPlaying() { animPlaying = true; }
+
+	void SetUpdateFrame(uint frame) { updateFrame = 1000000 / frame; }
+	uint GetUpdateFrame() { return updateFrame; }
+
+	static DWORD ffmpegThreadUpdateEntry();
+	DWORD ffmpegThreadUpdate();
+
 	nFFmpeg();
 };
 

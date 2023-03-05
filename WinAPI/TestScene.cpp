@@ -45,14 +45,12 @@ void TestScene::Init()
 	nts.Add(gl.GenerateEmptyTexture(182, 200, 0xFFFFFFFF), "PlayerAttack");
 	nts.Add(gl.GenerateEmptyTexture(250, 100, 0xFFFFFFFF), "PlayerAttackUpDown");
 	
-	
-	
 	playerObjTest.SetTexture();
 	playerObjTest.SetFFmpeg(); 
 	playerObjTest.SetDepth(20);
 	RegisterObject(playerObjTest);
 
-	RegisterObject(Skelly);
+	//RegisterObject(Skelly);
 
 	RegisterObject(Orb1);
 	RegisterObject(MobSpawn);
@@ -87,7 +85,7 @@ void TestScene::Init()
 	Skelly.transformation.position = Vector2D(5000, 5000);
 	Skelly.transformation.anchor = Anchor::CENTER;
 	Skelly.transformation.scale -= 0.3f;
-	Skelly.SetDepth(20);
+	//Skelly.SetDepth(20);
 	//Skelly.transformation.alpha = 0.5f;
 
 
@@ -163,7 +161,7 @@ void TestScene::OnUpdateLoading()
 	Orb1.enabled = false;
 	MobSpawn.enabled = false;
 	playerObjTest.enabled = false;
-	Skelly.enabled = false;
+	Skelly.enable = false;
 }
 
 void TestScene::OnUpdateClosing()

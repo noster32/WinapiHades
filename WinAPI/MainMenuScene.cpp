@@ -35,6 +35,8 @@ void MainMenuScene::Init()
 
 	start = false;
 	startInEnd = false;
+	MainMenuLoop.enable = true;
+	MainMenuLoop.SetUpdateFrame(30);
 }
 
 void MainMenuScene::OnBegin()
@@ -86,7 +88,6 @@ void MainMenuScene::OnRenderLoading()
 
 void MainMenuScene::OnRender()
 {
-	MainMenuLoop.Render(); 
 }
 
 void MainMenuScene::OnRenderClosing()

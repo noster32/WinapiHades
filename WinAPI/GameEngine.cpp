@@ -100,7 +100,6 @@ void GameEngine::engineUpdate(void)
         sCurrent->InternalOnRenderClosing();
         break;
     }
-    //gl.SwapBuffer();
     _mutex.unlock();
 }
 

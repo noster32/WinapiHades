@@ -268,8 +268,8 @@ void Player::playerMove(playerMoveDir pmr)
 void Player::playerUpdate()
 {
 	uint tempDepth = testFFmpeg.transformation.position.x + testFFmpeg.transformation.position.y;
-	testFFmpeg.SetDepth(tempDepth);
-	playerRunAnim.SetDepth(tempDepth);
+	//testFFmpeg.SetDepth(tempDepth);
+	//playerRunAnim.SetDepth(tempDepth);
 
 	//if (angle > 28 || angle <= 4) {
 	//	playerAttack.enabled = true;
@@ -505,27 +505,27 @@ void Player::SetFFmpeg()
 	testFFmpeg.transformation.position = Vector2D(2500, 800);
 	testFFmpeg.transformation.anchor = Anchor::CENTER;
 	testFFmpeg.transformation.scale -= 0.1f;
-	testFFmpeg.SetDepth(20);
+	//testFFmpeg.SetDepth(20);
 	playerRunAnim.transformation.position = testFFmpeg.transformation.position;
 	playerRunAnim.transformation.anchor = Anchor::CENTER;
 	playerRunAnim.transformation.scale -= 0.1f;
-	playerRunAnim.SetDepth(20);
+	//playerRunAnim.SetDepth(20);
 	playerDashAnim.transformation.position = testFFmpeg.transformation.position;
 	playerDashAnim.transformation.anchor = Anchor::CENTER;
 	playerDashAnim.transformation.scale -= 0.1f;
-	playerDashAnim.SetDepth(20);
+	//playerDashAnim.SetDepth(20);
 	playerDashVFX.transformation.position = testFFmpeg.transformation.position;
 	playerDashVFX.transformation.anchor = Anchor::CENTER;
 	playerDashVFX.transformation.scale -= 0.1f;
-	playerDashVFX.SetDepth(20);
+	//playerDashVFX.SetDepth(20);
 	playerAttackSwordAnim.transformation.position = testFFmpeg.transformation.position + Vector2D(0, 10);
 	playerAttackSwordAnim.transformation.anchor = Anchor::CENTER;
 	playerAttackSwordAnim.transformation.scale -= 0.1f;
-	playerAttackSwordAnim.SetDepth(20);
+	//playerAttackSwordAnim.SetDepth(20);
 	playerSpacialAttackSwordAnim.transformation.position = testFFmpeg.transformation.position;
 	playerSpacialAttackSwordAnim.transformation.anchor = Anchor::CENTER;
 	playerSpacialAttackSwordAnim.transformation.scale -= 0.1f;
-	playerSpacialAttackSwordAnim.SetDepth(20);
+	//playerSpacialAttackSwordAnim.SetDepth(20);
 	
 	
 	

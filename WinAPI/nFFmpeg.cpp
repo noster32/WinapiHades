@@ -2,7 +2,10 @@
 #include "nFFmpeg.h"
 
 
-nFFmpeg::nFFmpeg() : enable(true), animPlaying(false), bPause(false), animDone(false)
+
+
+nFFmpeg::nFFmpeg() : enable(true), animPlaying(false), bPause(false), animDone(false), updateFrame(1000000 / 60)
+					,gl(GLAPI::GetInstance())
 {
 }
 
@@ -65,13 +68,12 @@ bool nFFmpeg::load_frame(string filename)
 
 	video = gl.LoadTextureFFmpeg(glFrame->data[0], vCtx->width, vCtx->height);
 	//pBuf = gl.LoadPixelBufferFFmpeg(vCtx->width, vCtx->height);
+	testThread = thread(ffmpegThreadUpdateN3);
 }
 
 bool nFFmpeg::readFrame()
 {
-	
 	do {
-
 		if (av_read_frame(fmtCtx, packet) < 0) {
 			av_packet_unref(packet);
 			return false;
@@ -284,6 +286,28 @@ void nFFmpeg::playOnce(uint pos, uint angle, uint min, uint max)
 			SeekTo();
 		}
 	}
+}
+DWORD nFFmpeg::ffmpegThreadUpdateEntry()
+{
+	return ffmpegThreadUpdate();
+}
+
+DWORD nFFmpeg::ffmpegThreadUpdate()
+{
+	LARGE_INTEGER begin, end;
+	LARGE_INTEGER freq;
+	ulong elapsed, delay;
+
+	QueryPerformanceFrequency(&freq);
+		QueryPerformanceCounter(&begin);
+		RenderTest();
+		QueryPerformanceCounter(&end);
+		elapsed = (end.QuadPart - begin.QuadPart) * 1000000 / freq.QuadPart;
+		if (updateFrame > elapsed) {
+			delay = (updateFrame - elapsed) / 1000;
+			Sleep(delay);
+	}
+	return 0;
 }
 
 
