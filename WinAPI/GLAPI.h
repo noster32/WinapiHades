@@ -1,5 +1,6 @@
 #pragma once
 
+
 class GLAPI
 {
 private:
@@ -27,6 +28,8 @@ public:
 	void EnableOpenGL(HWND hwnd, HDC* hDC, HGLRC* hRC, Point2D windowSize);
 	void DisableOpenGL(HWND hwnd, HDC hdc, HGLRC hrc);
 
+	void EnableFreeType();
+
 	Point2D GetWindowSize() { return windowSize; }
 
 	uint GenerateEmptyTexture(int width, int height, uint RGBA);
@@ -37,6 +40,7 @@ public:
 	uint BuildAnimation(const vector<uint>& uids);
 	uint BuildAnimation(const vector<uint>& uids, const Rect2D& range);
 	uint BuildAnimationBySprite(uint uid);
+	uint BuildText(string text);
 	uint CutTexture(const uint uid, const Rect2D& range);
 	void ClearTexture(const uint uid, const uint RGBA);
 	
@@ -53,6 +57,7 @@ public:
 	void TransformMasterSO(const Transformation& tf);
 	void DrawTextureAuto(const Transformation& tf, const uint uid, const ullong frame, const Point2D size);
 
+	void LoadFreeType();
 	void LoadCharacterSet();
 	void DrawString(const Transformation& tf, const string str, const int count);
 

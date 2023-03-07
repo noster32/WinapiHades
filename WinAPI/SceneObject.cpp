@@ -22,8 +22,11 @@ void SceneObject::RemoveChild(SceneObject* target) {
 
 void SceneObject::SetDepth(int depth) {
 	this->depth = depth;
-	if (parent)
+	if (parent) {
 		stable_sort(parent->children.begin(), parent->children.end(), SceneObject::SOComparator);
+		reverse(parent->children.begin(), parent->children.end());
+	}
+		
 }
 
 void SceneObject::Render()

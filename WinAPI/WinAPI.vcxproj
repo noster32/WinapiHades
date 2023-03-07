@@ -120,7 +120,8 @@
       <ConformanceMode>false</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)WinAPI\Dependencies\GLEW\include;$(SolutionDir)WinAPI\Dependencies\GLFW\include;$(SolutionDir)WinAPI\Dependencies\GLM;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)WinAPI\FreeType\include;$(SolutionDir)WinAPI\Dependencies\GLEW\include;$(SolutionDir)WinAPI\Dependencies\GLFW\include;$(SolutionDir)WinAPI\Dependencies\GLM;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -157,7 +158,6 @@
     </ClCompile>
     <ClCompile Include="DeathArea.cpp" />
     <ClCompile Include="EngineLauncher.cpp" />
-    <ClCompile Include="FFmpeg.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameEngineBuilder.cpp" />
@@ -203,7 +203,6 @@
     <ClInclude Include="DeathArea.h" />
     <ClInclude Include="Engineapi.h" />
     <ClInclude Include="EngineLauncher.h" />
-    <ClInclude Include="FFmpeg.h" />
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameEngineBuilder.h" />

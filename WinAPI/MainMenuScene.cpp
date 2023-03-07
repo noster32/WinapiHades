@@ -11,16 +11,19 @@ void MainMenuScene::Init()
 	SOUNDMANAGER->addSound("MainMenuBGM", "Resources/Sounds/MainMenu.wav", false, true);
 	MainMenuIn.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
 
-	MainMenuLoop = new nFFmpeg;
-	MainMenuLoop->load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
+	MainMenuLoop.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
 	//MainMenuIn.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
 	//MainMenuLoop.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
-	MainMenuLoop->transformation.anchor = Anchor::CENTER;
-	MainMenuLoop->transformation.scale -= 0.15f;
+	//MainMenuLoop.transformation.anchor = Anchor:;
+	MainMenuLoop.transformation.position.y -= 5.0f;
+	MainMenuLoop.transformation.scale -= 0.15f;
+	MainMenuLoop.SetDepth(21);
+
 
 	nts.Add(gl.LoadTexturePng("Resources/Images/Object/start.png", param), "startButton");
 	nts.Add(gl.LoadTexturePng("Resources/Images/Object/end.png", param), "endButton");
 
+	RegisterObject(MainMenuLoop);
 	RegisterObject(startbutton);
 	RegisterObject(endbutton);
 
@@ -37,8 +40,7 @@ void MainMenuScene::Init()
 
 	start = false;
 	startInEnd = false;
-	MainMenuLoop->enable = true;
-	MainMenuLoop->SetUpdateFrame(30);
+	MainMenuLoop.enable = true;
 }
 
 void MainMenuScene::OnBegin()
@@ -62,7 +64,7 @@ void MainMenuScene::OnUpdate()
 			startInEnd = true;
 	}
 	else
-		MainMenuLoop->loop();
+		MainMenuLoop.loop();
 		
 	//printf("test");
 

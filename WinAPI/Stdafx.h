@@ -16,6 +16,7 @@
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 
 //! 라이브러리 링크
+#pragma comment (lib, "lib/FreeType/freetype.lib")
 #pragma comment (lib, "msimg32.lib") //마이크로소프트(ms) 이미지(img) 32비트(32) 라이브러리
 #pragma comment (lib,"winmm.lib")
 #pragma comment (lib, "lib/FMOD/fmod_vc.lib")
@@ -23,6 +24,10 @@
 
 #include "inc/FMOD/fmod.hpp"
 //#include "JsonCPP/include/json/json.h"
+#include "ft2build.h"
+#include FT_FREETYPE_H
+
+
 extern "C"
 {
 #include <libavformat/avformat.h>
@@ -70,6 +75,7 @@ extern "C"
 #include <sstream>
 #include <thread>
 #include <mutex>
+#include <filesystem>
 
 using namespace std;
 //using std::vector;

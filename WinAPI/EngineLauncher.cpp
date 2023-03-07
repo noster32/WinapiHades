@@ -176,7 +176,7 @@ int EngineLauncher::InternalLaunch()
         NULL                                                        //윈도우의 자식 윈도우를 생성하면 지정하고 아니라면 NULL. - 필요에 의해 사용하지만 지금은 NULL
     );
 
-    SetWindowSize(WINSTART_X, WINSTART_Y, param.windowSize.x, param.windowSize.y);
+    //SetWindowSize(WINSTART_X, WINSTART_Y, param.windowSize.x, param.windowSize.y);
     ShowWindow(mainWnd, param.nCmdShow);
 
    

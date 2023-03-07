@@ -47,6 +47,12 @@
     <Filter Include="API FrameWork\FFmpeg">
       <UniqueIdentifier>{1b27fc1b-c708-43f7-97da-d83c5d96d712}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainGame\Map">
+      <UniqueIdentifier>{284102c5-7b9d-4554-94c3-7c456e20837d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MainGame\Zagreus">
+      <UniqueIdentifier>{d3c9a9b6-a251-42c0-af96-cb4cf0d3aca2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C3DMatrix.cpp">
@@ -121,33 +127,32 @@
     <ClCompile Include="AssetIter.cpp">
       <Filter>API FrameWork\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="TestScene.cpp" />
-    <ClCompile Include="DeathArea.cpp">
-      <Filter>API FrameWork</Filter>
-    </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>API FrameWork\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
       <Filter>API FrameWork\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>API FrameWork</Filter>
-    </ClCompile>
     <ClCompile Include="TextObject.cpp">
       <Filter>API FrameWork\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="FFmpeg.cpp">
-      <Filter>API FrameWork\FFmpeg</Filter>
     </ClCompile>
     <ClCompile Include="nFFmpeg.cpp">
       <Filter>API FrameWork\FFmpeg</Filter>
     </ClCompile>
-    <ClCompile Include="BossScene.cpp">
-      <Filter>API FrameWork</Filter>
-    </ClCompile>
     <ClCompile Include="MainMenuScene.cpp">
-      <Filter>API FrameWork</Filter>
+      <Filter>MainGame\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TestScene.cpp">
+      <Filter>MainGame\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="BossScene.cpp">
+      <Filter>MainGame\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="DeathArea.cpp">
+      <Filter>MainGame\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>MainGame\Zagreus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,28 +237,35 @@
     <ClInclude Include="AssetIter.h">
       <Filter>API FrameWork\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="TestScene.h" />
-    <ClInclude Include="DeathArea.h" />
     <ClInclude Include="Sprite.h">
       <Filter>API FrameWork\Sprite</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>API FrameWork\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h" />
     <ClInclude Include="TextObject.h">
       <Filter>API FrameWork\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>API FrameWork</Filter>
     </ClInclude>
-    <ClInclude Include="FFmpeg.h">
-      <Filter>API FrameWork\FFmpeg</Filter>
-    </ClInclude>
     <ClInclude Include="nFFmpeg.h">
       <Filter>API FrameWork\FFmpeg</Filter>
     </ClInclude>
-    <ClInclude Include="BossScene.h" />
-    <ClInclude Include="MainMenuScene.h" />
+    <ClInclude Include="MainMenuScene.h">
+      <Filter>MainGame\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScene.h">
+      <Filter>MainGame\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="BossScene.h">
+      <Filter>MainGame\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathArea.h">
+      <Filter>MainGame\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>MainGame\Zagreus</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

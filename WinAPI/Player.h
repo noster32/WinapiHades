@@ -67,6 +67,7 @@ private:
 	bool SwordAttack1;
 	bool SwordAttack2;
 	bool SwordAttack3;
+	int swordAttackAnimCount;
 	int attackResetDelay;
 	int attackAnimMin;
 
@@ -80,8 +81,6 @@ public:
 public:
 	string FindStatus(playerStatus ps);
 	void tempPlayerStatueUpdate();
-	int transformAngle(int angle, playerStatus ps);
-	void setPlayerAngle(void);
 	void playerMove(playerMoveDir pmr);
 
 	void playerUpdate();
@@ -94,6 +93,8 @@ public:
 	Player() : renderOp(RenderObject::TEXTURE_SIZE) { }
 	void SetTexture();
 	void SetFFmpeg();
+
+	int GetPlayerDepth() { return testFFmpeg.transformation.position.x + (testFFmpeg.transformation.position.y - 112); }
 
 	virtual void Render() override;
 };

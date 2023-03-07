@@ -5,7 +5,7 @@
 
 
 nFFmpeg::nFFmpeg() : enable(true), animPlaying(false), bPause(false), animDone(false), updateFrame(1000000 / 60)
-					,gl(GLAPI::GetInstance())
+					//,gl(GLAPI::GetInstance())
 {
 }
 
@@ -145,19 +145,22 @@ void nFFmpeg::initData()
 
 void nFFmpeg::OnUpdate()
 {
-	testThread = thread(&nFFmpeg::ffmpegThreadUpdate, this);
 }
 
 void nFFmpeg::Render()
 {
+	if (!enable) return;
 	gl.PushMatrix();
 	
-	if(enable)
-	{
-		readFrame();
-		gl.DrawVideoTexture(transformation, vCtx->width, vCtx->height, video);
-	}
-	
+	readFrame();
+	gl.DrawVideoTexture(transformation, vCtx->width, vCtx->height, video);
+
+	//vector<SceneObject*>& children = GetChildrenVector();
+	//vector<SceneObject*>::iterator iter;
+	//for (iter = children.begin(); iter != children.end(); iter++) {
+	//	(*iter)->Render();
+	//}
+
 	gl.PopMatrix();	
 }
 void nFFmpeg::RenderTest()
@@ -169,7 +172,6 @@ void nFFmpeg::RenderTest()
 		readFrame();
 		gl.DrawVideoTexture(transformation, vCtx->width, vCtx->height, video);
 	}
-	cout << "aaa" << endl; 
 
 	gl.PopMatrix();
 }

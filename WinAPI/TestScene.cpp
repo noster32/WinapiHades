@@ -78,7 +78,7 @@ void TestScene::Init()
 	fade.transformation.anchor = Anchor::CENTER;
 	fade.transformation.position = Vector2D(2500, 800);
 	tempMap.texture = nts.Find("TempMap");
-	tempMap.SetDepth(1);
+	tempMap.SetDepth(100000);
 	tempMap.transformation.scale -= 0.2f;
 
 	
@@ -123,6 +123,7 @@ void TestScene::OnEnd()
 
 void TestScene::OnUpdate()
 {
+	playerObjTest.SetDepth(playerObjTest.GetPlayerDepth());
 	if (!start) {
 		start = true;
 		SOUNDMANAGER->play("DeathRoom", 0.6f);

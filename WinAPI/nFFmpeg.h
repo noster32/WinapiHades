@@ -1,8 +1,7 @@
 #pragma once
-//#include "SceneObject.h"
-#include "GLAPI.h"
+#include "SceneObject.h"
 
-class nFFmpeg
+class nFFmpeg : public SceneObject
 {
 private:
 	AVFormatContext* fmtCtx;
@@ -24,8 +23,6 @@ private:
 
 	Timer timer, t1, t2;
 
-	
-
 	uint video;
 	uint pBuf;
 	uint width;
@@ -40,9 +37,6 @@ private:
 	uint updateFrame;
 	mutex _mutex;
 
-	static nFFmpeg* instance;
-	GLAPI& gl;
-	thread testThread;
 public:
 	Transformation transformation;
 	bool enable;

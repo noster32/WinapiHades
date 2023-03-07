@@ -74,6 +74,40 @@ void GLAPI::DisableOpenGL(HWND hwnd, HDC hdc, HGLRC hrc)
 	enabled = false;
 }
 
+void GLAPI::EnableFreeType()
+{
+	bool libTest, fontTest;
+	FT_Library ft;
+	if (FT_Init_FreeType(&ft))
+	{
+		cout << "ERROR::FREETYPE: Could not init FreeType Library" << endl;
+		libTest = true;
+	}
+
+	filesystem::path font_name("Resources/fonts/NanumGothic.ttf");
+	if (font_name.empty())
+	{
+		cout << "ERROR::FREETYPE: Failed to load font_name";
+		fontTest = true;
+	}
+
+	FT_Face face;
+	if (libTest && fontTest) {
+		if (FT_New_Face(ft, font_name.c_str(), 0, &face)) {
+			cout << "ERROR::FREETYPE: Failed to load font" << endl;
+		}
+		else {
+			FT_Set_Pixel_Sizes(face, 0, 48);
+
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+			for (uchar c = 0; c < 128; c++) {
+				
+			}
+		}
+	}
+}
+
 uint GLAPI::GenerateEmptyTexture(int width, int height, uint RGBA)
 {
 	uint longer = width > height ? width : height;
@@ -300,6 +334,11 @@ uint GLAPI::BuildAnimationBySprite(uint uid)
 	return animSprite->uid;
 }
 
+uint GLAPI::BuildText(string text)
+{
+	return uint();
+}
+
 uint GLAPI::CutTexture(const uint uid, const Rect2D& range)
 {
 	const TextureSource& ref = textureStorage.Find(uid);
@@ -471,6 +510,11 @@ void GLAPI::DrawTextureAuto(const Transformation& tf, const uint uid, const ullo
 		DrawQuadTexture(lbVer.x, lbVer.y, rtVer.x, rtVer.y, lbTex.x, lbTex.y, rtTex.x, rtTex.y, tid);
 	glClearColor(0, 0, 0, 0);
 	glPopMatrix();
+}
+
+void GLAPI::LoadFreeType()
+{
+	FT_Face
 }
 
 void GLAPI::LoadCharacterSet()
