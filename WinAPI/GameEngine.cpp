@@ -30,6 +30,7 @@ HRESULT GameEngine::engineInitializer(EngineInit& param)
     RND->init();
     KEYMANAGER->init();
     SOUNDMANAGER->init();
+    gl.EnableFreeType();
     CustomInitialize();
     engineStateUpdate();
 

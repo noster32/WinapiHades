@@ -76,7 +76,7 @@ void GLAPI::DisableOpenGL(HWND hwnd, HDC hdc, HGLRC hrc)
 
 void GLAPI::EnableFreeType()
 {
-	bool libTest, fontTest;
+	bool libTest = false, fontTest = false;
 	FT_Library ft;
 	if (FT_Init_FreeType(&ft))
 	{
@@ -84,7 +84,7 @@ void GLAPI::EnableFreeType()
 		libTest = true;
 	}
 
-	filesystem::path font_name("Resources/fonts/NanumGothic.ttf");
+	string font_name = "Resources/fonts/NanumGothic.ttf";
 	if (font_name.empty())
 	{
 		cout << "ERROR::FREETYPE: Failed to load font_name";
@@ -93,7 +93,7 @@ void GLAPI::EnableFreeType()
 
 	FT_Face face;
 	if (libTest && fontTest) {
-		if (FT_New_Face(ft, font_name.c_str(), 0, &face)) {
+		if (FT_New_Face(ft, font_name.c_str() , 0, &face)) {
 			cout << "ERROR::FREETYPE: Failed to load font" << endl;
 		}
 		else {
@@ -102,9 +102,25 @@ void GLAPI::EnableFreeType()
 			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
 			for (uchar c = 0; c < 128; c++) {
+				if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
+					cout << "ERROR::FREETYPE: Failed to load Glyph" << endl;
+					continue;
+				}
+				uint texture;
+				glGenTextures(1, &texture);
+				glBindTexture(GL_TEXTURE_2D, texture);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, face->glyph->bitmap.width, face->glyph->bitmap.rows, 0, GL_RED, GL_UNSIGNED_BYTE, face->glyph->bitmap.buffer);
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
 				
 			}
+			glBindTexture(GL_TEXTURE_2D, 0);
 		}
+		FT_Done_Face(face);
+		FT_Done_FreeType(ft);
 	}
 }
 
@@ -408,7 +424,7 @@ void GLAPI::Transform(const Transformation& tf)
 {
 	Vector2D pos = PxCoordToVertex2f(tf.position.VecToPoint());
 	glTranslatef(pos.x, pos.y, 0.0f);
-	glRotatef(tf.rotate.getDegree(), 0.0f, 0.0f, 1.0f);
+	glRotatef(tf.rotate.getDegree(), tf.anglePoont.x, tf.anglePoont.y, tf.anglePoont.z);
 	glScalef(tf.scale.x, tf.scale.y, 1.0f);
 	glColor4f(tf.color.r, tf.color.g, tf.color.b, tf.alpha);
 }
@@ -512,10 +528,6 @@ void GLAPI::DrawTextureAuto(const Transformation& tf, const uint uid, const ullo
 	glPopMatrix();
 }
 
-void GLAPI::LoadFreeType()
-{
-	FT_Face
-}
 
 void GLAPI::LoadCharacterSet()
 {
@@ -611,6 +623,33 @@ void GLAPI::LoadCharacterSet()
 	// Add Texture to reference map
 	textureStorage.Add(dst);
 	charset = dst->uid;
+}
+
+void GLAPI::RenderText(string text, float x, float y, float scale)
+{
+	CharacterStorage charstor;
+	string::const_iterator c;
+	for (c = text.begin(); c != text.end(); c++) {
+		Character ch = charstor.Characters[*c];
+
+		float xpos = x + ch.Bearing.x * scale;
+		float ypos = y - (ch.Size.y - ch.Bearing.y) * scale;
+
+		float w = ch.Size.x * scale;
+		float h = ch.Size.y * scale;
+		/*
+		{ xpos,     ypos + h,   0.0f, 0.0f },     
+		{ xpos + w, ypos + h,   1.0f, 0.0f }
+		{ xpos + w, ypos,       1.0f, 1.0f },
+		{ xpos,     ypos,       0.0f, 1.0f },
+		
+		
+		*/
+		DrawQuadTexture(0.0f, 0.0f, 1.0f, 1.0f, xpos, ypos + h, xpos+w, ypos, ch.uid);
+		
+		x += (ch.Advance >> 6) * scale;
+	}
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void GLAPI::DrawString(const Transformation& tf, const string str, const int count)

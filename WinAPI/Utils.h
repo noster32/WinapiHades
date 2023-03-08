@@ -170,6 +170,16 @@ public:
 	void operator -= (const float a) { setDegree(degree - a); }
 };
 
+struct AnglePoint {
+	float x, y, z;
+
+	void SetAnglePointX() { x = 1.0f; y = 0.0f; z = 0.0f; }
+	void SetAnglePointY() { x = 0.0f; y = 1.0f; z = 0.0f; }
+	void SetAnglePointZ() { x = 0.0f; y = 0.0f; z = 1.0f; }
+
+	AnglePoint() : x(0.0f), y(0.0f), z(1.0f) {}
+};
+
 struct Anchor {
 	enum AnchorPos {
 		LEFT_BOTTOM,
@@ -190,11 +200,12 @@ struct Transformation {
 	Vector2D position;
 	Vector2D scale;
 	Angle rotate;
+	AnglePoint anglePoont;
 	Anchor anchor;
 	Color2D color;
 	float alpha;
-	Transformation() : position(), scale(1.0f, 1.0f), rotate(), anchor(), alpha(1.0f), color(1.0f, 1.0f, 1.0f)  { }
-	Transformation(Vector2D _pos, Vector2D _sca, Angle _rot) : position(_pos), scale(_sca), rotate(_rot), anchor(), alpha(1.0f), color(1.0f, 1.0f, 1.0f) { }
+	Transformation() : position(), scale(1.0f, 1.0f), rotate(), anchor(), alpha(1.0f), color(1.0f, 1.0f, 1.0f), anglePoont()  { }
+	Transformation(Vector2D _pos, Vector2D _sca, Angle _rot) : position(_pos), scale(_sca), rotate(_rot), anchor(), alpha(1.0f), color(1.0f, 1.0f, 1.0f), anglePoont() { }
 };
 
 struct TextureGenerateParam {
@@ -272,6 +283,18 @@ struct AnimatedSpriteTexture : TextureSource {
 	AnimatedSpriteTexture(GLuint _tid, const vector<Rect2D> _ranges) : tid(_tid), ranges(_ranges), count(_ranges.size()) { }
 	virtual GLuint Get(ullong frame) const { return tid; }
 	virtual Rect2D GetRange(ullong frame) const { return count ? ranges.at(frame % count) : ranges[0]; }
+};
+
+struct Character {
+	uint uid;
+	glm::ivec2 Size;
+	glm::ivec2 Bearing;
+	uint Advance;
+};
+
+struct CharacterStorage {
+	map<GLchar, Character> Characters;
+	void Add(char c, Character chars) { Characters.insert(make_pair(c, chars)); }
 };
 
 struct TextureStorage {

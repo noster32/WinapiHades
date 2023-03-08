@@ -57,8 +57,9 @@ public:
 	void TransformMasterSO(const Transformation& tf);
 	void DrawTextureAuto(const Transformation& tf, const uint uid, const ullong frame, const Point2D size);
 
-	void LoadFreeType();
+
 	void LoadCharacterSet();
+	void RenderText(string text, float x, float y, float scale);
 	void DrawString(const Transformation& tf, const string str, const int count);
 
 	void DrawQuadTexture(const float x1, const float y1, const float x2, const float y2,
