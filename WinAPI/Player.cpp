@@ -10,18 +10,18 @@ void Player::SetTexture()
 
 void Player::SetFFmpeg()
 {
-	testFFmpeg.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
-	playerRunAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
-	playerDashAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
-	playerDashVFX.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
-	playerAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
-	playerSpacialAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSwordParry_Bink.avi");
-	//testFFmpeg.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
-	//playerRunAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
-	//playerDashAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
-	//playerDashVFX.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
-	//playerAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
-	//playerSpacialAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSwordParry_Bink.avi");
+	//testFFmpeg.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
+	//playerRunAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
+	//playerDashAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
+	//playerDashVFX.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
+	//playerAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
+	//playerSpacialAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSwordParry_Bink.avi");
+	testFFmpeg.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
+	playerRunAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
+	playerDashAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
+	playerDashVFX.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
+	playerAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
+	playerSpacialAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSwordParry_Bink.avi");
 
 	testFFmpeg.transformation.position = Vector2D(2500, 800);
 	testFFmpeg.transformation.anchor = Anchor::CENTER;
@@ -175,7 +175,6 @@ void Player::tempPlayerStatueUpdate()
 
 void Player::playerMove(playerMoveDir pmr)
 {
-	
 	if (ps == DASH)
 	{
 		Point2D tempA = Point2D(testFFmpeg.transformation.position.x, testFFmpeg.transformation.position.y);
@@ -198,79 +197,83 @@ void Player::playerMove(playerMoveDir pmr)
 void Player::playerCommand()
 {
 	//Player Movemment
-	if (KEYMANAGER->isStayKeyDown('W') && KEYMANAGER->isStayKeyDown('A')) {
-		//PlayerMove
-		testFFmpeg.transformation.position.x -= 20;
-		testFFmpeg.transformation.position.y += 20;
+	if (ps == MOVE)
+	{
+		if (KEYMANAGER->isStayKeyDown('W') && KEYMANAGER->isStayKeyDown('A')) {
+			//PlayerMove
+			testFFmpeg.transformation.position.x -= 20;
+			testFFmpeg.transformation.position.y += 20;
 
-		//SetAngle
-		angle = 12;
+			//SetAngle
+			angle = 12;
 
-		cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+		}
+		else if (KEYMANAGER->isStayKeyDown('W') && KEYMANAGER->isStayKeyDown('D')) {
+
+			testFFmpeg.transformation.position += Vector2D(20, 20);
+
+			angle = 4;
+
+			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+		}
+		else if (KEYMANAGER->isStayKeyDown('S') && KEYMANAGER->isStayKeyDown('A')) {
+
+			testFFmpeg.transformation.position -= Vector2D(20, 20);
+
+			angle = 20;
+
+			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+		}
+		else if (KEYMANAGER->isStayKeyDown('S') && KEYMANAGER->isStayKeyDown('D')) {
+
+			testFFmpeg.transformation.position.x += 20;
+			testFFmpeg.transformation.position.y -= 20;
+
+			angle = 28;
+
+			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+		}
+		else if (KEYMANAGER->isStayKeyDown('W')) {
+
+			testFFmpeg.transformation.position.y += 20;
+
+			angle = 8;
+
+			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+		}
+		else if (KEYMANAGER->isStayKeyDown('A')) {
+
+			testFFmpeg.transformation.position.x -= 20;
+
+			angle = 16;
+
+			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+		}
+		else if (KEYMANAGER->isStayKeyDown('S')) {
+
+			testFFmpeg.transformation.position.y -= 20;
+
+			angle = 24;
+
+			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+		}
+		else if (KEYMANAGER->isStayKeyDown('D')) {
+
+			testFFmpeg.transformation.position.x += 20;
+
+			angle = 0;
+
+			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+		}
+		if (KEYMANAGER->isOnceKeyDown('W') || KEYMANAGER->isOnceKeyDown('A') || KEYMANAGER->isOnceKeyDown('S') || KEYMANAGER->isOnceKeyDown('D')
+			|| KEYMANAGER->isOnceKeyUp('W') || KEYMANAGER->isOnceKeyUp('A') || KEYMANAGER->isOnceKeyUp('S') || KEYMANAGER->isOnceKeyUp('D')) {
+			testFFmpeg.SeekTo(angle, 32);
+			playerRunAnim.SeekTo(angle * 2, 64);
+		}
 	}
-	else if (KEYMANAGER->isStayKeyDown('W') && KEYMANAGER->isStayKeyDown('D')) {
 
-		testFFmpeg.transformation.position += Vector2D(20, 20);
-
-		angle = 4;
-
-		cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
-	}
-	else if (KEYMANAGER->isStayKeyDown('S') && KEYMANAGER->isStayKeyDown('A')) {
-
-		testFFmpeg.transformation.position -= Vector2D(20, 20);
-
-		angle = 20;
-
-		cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
-	}
-	else if (KEYMANAGER->isStayKeyDown('S') && KEYMANAGER->isStayKeyDown('D')) {
-
-		testFFmpeg.transformation.position.x += 20;
-		testFFmpeg.transformation.position.y -= 20;
-
-		angle = 28;
-
-		cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
-	}
-	else if (KEYMANAGER->isStayKeyDown('W')) {
-
-		testFFmpeg.transformation.position.y += 20;
-
-		angle = 8;
-
-		cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
-	}
-	else if (KEYMANAGER->isStayKeyDown('A')) {
-
-		testFFmpeg.transformation.position.x -= 20;
-
-		angle = 16;
-
-		cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
-	}
-	else if (KEYMANAGER->isStayKeyDown('S')) {
-
-		testFFmpeg.transformation.position.y -= 20;
-
-		angle = 24;
-
-		cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
-	}
-	else if (KEYMANAGER->isStayKeyDown('D')) {
-
-		testFFmpeg.transformation.position.x += 20;
-
-		angle = 0;
-
-		cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
-	}
-
-	if (KEYMANAGER->isOnceKeyDown('W') || KEYMANAGER->isOnceKeyDown('A') || KEYMANAGER->isOnceKeyDown('S') || KEYMANAGER->isOnceKeyDown('D')
-		|| KEYMANAGER->isOnceKeyUp('W') || KEYMANAGER->isOnceKeyUp('A') || KEYMANAGER->isOnceKeyUp('S') || KEYMANAGER->isOnceKeyUp('D')) {
-		testFFmpeg.SeekTo(angle, 32);
-		playerRunAnim.SeekTo(angle * 2, 64);
-	}
+	
 
 	if (KEYMANAGER->isOnceKeyDown(VK_SPACE)) {
 		playerDashAnim.SeekTo(angle / 2, 16);

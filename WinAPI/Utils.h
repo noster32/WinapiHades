@@ -294,7 +294,7 @@ struct Character {
 
 struct CharacterStorage {
 	map<GLchar, Character> Characters;
-	void Add(char c, Character chars) { Characters.insert(make_pair(c, chars)); }
+	void Add(char c, Character chars) { Characters.insert(pair(c, chars)); }
 };
 
 struct TextureStorage {

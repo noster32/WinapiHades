@@ -9,11 +9,10 @@ void MainMenuScene::Init()
 	//SOUNDMANAGER->addSound("InSound", , false, false);
 	//SOUNDMANAGER->addSound("MainMenuBGM", "Resources/Sounds/01 No Escape 44khz 16bit HDK MSTR.wav", true, true);
 	SOUNDMANAGER->addSound("MainMenuBGM", "Resources/Sounds/MainMenu.wav", false, true);
-	//MainMenuIn.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
-
-	//MainMenuLoop.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
-	MainMenuIn.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
-	MainMenuLoop.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
+	MainMenuIn.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
+	MainMenuLoop.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
+	//MainMenuIn.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
+	//MainMenuLoop.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
 	//MainMenuLoop.transformation.anchor = Anchor:;
 	MainMenuLoop.transformation.position.y -= 5.0f;
 	MainMenuLoop.transformation.scale -= 0.15f;
@@ -75,7 +74,7 @@ void MainMenuScene::OnUpdate()
 	}
 
 
-	gl.RenderText("Test", 0, 0, 1.0f);
+
 }
 
 void MainMenuScene::OnUpdateLoading()
@@ -94,6 +93,7 @@ void MainMenuScene::OnRenderLoading()
 
 void MainMenuScene::OnRender()
 {
+	gl.RenderText("Test", 0, 0, 1.0f);
 }
 
 void MainMenuScene::OnRenderClosing()

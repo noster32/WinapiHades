@@ -642,8 +642,7 @@ void GLAPI::RenderText(string text, float x, float y, float scale)
 		{ xpos + w, ypos + h,   1.0f, 0.0f }
 		{ xpos + w, ypos,       1.0f, 1.0f },
 		{ xpos,     ypos,       0.0f, 1.0f },
-		
-		
+
 		*/
 		DrawQuadTexture(0.0f, 0.0f, 1.0f, 1.0f, xpos, ypos + h, xpos+w, ypos, ch.uid);
 		
