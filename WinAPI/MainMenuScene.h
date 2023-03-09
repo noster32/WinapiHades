@@ -9,6 +9,8 @@ private:
 
 	RenderObject startbutton;
 	RenderObject endbutton;
+	RenderObject testBox1;
+	RenderObject testBox2;
 
 	nFFmpeg MainMenuIn;
 	nFFmpeg MainMenuLoop;
@@ -18,6 +20,7 @@ private:
 	bool startInEnd;
 
 	Rect2D test;
+	Rect2D test2;
 public:
 	void Init();
 

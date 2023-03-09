@@ -121,22 +121,22 @@ struct Vector2D {
 };
 
 struct Rect2D {
-	Point2D leftBottom, rightTop, center;
-	Point2D rLeftBottom, rLeftTop, rRightBottom, rRightTop;
+	Point2D leftBottom, rightTop;
+	Vector2D center, rLeftBottom, rLeftTop, rRightBottom, rRightTop;
 
 	Rect2D() : leftBottom(), rightTop(), rLeftBottom(), rLeftTop(), rRightBottom(), rRightTop() {}
 	Rect2D(int left, int bottom, int right, int top) : leftBottom(Point2D(left, bottom)), rightTop(Point2D(right, top)) { }
 	Rect2D(Point2D lb, Point2D rt) : leftBottom(lb), rightTop(rt) { }
-	Rect2D(Point2D center, int width, int height) : leftBottom(Point2D(center.x - width / 2, center.y - height / 2)), rightTop(Point2D(center.x + width / 2, center.y + height / 2)), center(center) { }
+	Rect2D(Vector2D center, int width, int height) : leftBottom(Point2D(center.x - width / 2, center.y - height / 2)), rightTop(Point2D(center.x + width / 2, center.y + height / 2)), center(center) { }
 	Rect2D(int centerX, int centerY, int width, int height, uchar center) : leftBottom(Point2D(centerX - width / 2, centerY - height / 2)), rightTop(Point2D(centerX + width / 2, centerY + height / 2)), center(Point2D(centerX, centerY)) { }
 	Rect2D(Point2D lb, Point2D rt, float rotate) : rLeftBottom(lb.x*cos(rotate * DEG_TO_RAD) - lb.y*sin(rotate * DEG_TO_RAD), lb.x*sin(rotate * DEG_TO_RAD) + lb.y*cos(rotate * DEG_TO_RAD)),
 												rLeftTop(lb.x*cos(rotate* DEG_TO_RAD) - rt.y*sin(rotate * DEG_TO_RAD), lb.x*sin(rotate* DEG_TO_RAD) + rt.y*cos(rotate * DEG_TO_RAD)),
 												rRightBottom(rt.x*cos(rotate* DEG_TO_RAD) - lb.y*sin(rotate * DEG_TO_RAD), rt.x*sin(rotate* DEG_TO_RAD) + lb.y*cos(rotate * DEG_TO_RAD)),
 												rRightTop(rt.x * cos(rotate* DEG_TO_RAD) - rt.y*sin(rotate * DEG_TO_RAD), rt.x*sin(rotate* DEG_TO_RAD) + rt.y*cos(rotate * DEG_TO_RAD)) { }
-	Rect2D(Point2D center, int width, int height, float rotate) : rLeftBottom((center.x - width / 2) * cos(rotate* DEG_TO_RAD) - (center.y - height / 2) * sin(rotate * DEG_TO_RAD), (center.x - width / 2) * sin(rotate * DEG_TO_RAD) + (center.y - height / 2) * cos(rotate * DEG_TO_RAD)),
-																rLeftTop((center.x - width / 2) * cos(rotate * DEG_TO_RAD) - (center.y + height / 2) * sin(rotate * DEG_TO_RAD), (center.x - width / 2) * sin(rotate * DEG_TO_RAD) + (center.y + height / 2) * cos(rotate * DEG_TO_RAD)),
-																rRightBottom((center.x + width / 2) * cos(rotate * DEG_TO_RAD) - (center.y - height / 2) * sin(rotate * DEG_TO_RAD), (center.x + width / 2) * sin(rotate * DEG_TO_RAD) + (center.y - height / 2) * cos(rotate * DEG_TO_RAD)),
-																rRightTop((center.x + width / 2) * cos(rotate * DEG_TO_RAD) - (center.y - height / 2) * sin(rotate * DEG_TO_RAD), (center.x + width / 2) * sin(rotate * DEG_TO_RAD) + (center.y + height / 2) * cos(rotate * DEG_TO_RAD)),
+	Rect2D(Vector2D center, int width, int height, float rotate) : rLeftBottom( center.x + ((center.x - width / 2) - center.x)* cos(rotate* DEG_TO_RAD) - ((center.y - height / 2) - center.y) * sin(rotate * DEG_TO_RAD), center.y + ((center.x - width / 2) - center.x) * sin(rotate* DEG_TO_RAD) + ((center.y - height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
+																rLeftTop(center.x + ((center.x - width / 2) - center.x) * cos(rotate * DEG_TO_RAD) - ((center.y + height / 2) - center.y) * sin(rotate * DEG_TO_RAD), center.y + ((center.x - width / 2) - center.x) * sin(rotate* DEG_TO_RAD) + ((center.y + height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
+																rRightBottom(center.x + ((center.x + width / 2) - center.x) * cos(rotate * DEG_TO_RAD) - ((center.y - height / 2) - center.y) * sin(rotate * DEG_TO_RAD), center.y + ((center.x + width / 2) - center.x) * sin(rotate * DEG_TO_RAD) + ((center.y - height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
+																rRightTop(center.x + ((center.x + width / 2) - center.x) * cos(rotate * DEG_TO_RAD) - ((center.y - height / 2) - center.y) * sin(rotate * DEG_TO_RAD), center.y + ((center.x + width / 2) - center.x) * sin(rotate * DEG_TO_RAD) + ((center.y + height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
 																center(center) { }
 
 	bool IntersectRect2D(const Rect2D& r) const {
@@ -146,7 +146,55 @@ struct Rect2D {
 			(rightTop.x >= r.leftBottom.x && rightTop.x <= r.rightTop.x && rightTop.y >= r.leftBottom.y && rightTop.y <= r.rightTop.y);
 	}
 	bool IntersectRotatedRect2D(const Rect2D& r) const {
+		Vector2D Axis1, Axis2, Axis3, Axis4;
+		Vector2D Represent1, Represent2, Represent3, Represent4;
+		Vector2D  rRepresent1, rRepresent2, rRepresent3, rRepresent4;
+		float RepresentCompare1, RepresentCompare2,	RepresentCompare3, RepresentCompare4;
+		float rRepresentCompare1, rRepresentCompare2, rRepresentCompare3, rRepresentCompare4;
 
+		Axis1.x = rRightTop.x - rLeftTop.x;
+		Axis1.y = rRightTop.y - rLeftTop.y;
+		Axis2.x = rRightTop.x - rRightBottom.x;
+		Axis2.y = rRightTop.y - rRightBottom.y;
+		Axis3.x = r.rRightTop.x - r.rLeftTop.x;
+		Axis3.y = r.rRightTop.y - r.rLeftTop.y;
+		Axis4.x = r.rRightTop.x - r.rRightBottom.x;
+		Axis4.y = r.rRightTop.y - r.rRightBottom.y;
+
+		Represent1.x = ((rRightTop.x * Axis1.x + rRightTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2))* Axis1.x;
+		Represent1.y = ((rRightTop.x * Axis1.x + rRightTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2))* Axis1.y;
+		Represent2.x = ((rLeftTop.x * Axis1.x + rLeftTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.x;
+		Represent2.y = ((rLeftTop.x * Axis1.x + rLeftTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.y;
+		Represent3.x = ((rRightBottom.x * Axis1.x + rRightBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.x;
+		Represent3.y = ((rRightBottom.x * Axis1.x + rRightBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.y;
+		Represent4.x = ((rLeftBottom.x * Axis1.x + rLeftBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.x;
+		Represent4.y = ((rLeftBottom.x * Axis1.x + rLeftBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.y;
+
+		rRepresent1.x = ((r.rRightTop.x * Axis1.x + r.rRightTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.x;
+		rRepresent1.y = ((r.rRightTop.x * Axis1.x + r.rRightTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.y;
+		rRepresent2.x = ((r.rLeftTop.x * Axis1.x + r.rLeftTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.x;
+		rRepresent2.y = ((r.rLeftTop.x * Axis1.x + r.rLeftTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.y;
+		rRepresent3.x = ((r.rRightBottom.x * Axis1.x + r.rRightBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.x;
+		rRepresent3.y = ((r.rRightBottom.x * Axis1.x + r.rRightBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.y;
+		rRepresent4.x = ((r.rLeftBottom.x * Axis1.x + r.rLeftBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.x;
+		rRepresent4.y = ((r.rLeftBottom.x * Axis1.x + r.rLeftBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.y;
+
+		RepresentCompare1 = Represent1.x * Axis1.x + Represent1.y * Axis1.y;
+		RepresentCompare2 = Represent2.x * Axis1.x + Represent2.y * Axis1.y;
+		RepresentCompare3 = Represent3.x * Axis1.x + Represent3.y * Axis1.y;
+		RepresentCompare4 = Represent4.x * Axis1.x + Represent4.y * Axis1.y;
+
+		rRepresentCompare1 = rRepresent1.x * Axis1.x + rRepresent1.y * Axis1.y;
+		rRepresentCompare2 = rRepresent2.x * Axis1.x + rRepresent2.y * Axis1.y;
+		rRepresentCompare3 = rRepresent3.x * Axis1.x + rRepresent3.y * Axis1.y;
+		rRepresentCompare4 = rRepresent4.x * Axis1.x + rRepresent4.y * Axis1.y;
+
+		if (min({ rRepresentCompare1, rRepresentCompare2, rRepresentCompare3, rRepresentCompare4 }) <= max({ RepresentCompare1, RepresentCompare2, RepresentCompare3, RepresentCompare4 }))
+			return true;
+		//if (max({ rRepresentCompare1, rRepresentCompare2, rRepresentCompare3, rRepresentCompare4 }) >= min({ RepresentCompare1, RepresentCompare2, RepresentCompare3, RepresentCompare4 }))
+		//	return true;
+
+		return false;
 	}
 
 	bool IntersectMouse(const POINT& mousePt) const {
