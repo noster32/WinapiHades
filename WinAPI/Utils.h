@@ -122,12 +122,22 @@ struct Vector2D {
 
 struct Rect2D {
 	Point2D leftBottom, rightTop, center;
+	Point2D rLeftBottom, rLeftTop, rRightBottom, rRightTop;
 
-	Rect2D() : leftBottom(), rightTop() {}
+	Rect2D() : leftBottom(), rightTop(), rLeftBottom(), rLeftTop(), rRightBottom(), rRightTop() {}
 	Rect2D(int left, int bottom, int right, int top) : leftBottom(Point2D(left, bottom)), rightTop(Point2D(right, top)) { }
 	Rect2D(Point2D lb, Point2D rt) : leftBottom(lb), rightTop(rt) { }
 	Rect2D(Point2D center, int width, int height) : leftBottom(Point2D(center.x - width / 2, center.y - height / 2)), rightTop(Point2D(center.x + width / 2, center.y + height / 2)), center(center) { }
 	Rect2D(int centerX, int centerY, int width, int height, uchar center) : leftBottom(Point2D(centerX - width / 2, centerY - height / 2)), rightTop(Point2D(centerX + width / 2, centerY + height / 2)), center(Point2D(centerX, centerY)) { }
+	Rect2D(Point2D lb, Point2D rt, float rotate) : rLeftBottom(lb.x*cos(rotate * DEG_TO_RAD) - lb.y*sin(rotate * DEG_TO_RAD), lb.x*sin(rotate * DEG_TO_RAD) + lb.y*cos(rotate * DEG_TO_RAD)),
+												rLeftTop(lb.x*cos(rotate* DEG_TO_RAD) - rt.y*sin(rotate * DEG_TO_RAD), lb.x*sin(rotate* DEG_TO_RAD) + rt.y*cos(rotate * DEG_TO_RAD)),
+												rRightBottom(rt.x*cos(rotate* DEG_TO_RAD) - lb.y*sin(rotate * DEG_TO_RAD), rt.x*sin(rotate* DEG_TO_RAD) + lb.y*cos(rotate * DEG_TO_RAD)),
+												rRightTop(rt.x * cos(rotate* DEG_TO_RAD) - rt.y*sin(rotate * DEG_TO_RAD), rt.x*sin(rotate* DEG_TO_RAD) + rt.y*cos(rotate * DEG_TO_RAD)) { }
+	Rect2D(Point2D center, int width, int height, float rotate) : rLeftBottom((center.x - width / 2) * cos(rotate* DEG_TO_RAD) - (center.y - height / 2) * sin(rotate * DEG_TO_RAD), (center.x - width / 2) * sin(rotate * DEG_TO_RAD) + (center.y - height / 2) * cos(rotate * DEG_TO_RAD)),
+																rLeftTop((center.x - width / 2) * cos(rotate * DEG_TO_RAD) - (center.y + height / 2) * sin(rotate * DEG_TO_RAD), (center.x - width / 2) * sin(rotate * DEG_TO_RAD) + (center.y + height / 2) * cos(rotate * DEG_TO_RAD)),
+																rRightBottom((center.x + width / 2) * cos(rotate * DEG_TO_RAD) - (center.y - height / 2) * sin(rotate * DEG_TO_RAD), (center.x + width / 2) * sin(rotate * DEG_TO_RAD) + (center.y - height / 2) * cos(rotate * DEG_TO_RAD)),
+																rRightTop((center.x + width / 2) * cos(rotate * DEG_TO_RAD) - (center.y - height / 2) * sin(rotate * DEG_TO_RAD), (center.x + width / 2) * sin(rotate * DEG_TO_RAD) + (center.y + height / 2) * cos(rotate * DEG_TO_RAD)),
+																center(center) { }
 
 	bool IntersectRect2D(const Rect2D& r) const {
 		return (leftBottom.x >= r.leftBottom.x && leftBottom.x <= r.rightTop.x && leftBottom.y >= r.leftBottom.y && leftBottom.y <= r.rightTop.y) ||
@@ -135,6 +145,10 @@ struct Rect2D {
 			(leftBottom.x >= r.leftBottom.x && leftBottom.x <= r.rightTop.x && rightTop.y >= r.leftBottom.y && rightTop.y <= r.rightTop.y) ||
 			(rightTop.x >= r.leftBottom.x && rightTop.x <= r.rightTop.x && rightTop.y >= r.leftBottom.y && rightTop.y <= r.rightTop.y);
 	}
+	bool IntersectRotatedRect2D(const Rect2D& r) const {
+
+	}
+
 	bool IntersectMouse(const POINT& mousePt) const {
 		return mousePt.x >= leftBottom.x && mousePt.x <= rightTop.x && mousePt.y <= rightTop.y && mousePt.y >= leftBottom.y;
 	}

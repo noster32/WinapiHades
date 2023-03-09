@@ -1,13 +1,119 @@
-﻿  Player.cpp
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\Player.h(97,69): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\Player.cpp(180,99): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\Player.cpp(180,61): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\Player.cpp(181,55): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\Player.cpp(181,39): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\Player.cpp(285,40): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\Player.cpp(287,36): warning C4305: '=': 'double'에서 'float'(으)로 잘립니다.
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\Player.cpp(299,11): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\Player.cpp(329,17): warning C4244: '초기화 중': 'float'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  Stdafx.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\FFmpeg\include\libavutil\rational.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Utils.h(34,15): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Utils.h(34,24): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Utils.h(59,47): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Utils.h(60,67): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Utils.h(60,90): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Utils.h(64,15): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Utils.h(65,15): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Utils.h(84,25): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Utils.h(84,33): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Utils.h(273): warning C4267: '초기화 중': 'size_t'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Utils.h(285): warning C4267: '초기화 중': 'size_t'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Animation.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Animation.cpp(74,22): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Animation.cpp(92,18): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Animation.cpp(110,18): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Animation.cpp(129,20): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Animation.cpp(137,20): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Animation.cpp(149,19): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Animation.cpp(149,43): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Animation.cpp(160,20): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Animation.cpp(169,20): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Animation.cpp(190,20): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Animation.cpp(199,20): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+  AssetIter.cpp
+  BossScene.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.h(97,69): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  DeathArea.cpp
+  EngineLauncher.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.h(97,69): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\EngineLauncher.cpp(110,61): warning C4244: '=': 'LONGLONG'에서 'ulong'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\EngineLauncher.cpp(130,61): warning C4244: '=': 'LONGLONG'에서 'ulong'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\EngineLauncher.cpp(190,20): warning C4244: 'return': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\EngineLauncher.cpp(144,11): warning C4101: 'menu' :참조되지 않은 지역 변수입니다.
+  FontManager.cpp
+  GLAPI.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(131,22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(179,9): warning C4101: 'pboIds' :참조되지 않은 지역 변수입니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(221,14): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(222,14): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(223,14): warning C4244: '초기화 중': 'double'에서 'ulong'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(224,14): warning C4244: '초기화 중': 'double'에서 'ulong'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(267,14): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(268,14): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(269,14): warning C4244: '초기화 중': 'double'에서 'ulong'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(270,14): warning C4244: '초기화 중': 'double'에서 'ulong'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(336,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(338,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(409,41): warning C4267: '초기화 중': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(561,22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(570,19): warning C4244: '초기화 중': 'ullong'에서 'ulong'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(572,20): warning C4244: '초기화 중': 'unsigned long'에서 'uchar'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(578,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(585,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(586,22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(828,12): warning C4244: '인수': 'int'에서 'const float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GLAPI.cpp(834,12): warning C4244: '초기화 중': 'const uint'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  GameEngine.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.h(97,69): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GameEngine.cpp(148,59): warning C4554: '&': 연산자 우선 순위에 오류가 있는지 확인하세요. 괄호를 사용하여 우선 순위를 명확하게 지정하세요.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GameEngine.cpp(155,59): warning C4554: '&': 연산자 우선 순위에 오류가 있는지 확인하세요. 괄호를 사용하여 우선 순위를 명확하게 지정하세요.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\GameEngine.cpp(162,21): warning C4552: '!=': 식의 결과가 사용되지 않습니다.
+  GameEngineBuilder.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.h(97,69): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  GameEngineImplement.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.h(97,69): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  JsonSaveLoader.cpp
+  KeyManager.cpp
+  MainMenuScene.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.h(97,69): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  MapManager.cpp
+  MasterSceneObject.cpp
+  Player.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.h(97,69): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(180,99): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(180,61): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(181,55): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(181,39): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(285,40): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(287,36): warning C4305: '=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(299,11): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(329,17): warning C4244: '초기화 중': 'float'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  RenderObject.cpp
+  SceneObject.cpp
+  SoundManager.cpp
+  SoundScene.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  Sprite.cpp
+  TestScene.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.h(97,69): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\TestScene.cpp(16,12): warning C4244: '인수': 'time_t'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  TextObject.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\TextObject.cpp(13,37): warning C4267: '=': 'size_t'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  TimeManager.cpp
+  Timer.cpp
+  Utils.cpp
+  WinMain.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.h(97,69): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  nFFmpeg.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(27,19): warning C4244: '=': 'int64_t'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(115,16): warning C4244: '=': 'int64_t'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(206,16): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(222,16): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(225,9): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(240,16): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(244,9): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(274,17): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(278,10): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(303,54): warning C4244: '=': 'LONGLONG'에서 'ulong'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  scene.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.h(97,69): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(72): warning C4715: 'nFFmpeg::load_frame': 모든 제어 경로에서 값을 반환하지는 않습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Utils.cpp(36): warning C4715: 'TextureGenerateParam::GetValue': 모든 제어 경로에서 값을 반환하지는 않습니다.
 glew32s.lib(glew.obj) : warning LNK4099: '' PDB를 'glew32s.lib(glew.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
 freetype.lib(ftinit.obj) : warning LNK4099: '' PDB를 'freetype.lib(ftinit.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
 freetype.lib(ftbase.obj) : warning LNK4099: '' PDB를 'freetype.lib(ftbase.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
@@ -35,4 +141,4 @@ freetype.lib(ftlzw.obj) : warning LNK4099: '' PDB를 'freetype.lib(ftlzw.obj)' �
 freetype.lib(ftbitmap.obj) : warning LNK4099: '' PDB를 'freetype.lib(ftbitmap.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
 freetype.lib(ftdebug.obj) : warning LNK4099: '' PDB를 'freetype.lib(ftdebug.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
 LINK : warning LNK4098: 'LIBCMT' defaultlib가 다른 라이브러리와 충돌합니다. /NODEFAULTLIB:library를 사용하십시오.
-  WinAPI.vcxproj -> C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\x64\Debug\WinAPI.exe
+  WinAPI.vcxproj -> C:\Users\noster\Desktop\WinapiHades\WinapiHades\x64\Debug\WinAPI.exe

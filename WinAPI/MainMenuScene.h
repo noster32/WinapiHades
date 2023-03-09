@@ -16,6 +16,8 @@ private:
 	Rect2D startbuttonInter;
 	bool start;
 	bool startInEnd;
+
+	Rect2D test;
 public:
 	void Init();
 

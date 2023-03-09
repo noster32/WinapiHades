@@ -9,11 +9,10 @@ void MainMenuScene::Init()
 	//SOUNDMANAGER->addSound("InSound", , false, false);
 	//SOUNDMANAGER->addSound("MainMenuBGM", "Resources/Sounds/01 No Escape 44khz 16bit HDK MSTR.wav", true, true);
 	SOUNDMANAGER->addSound("MainMenuBGM", "Resources/Sounds/MainMenu.wav", false, true);
-	MainMenuIn.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
-	MainMenuLoop.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
-	//MainMenuIn.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
-	//MainMenuLoop.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
-	//MainMenuLoop.transformation.anchor = Anchor:;
+	//MainMenuIn.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
+	//MainMenuLoop.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
+	MainMenuIn.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
+	MainMenuLoop.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
 	MainMenuLoop.transformation.position.y -= 5.0f;
 	MainMenuLoop.transformation.scale -= 0.15f;
 	MainMenuLoop.SetDepth(21);
@@ -29,6 +28,7 @@ void MainMenuScene::Init()
 	startbutton.texture = nts.Find("startButton");
 	startbutton.transformation.position = Vector2D(100, 300);
 	startbutton.transformation.scale -= 0.2f;
+	startbutton.transformation.anchor = Anchor::CENTER;
 	startbutton.SetDepth(20);
 	endbutton.texture = nts.Find("endButton");
 	endbutton.transformation.position = Vector2D(100, 200);
@@ -64,7 +64,7 @@ void MainMenuScene::OnUpdate()
 	}
 	else
 		MainMenuLoop.loop();
-		
+
 	//printf("test");
 
 	if (KEYMANAGER->isOnceKeyDown(VK_F1)) {
@@ -73,8 +73,18 @@ void MainMenuScene::OnUpdate()
 		SOUNDMANAGER->stop("MainMenuBGM");
 	}
 
-
-
+	if (KEYMANAGER->isStayKeyDown('Q')) {
+		startbutton.transformation.rotate += 3.0f;
+		printf("%f \n", startbutton.transformation.rotate.getDegree());
+		printf("");
+	}
+	if (KEYMANAGER->isStayKeyDown('E')) {
+		startbutton.transformation.rotate -= 3.0f;
+		printf("%f \n", startbutton.transformation.rotate.getDegree());
+	}
+	
+	test = Rect2D(Point2D(startbutton.transformation.position.x, startbutton.transformation.position.y), 375, 116, startbutton.transformation.rotate.getDegree());
+	
 }
 
 void MainMenuScene::OnUpdateLoading()
