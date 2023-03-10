@@ -17,15 +17,12 @@ enum playerStatus {
 	FISHING
 };
 
-enum playerMoveDir {
-	RIGHT,
-	RIGHTUP,
-	UP,
-	LEFTUP,
-	LEFT,
-	LEFTDOWN,
-	DOWN,
-	RIGHTDOWN
+enum playerWeapon {
+	SWORD = 0,
+	BOW,
+	FIST,
+	SPEAR,
+	GUN
 };
 
 class Player : public RenderObject
@@ -41,15 +38,16 @@ private:
 	};
 private:	
 	map<playerStatus, string> mPlayerStatus;
-	playerStatus ps;
-	playerMoveDir pmr;
+	playerStatus ePlayerStatus;
+	playerWeapon ePlayerWeapon;
 
-	nFFmpeg testFFmpeg;
+	nFFmpeg playerIdle;
 	nFFmpeg playerRunAnim;
 	nFFmpeg playerDashAnim;
 	nFFmpeg playerDashVFX;
 	nFFmpeg playerAttackSwordAnim;
 	nFFmpeg playerSpacialAttackSwordAnim;
+	nFFmpeg playerAttackBowAnim;
 
 	int angle;
 	int dashAngle;
@@ -72,7 +70,7 @@ private:
 	int attackAnimMin;
 
 	Rect2D playerHitbox;
-	Rect2D playerAttack;
+	Rect2D playerAttackHitbox;
 public:
 	uint texture;
 	uint renderOp;
@@ -81,20 +79,21 @@ public:
 public:
 	string FindStatus(playerStatus ps);
 	void tempPlayerStatueUpdate();
-	void playerMove(playerMoveDir pmr);
+	void playerMove();
+	void PlayerAttack();
 
 	void playerUpdate();
 
 	void playerCommand();
 	
 
-	Vector2D getPlayerPosition() { return testFFmpeg.transformation.position; }
+	Vector2D getPlayerPosition() { return playerIdle.transformation.position; }
 
 	Player() : renderOp(RenderObject::TEXTURE_SIZE) { }
 	void SetTexture();
 	void SetFFmpeg();
 
-	int GetPlayerDepth() { return testFFmpeg.transformation.position.x + (testFFmpeg.transformation.position.y - 112); }
+	int GetPlayerDepth() { return playerIdle.transformation.position.x + (playerIdle.transformation.position.y - 112); }
 
 	virtual void Render() override;
 };

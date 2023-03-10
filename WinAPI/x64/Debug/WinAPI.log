@@ -1,5 +1,27 @@
-﻿  MainMenuScene.cpp
-C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\WinAPI\Player.h(97,69): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  Player.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.h(96,69): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(193,99): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(193,61): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(194,55): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(194,39): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(219,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(261,12): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(369,40): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(371,36): warning C4305: '=': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\Player.cpp(381,17): warning C4244: '초기화 중': 'float'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  nFFmpeg.cpp
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(27,19): warning C4244: '=': 'int64_t'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(115,16): warning C4244: '=': 'int64_t'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(206,16): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(222,16): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(225,9): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(240,16): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(243,9): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(273,17): warning C4244: '초기화 중': 'double'에서 'uint'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(277,10): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(302,54): warning C4244: '=': 'LONGLONG'에서 'ulong'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+C:\Users\noster\Desktop\WinapiHades\WinapiHades\WinAPI\nFFmpeg.cpp(72): warning C4715: 'nFFmpeg::load_frame': 모든 제어 경로에서 값을 반환하지는 않습니다.
 glew32s.lib(glew.obj) : warning LNK4099: '' PDB를 'glew32s.lib(glew.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
 freetype.lib(ftinit.obj) : warning LNK4099: '' PDB를 'freetype.lib(ftinit.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
 freetype.lib(ftbase.obj) : warning LNK4099: '' PDB를 'freetype.lib(ftbase.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
@@ -27,4 +49,4 @@ freetype.lib(ftlzw.obj) : warning LNK4099: '' PDB를 'freetype.lib(ftlzw.obj)' �
 freetype.lib(ftbitmap.obj) : warning LNK4099: '' PDB를 'freetype.lib(ftbitmap.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
 freetype.lib(ftdebug.obj) : warning LNK4099: '' PDB를 'freetype.lib(ftdebug.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
 LINK : warning LNK4098: 'LIBCMT' defaultlib가 다른 라이브러리와 충돌합니다. /NODEFAULTLIB:library를 사용하십시오.
-  WinAPI.vcxproj -> C:\Users\0127r\OneDrive\바탕 화면\WinapiHades\x64\Debug\WinAPI.exe
+  WinAPI.vcxproj -> C:\Users\noster\Desktop\WinapiHades\WinapiHades\x64\Debug\WinAPI.exe

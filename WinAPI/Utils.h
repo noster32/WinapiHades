@@ -136,7 +136,7 @@ struct Rect2D {
 	Rect2D(Vector2D center, int width, int height, float rotate) : rLeftBottom( center.x + ((center.x - width / 2) - center.x)* cos(rotate* DEG_TO_RAD) - ((center.y - height / 2) - center.y) * sin(rotate * DEG_TO_RAD), center.y + ((center.x - width / 2) - center.x) * sin(rotate* DEG_TO_RAD) + ((center.y - height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
 																rLeftTop(center.x + ((center.x - width / 2) - center.x) * cos(rotate * DEG_TO_RAD) - ((center.y + height / 2) - center.y) * sin(rotate * DEG_TO_RAD), center.y + ((center.x - width / 2) - center.x) * sin(rotate* DEG_TO_RAD) + ((center.y + height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
 																rRightBottom(center.x + ((center.x + width / 2) - center.x) * cos(rotate * DEG_TO_RAD) - ((center.y - height / 2) - center.y) * sin(rotate * DEG_TO_RAD), center.y + ((center.x + width / 2) - center.x) * sin(rotate * DEG_TO_RAD) + ((center.y - height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
-																rRightTop(center.x + ((center.x + width / 2) - center.x) * cos(rotate * DEG_TO_RAD) - ((center.y - height / 2) - center.y) * sin(rotate * DEG_TO_RAD), center.y + ((center.x + width / 2) - center.x) * sin(rotate * DEG_TO_RAD) + ((center.y + height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
+																rRightTop(center.x + ((center.x + width / 2) - center.x) * cos(rotate * DEG_TO_RAD) - ((center.y + height / 2) - center.y) * sin(rotate * DEG_TO_RAD), center.y + ((center.x + width / 2) - center.x) * sin(rotate * DEG_TO_RAD) + ((center.y + height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
 																center(center) { }
 
 	bool IntersectRect2D(const Rect2D& r) const {
@@ -146,6 +146,7 @@ struct Rect2D {
 			(rightTop.x >= r.leftBottom.x && rightTop.x <= r.rightTop.x && rightTop.y >= r.leftBottom.y && rightTop.y <= r.rightTop.y);
 	}
 	bool IntersectRotatedRect2D(const Rect2D& r) const {
+		bool isGap = false, isCollision = false;
 		Vector2D Axis1, Axis2, Axis3, Axis4;
 		Vector2D Represent1, Represent2, Represent3, Represent4;
 		Vector2D  rRepresent1, rRepresent2, rRepresent3, rRepresent4;
@@ -161,40 +162,55 @@ struct Rect2D {
 		Axis4.x = r.rRightTop.x - r.rRightBottom.x;
 		Axis4.y = r.rRightTop.y - r.rRightBottom.y;
 
-		Represent1.x = ((rRightTop.x * Axis1.x + rRightTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2))* Axis1.x;
-		Represent1.y = ((rRightTop.x * Axis1.x + rRightTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2))* Axis1.y;
-		Represent2.x = ((rLeftTop.x * Axis1.x + rLeftTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.x;
-		Represent2.y = ((rLeftTop.x * Axis1.x + rLeftTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.y;
-		Represent3.x = ((rRightBottom.x * Axis1.x + rRightBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.x;
-		Represent3.y = ((rRightBottom.x * Axis1.x + rRightBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.y;
-		Represent4.x = ((rLeftBottom.x * Axis1.x + rLeftBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.x;
-		Represent4.y = ((rLeftBottom.x * Axis1.x + rLeftBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.y;
+		vector<Vector2D> Axiss;
+		Axiss.push_back(Axis1); 
+		Axiss.push_back(Axis2);
+		Axiss.push_back(Axis3);
+		Axiss.push_back(Axis4);
 
-		rRepresent1.x = ((r.rRightTop.x * Axis1.x + r.rRightTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.x;
-		rRepresent1.y = ((r.rRightTop.x * Axis1.x + r.rRightTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.y;
-		rRepresent2.x = ((r.rLeftTop.x * Axis1.x + r.rLeftTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.x;
-		rRepresent2.y = ((r.rLeftTop.x * Axis1.x + r.rLeftTop.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.y;
-		rRepresent3.x = ((r.rRightBottom.x * Axis1.x + r.rRightBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.x;
-		rRepresent3.y = ((r.rRightBottom.x * Axis1.x + r.rRightBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.y;
-		rRepresent4.x = ((r.rLeftBottom.x * Axis1.x + r.rLeftBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.x;
-		rRepresent4.y = ((r.rLeftBottom.x * Axis1.x + r.rLeftBottom.y * Axis1.y) / pow(Axis1.x, 2) + pow(Axis1.y, 2)) * Axis1.y;
+		for (Vector2D axis : Axiss) {
+			Represent1.x = ((rRightTop.x * axis.x + rRightTop.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.x;
+			Represent1.y = ((rRightTop.x * axis.x + rRightTop.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.y;
+			Represent2.x = ((rLeftTop.x * axis.x + rLeftTop.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.x;
+			Represent2.y = ((rLeftTop.x * axis.x + rLeftTop.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.y;
+			Represent3.x = ((rRightBottom.x * axis.x + rRightBottom.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.x;
+			Represent3.y = ((rRightBottom.x * axis.x + rRightBottom.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.y;
+			Represent4.x = ((rLeftBottom.x * axis.x + rLeftBottom.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.x;
+			Represent4.y = ((rLeftBottom.x * axis.x + rLeftBottom.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.y;
 
-		RepresentCompare1 = Represent1.x * Axis1.x + Represent1.y * Axis1.y;
-		RepresentCompare2 = Represent2.x * Axis1.x + Represent2.y * Axis1.y;
-		RepresentCompare3 = Represent3.x * Axis1.x + Represent3.y * Axis1.y;
-		RepresentCompare4 = Represent4.x * Axis1.x + Represent4.y * Axis1.y;
+			rRepresent1.x = ((r.rRightTop.x * axis.x + r.rRightTop.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.x;
+			rRepresent1.y = ((r.rRightTop.x * axis.x + r.rRightTop.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.y;
+			rRepresent2.x = ((r.rLeftTop.x * axis.x + r.rLeftTop.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.x;
+			rRepresent2.y = ((r.rLeftTop.x * axis.x + r.rLeftTop.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.y;
+			rRepresent3.x = ((r.rRightBottom.x * axis.x + r.rRightBottom.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.x;
+			rRepresent3.y = ((r.rRightBottom.x * axis.x + r.rRightBottom.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.y;
+			rRepresent4.x = ((r.rLeftBottom.x * axis.x + r.rLeftBottom.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.x;
+			rRepresent4.y = ((r.rLeftBottom.x * axis.x + r.rLeftBottom.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.y;
 
-		rRepresentCompare1 = rRepresent1.x * Axis1.x + rRepresent1.y * Axis1.y;
-		rRepresentCompare2 = rRepresent2.x * Axis1.x + rRepresent2.y * Axis1.y;
-		rRepresentCompare3 = rRepresent3.x * Axis1.x + rRepresent3.y * Axis1.y;
-		rRepresentCompare4 = rRepresent4.x * Axis1.x + rRepresent4.y * Axis1.y;
 
-		if (min({ rRepresentCompare1, rRepresentCompare2, rRepresentCompare3, rRepresentCompare4 }) <= max({ RepresentCompare1, RepresentCompare2, RepresentCompare3, RepresentCompare4 }))
+			RepresentCompare1 = Represent1.x * axis.x + Represent1.y * axis.y;
+			RepresentCompare2 = Represent2.x * axis.x + Represent2.y * axis.y;
+			RepresentCompare3 = Represent3.x * axis.x + Represent3.y * axis.y;
+			RepresentCompare4 = Represent4.x * axis.x + Represent4.y * axis.y;
+
+			rRepresentCompare1 = rRepresent1.x * axis.x + rRepresent1.y * axis.y;
+			rRepresentCompare2 = rRepresent2.x * axis.x + rRepresent2.y * axis.y;
+			rRepresentCompare3 = rRepresent3.x * axis.x + rRepresent3.y * axis.y;
+			rRepresentCompare4 = rRepresent4.x * axis.x + rRepresent4.y * axis.y;
+
+			
+			if(max({ rRepresentCompare1, rRepresentCompare2, rRepresentCompare3, rRepresentCompare4 }) >= max({ RepresentCompare1, RepresentCompare2, RepresentCompare3, RepresentCompare4 })) {
+				if (min({ rRepresentCompare1, rRepresentCompare2, rRepresentCompare3, rRepresentCompare4 }) >= max({ RepresentCompare1, RepresentCompare2, RepresentCompare3, RepresentCompare4 }))
+					return false;
+			}
+			else {
+				if (max({ rRepresentCompare1, rRepresentCompare2, rRepresentCompare3, rRepresentCompare4 }) <= min({ RepresentCompare1, RepresentCompare2, RepresentCompare3, RepresentCompare4 }))
+					return false;
+			}
+		}
+
+
 			return true;
-		//if (max({ rRepresentCompare1, rRepresentCompare2, rRepresentCompare3, rRepresentCompare4 }) >= min({ RepresentCompare1, RepresentCompare2, RepresentCompare3, RepresentCompare4 }))
-		//	return true;
-
-		return false;
 	}
 
 	bool IntersectMouse(const POINT& mousePt) const {

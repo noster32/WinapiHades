@@ -10,43 +10,47 @@ void Player::SetTexture()
 
 void Player::SetFFmpeg()
 {
-	//testFFmpeg.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
-	//playerRunAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
-	//playerDashAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
-	//playerDashVFX.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
-	//playerAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
-	//playerSpacialAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSwordParry_Bink.avi");
-	testFFmpeg.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
-	playerRunAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
-	playerDashAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
-	playerDashVFX.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
-	playerAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
-	playerSpacialAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSwordParry_Bink.avi");
+	playerIdle.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
+	playerRunAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
+	playerDashAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
+	playerDashVFX.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
+	playerAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
+	playerSpacialAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSwordParry_Bink.avi");
+	playerAttackBowAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusBow_Bink.avi");
+	//playerIdle.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
+	//playerRunAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
+	//playerDashAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
+	//playerDashVFX.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
+	//playerAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
+	//playerSpacialAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSwordParry_Bink.avi");
 
-	testFFmpeg.transformation.position = Vector2D(2500, 800);
-	testFFmpeg.transformation.anchor = Anchor::CENTER;
-	testFFmpeg.transformation.scale -= 0.1f;
+	playerIdle.transformation.position = Vector2D(2500, 800);
+	playerIdle.transformation.anchor = Anchor::CENTER;
+	playerIdle.transformation.scale -= 0.1f;
 	//testFFmpeg.SetDepth(20);
-	playerRunAnim.transformation.position = testFFmpeg.transformation.position;
+	playerRunAnim.transformation.position = playerIdle.transformation.position;
 	playerRunAnim.transformation.anchor = Anchor::CENTER;
 	playerRunAnim.transformation.scale -= 0.1f;
 	//playerRunAnim.SetDepth(20);
-	playerDashAnim.transformation.position = testFFmpeg.transformation.position;
+	playerDashAnim.transformation.position = playerIdle.transformation.position;
 	playerDashAnim.transformation.anchor = Anchor::CENTER;
 	playerDashAnim.transformation.scale -= 0.1f;
 	//playerDashAnim.SetDepth(20);
-	playerDashVFX.transformation.position = testFFmpeg.transformation.position;
+	playerDashVFX.transformation.position = playerIdle.transformation.position;
 	playerDashVFX.transformation.anchor = Anchor::CENTER;
 	playerDashVFX.transformation.scale -= 0.1f;
 	//playerDashVFX.SetDepth(20);
-	playerAttackSwordAnim.transformation.position = testFFmpeg.transformation.position + Vector2D(0, 10);
+	playerAttackSwordAnim.transformation.position = playerIdle.transformation.position + Vector2D(0, 10);
 	playerAttackSwordAnim.transformation.anchor = Anchor::CENTER;
 	playerAttackSwordAnim.transformation.scale -= 0.1f;
 	//playerAttackSwordAnim.SetDepth(20);
-	playerSpacialAttackSwordAnim.transformation.position = testFFmpeg.transformation.position;
+	playerSpacialAttackSwordAnim.transformation.position = playerIdle.transformation.position;
 	playerSpacialAttackSwordAnim.transformation.anchor = Anchor::CENTER;
 	playerSpacialAttackSwordAnim.transformation.scale -= 0.1f;
 	//playerSpacialAttackSwordAnim.SetDepth(20);
+	playerAttackBowAnim.transformation.position = playerIdle.transformation.position;
+	playerAttackBowAnim.transformation.anchor = Anchor::CENTER;
+	playerAttackBowAnim.transformation.scale -= 0.1f;
 
 
 
@@ -62,10 +66,8 @@ void Player::SetFFmpeg()
 	mPlayerStatus.insert(make_pair(DIE, "DIE"));
 	mPlayerStatus.insert(make_pair(FISHING, "FISHING"));
 
-	ps = IDLE;
-	SwordAttack1 = false;
-	SwordAttack2 = false;
-	SwordAttack3 = false;
+	ePlayerStatus = IDLE;
+	ePlayerWeapon = BOW;
 }
 
 
@@ -78,73 +80,84 @@ string Player::FindStatus(playerStatus ps)
 
 void Player::tempPlayerStatueUpdate()
 {
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) || playerAttackSwordAnim.GetAnimPlaying())
+	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) || playerAttackSwordAnim.GetAnimPlaying() || KEYMANAGER->isStayKeyDown(VK_LBUTTON))
 	{
-		ps = ATTACK;
+		ePlayerStatus = ATTACK;
 	}
 	else if (KEYMANAGER->isStayKeyDown('W') || KEYMANAGER->isStayKeyDown('A') || KEYMANAGER->isStayKeyDown('S') || KEYMANAGER->isStayKeyDown('D'))
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_SPACE) || playerDashAnim.GetAnimPlaying())
 		{
-			ps = DASH;
+			ePlayerStatus = DASH;
 		}
 		else
-			ps = MOVE;
+			ePlayerStatus = MOVE;
 	}
 	else if (KEYMANAGER->isOnceKeyDown(VK_SPACE) || playerDashAnim.GetAnimPlaying())
 	{
-		ps = DASH;
+		ePlayerStatus = DASH;
 	}
 	else
-		ps = IDLE;
+		ePlayerStatus = IDLE;
 
 	if (KEYMANAGER->isOnceKeyDown('Q') || playerSpacialAttackSwordAnim.GetAnimPlaying()) {
-		ps = SPECIAL_ATTACK;
+		ePlayerStatus = SPECIAL_ATTACK;
 	}
 
-	switch (ps)
+	switch (ePlayerStatus)
 	{
 	case IDLE:
-		testFFmpeg.SetEnable(true);
+		playerIdle.SetEnable(true);
 		playerRunAnim.SetEnable(false);
 		playerDashAnim.SetEnable(false);
 		playerDashVFX.SetEnable(false);
 		playerAttackSwordAnim.SetEnable(false);
 		playerSpacialAttackSwordAnim.SetEnable(false);
+		playerAttackBowAnim.SetEnable(true);
 		break;
 	case MOVE:
-		testFFmpeg.SetEnable(false);
+		playerIdle.SetEnable(false);
 		playerRunAnim.SetEnable(true);
 		playerDashAnim.SetEnable(false);
 		playerDashVFX.SetEnable(false);
 		playerAttackSwordAnim.SetEnable(false);
 		playerSpacialAttackSwordAnim.SetEnable(false);
+		playerAttackBowAnim.SetEnable(false);
 		break;
 	case DASH:
-		testFFmpeg.SetEnable(false);
+		playerIdle.SetEnable(false);
 		playerRunAnim.SetEnable(false);
 		playerDashAnim.SetEnable(true);
 		playerDashVFX.SetEnable(true);
 		playerAttackSwordAnim.SetEnable(false);
 		playerSpacialAttackSwordAnim.SetEnable(false);
+		playerAttackBowAnim.SetEnable(false);
 		break;
 	case MOVESTOP:
 		break;
 	case ATTACK:
-		testFFmpeg.SetEnable(false);
+		playerIdle.SetEnable(false);
 		playerRunAnim.SetEnable(false);
 		playerDashAnim.SetEnable(false);
 		playerDashVFX.SetEnable(false);
-		playerAttackSwordAnim.SetEnable(true);
+		if (ePlayerWeapon == SWORD) {
+			playerAttackSwordAnim.SetEnable(true);
+			playerAttackBowAnim.SetEnable(false);
+		}
+		else if (ePlayerWeapon == BOW) {
+			playerAttackSwordAnim.SetEnable(false);
+			playerAttackBowAnim.SetEnable(true);
+		}
 		playerSpacialAttackSwordAnim.SetEnable(false);
 		break;
 	case SPECIAL_ATTACK:
-		testFFmpeg.SetEnable(false);
+		playerIdle.SetEnable(false);
 		playerRunAnim.SetEnable(false);
 		playerDashAnim.SetEnable(false);
 		playerDashVFX.SetEnable(false);
 		playerAttackSwordAnim.SetEnable(false);
 		playerSpacialAttackSwordAnim.SetEnable(true);
+		playerAttackBowAnim.SetEnable(false);
 		break;
 	case MAGIC:
 		break;
@@ -161,7 +174,7 @@ void Player::tempPlayerStatueUpdate()
 		break;
 	}
 
-	if (ps != ATTACK)
+	if (ePlayerStatus != ATTACK)
 		attackResetDelay--;
 
 	if (attackResetDelay <= 0) {
@@ -173,102 +186,173 @@ void Player::tempPlayerStatueUpdate()
 		//cout << attackResetDelay << endl;
 }
 
-void Player::playerMove(playerMoveDir pmr)
+void Player::playerMove()
 {
-	if (ps == DASH)
+	if (ePlayerStatus == DASH)
 	{
-		Point2D tempA = Point2D(testFFmpeg.transformation.position.x, testFFmpeg.transformation.position.y);
+		Point2D tempA = Point2D(playerIdle.transformation.position.x, playerIdle.transformation.position.y);
 		Point2D tempB = Point2D(dashDistance.x, dashDistance.y);
 
 		if (tempA != tempB)
 		{
-			testFFmpeg.transformation.position += dir * 80;
-			cout << testFFmpeg.transformation.position.x << ", " << testFFmpeg.transformation.position.y << endl;
+			playerIdle.transformation.position += dir * 80;
+			cout << playerIdle.transformation.position.x << ", " << playerIdle.transformation.position.y << endl;
 		}
 	}
 	
-	playerRunAnim.transformation.position = testFFmpeg.transformation.position;
-	playerDashAnim.transformation.position = testFFmpeg.transformation.position;
-	playerDashVFX.transformation.position = testFFmpeg.transformation.position;
-	playerAttackSwordAnim.transformation.position = testFFmpeg.transformation.position + Vector2D(0, 30);
-	playerSpacialAttackSwordAnim.transformation.position = testFFmpeg.transformation.position + Vector2D(0, 30);
+	playerRunAnim.transformation.position = playerIdle.transformation.position;
+	playerDashAnim.transformation.position = playerIdle.transformation.position;
+	playerDashVFX.transformation.position = playerIdle.transformation.position;
+	playerAttackSwordAnim.transformation.position = playerIdle.transformation.position + Vector2D(0, 30);
+	playerSpacialAttackSwordAnim.transformation.position = playerIdle.transformation.position + Vector2D(0, 30);
+	playerAttackBowAnim.transformation.position = playerIdle.transformation.position;
+}
+
+void Player::PlayerAttack()
+{
+	if(ePlayerWeapon == SWORD) {
+		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && !playerAttackSwordAnim.GetAnimPlaying()) {
+			float tempAngle = getAngle(playerIdle.transformation.position.x, playerIdle.transformation.position.y,
+				(_ptMouse.x - WINSIZE_X / 2) + playerIdle.transformation.position.x,
+				(_ptMouse.y - WINSIZE_Y / 2) + playerIdle.transformation.position.y);
+			float tempAngle2 = (360 - (tempAngle * 180 / PI)) / 11.25f;
+			angle = tempAngle2;
+			if (swordAttackAnimCount == 3)
+				swordAttackAnimCount = 1;
+			else
+				swordAttackAnimCount++;
+
+			if (swordAttackAnimCount == 2) {
+				attackAnimMin = 800000;
+			}
+			else if (swordAttackAnimCount == 3) {
+				attackAnimMin = 1400000;
+			}
+			else
+				attackAnimMin = 0;
+
+			playerAttackSwordAnim.SeekTo(angle, 32, attackAnimMin);
+			playerAttackSwordAnim.SetAnimPlaying();
+			playerIdle.SeekTo(angle, 32);
+		}
+
+		if (KEYMANAGER->isOnceKeyDown('Q')) {
+			printf("Special Attack");
+			playerSpacialAttackSwordAnim.SeekTo(angle / 2, 16, attackAnimMin);
+			playerSpacialAttackSwordAnim.SetAnimPlaying();
+		}
+
+		if (swordAttackAnimCount == 3) {
+			playerAttackSwordAnim.playOnce(angle, 32, 1600000, 3300000);
+		}
+		else if (swordAttackAnimCount == 2) {
+			playerAttackSwordAnim.playOnce(angle, 32, 700000, 1500000);
+		}
+		else if (swordAttackAnimCount == 1) {
+			playerAttackSwordAnim.playOnce(angle, 32, 0, 800000);
+		}
+	}
+	else if (ePlayerWeapon == BOW) {
+		if (KEYMANAGER->isStayKeyDown(VK_LBUTTON)) {
+			float tempAngle = getAngle(playerIdle.transformation.position.x, playerIdle.transformation.position.y,
+				(_ptMouse.x - WINSIZE_X / 2) + playerIdle.transformation.position.x,
+				(_ptMouse.y - WINSIZE_Y / 2) + playerIdle.transformation.position.y);
+			float tempAngle2 = (360 - (tempAngle * 180 / PI)) / 11.25f;
+			angle = tempAngle2;
+
+			playerAttackBowAnim.SeekTo(angle, 32, attackAnimMin);
+			playerAttackBowAnim.SetAnimPlaying();
+			playerIdle.SeekTo(angle, 32);
+
+			
+		}
+	}
+	else if (ePlayerWeapon == FIST) {
+
+	}
+	else if (ePlayerWeapon == SPEAR) {
+
+	}
+	else if (ePlayerWeapon == GUN) {
+
+	}
 }
 
 void Player::playerCommand()
 {
 	//Player Movemment
-	if (ps == MOVE)
+	if (ePlayerStatus == MOVE)
 	{
 		if (KEYMANAGER->isStayKeyDown('W') && KEYMANAGER->isStayKeyDown('A')) {
 			//PlayerMove
-			testFFmpeg.transformation.position.x -= 20;
-			testFFmpeg.transformation.position.y += 20;
+			playerIdle.transformation.position.x -= 20;
+			playerIdle.transformation.position.y += 20;
 
 			//SetAngle
 			angle = 12;
 
-			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+			cout << "playerPosition: " << playerIdle.transformation.position.x << playerIdle.transformation.position.y << endl;
 		}
 		else if (KEYMANAGER->isStayKeyDown('W') && KEYMANAGER->isStayKeyDown('D')) {
 
-			testFFmpeg.transformation.position += Vector2D(20, 20);
+			playerIdle.transformation.position += Vector2D(20, 20);
 
 			angle = 4;
 
-			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+			cout << "playerPosition: " << playerIdle.transformation.position.x << playerIdle.transformation.position.y << endl;
 		}
 		else if (KEYMANAGER->isStayKeyDown('S') && KEYMANAGER->isStayKeyDown('A')) {
 
-			testFFmpeg.transformation.position -= Vector2D(20, 20);
+			playerIdle.transformation.position -= Vector2D(20, 20);
 
 			angle = 20;
 
-			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+			cout << "playerPosition: " << playerIdle.transformation.position.x << playerIdle.transformation.position.y << endl;
 		}
 		else if (KEYMANAGER->isStayKeyDown('S') && KEYMANAGER->isStayKeyDown('D')) {
 
-			testFFmpeg.transformation.position.x += 20;
-			testFFmpeg.transformation.position.y -= 20;
+			playerIdle.transformation.position.x += 20;
+			playerIdle.transformation.position.y -= 20;
 
 			angle = 28;
 
-			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+			cout << "playerPosition: " << playerIdle.transformation.position.x << playerIdle.transformation.position.y << endl;
 		}
 		else if (KEYMANAGER->isStayKeyDown('W')) {
 
-			testFFmpeg.transformation.position.y += 20;
+			playerIdle.transformation.position.y += 20;
 
 			angle = 8;
 
-			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+			cout << "playerPosition: " << playerIdle.transformation.position.x << playerIdle.transformation.position.y << endl;
 		}
 		else if (KEYMANAGER->isStayKeyDown('A')) {
 
-			testFFmpeg.transformation.position.x -= 20;
+			playerIdle.transformation.position.x -= 20;
 
 			angle = 16;
 
-			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+			cout << "playerPosition: " << playerIdle.transformation.position.x << playerIdle.transformation.position.y << endl;
 		}
 		else if (KEYMANAGER->isStayKeyDown('S')) {
 
-			testFFmpeg.transformation.position.y -= 20;
+			playerIdle.transformation.position.y -= 20;
 
 			angle = 24;
 
-			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+			cout << "playerPosition: " << playerIdle.transformation.position.x << playerIdle.transformation.position.y << endl;
 		}
 		else if (KEYMANAGER->isStayKeyDown('D')) {
 
-			testFFmpeg.transformation.position.x += 20;
+			playerIdle.transformation.position.x += 20;
 
 			angle = 0;
 
-			cout << "playerPosition: " << testFFmpeg.transformation.position.x << testFFmpeg.transformation.position.y << endl;
+			cout << "playerPosition: " << playerIdle.transformation.position.x << playerIdle.transformation.position.y << endl;
 		}
 		if (KEYMANAGER->isOnceKeyDown('W') || KEYMANAGER->isOnceKeyDown('A') || KEYMANAGER->isOnceKeyDown('S') || KEYMANAGER->isOnceKeyDown('D')
 			|| KEYMANAGER->isOnceKeyUp('W') || KEYMANAGER->isOnceKeyUp('A') || KEYMANAGER->isOnceKeyUp('S') || KEYMANAGER->isOnceKeyUp('D')) {
-			testFFmpeg.SeekTo(angle, 32);
+			playerIdle.SeekTo(angle, 32);
 			playerRunAnim.SeekTo(angle * 2, 64);
 		}
 	}
@@ -287,66 +371,27 @@ void Player::playerCommand()
 			fAngle = (31 * 11.25) * PI / 180;
 
 		dir = Vector2D(cos(fAngle), sin(fAngle));
-		dashDistance = testFFmpeg.transformation.position + dir * 320;
+		dashDistance = playerIdle.transformation.position + dir * 320;
 		cout << dashDistance.x << ", " << dashDistance.y << endl;
-	}
-
-	if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON) && !playerAttackSwordAnim.GetAnimPlaying()) {
-		float tempAngle = getAngle(testFFmpeg.transformation.position.x, testFFmpeg.transformation.position.y, 
-							(_ptMouse.x - WINSIZE_X / 2) + testFFmpeg.transformation.position.x, 
-							(_ptMouse.y - WINSIZE_Y / 2) + testFFmpeg.transformation.position.y);
-		float tempAngle2 = (360 - (tempAngle * 180 / PI)) / 11.25f;
-		angle = tempAngle2;
-
-		if (swordAttackAnimCount == 3)
-			swordAttackAnimCount = 1;
-		else
-			swordAttackAnimCount++;
-
-		if (swordAttackAnimCount == 2) {
-			attackAnimMin = 800000;
-		}
-		else if (swordAttackAnimCount == 3) {
-			attackAnimMin = 1400000;
-		}
-		else
-			attackAnimMin = 0;
-
-		playerAttackSwordAnim.SeekTo(angle, 32, attackAnimMin);
-		playerAttackSwordAnim.SetAnimPlaying();
-		testFFmpeg.SeekTo(angle, 32);
-	}
-	
-	if (KEYMANAGER->isOnceKeyDown('Q')) {
-		printf("Special Attack");
-		playerSpacialAttackSwordAnim.SeekTo(angle / 2, 16, attackAnimMin);
-		playerSpacialAttackSwordAnim.SetAnimPlaying();
 	}
 }
 
 void Player::playerUpdate()
 {
-	uint tempDepth = testFFmpeg.transformation.position.x + testFFmpeg.transformation.position.y;
+	uint tempDepth = playerIdle.transformation.position.x + playerIdle.transformation.position.y;
 	
-	testFFmpeg.loop(angle, 32);
+	playerIdle.loop(angle, 32);
 	playerRunAnim.loop(angle * 2, 64);
 	playerDashAnim.playOnce(angle / 2, 16, 0, 1500000);
 	playerDashVFX.playOnce(angle / 2, 16, 0, 1500000);
 	playerSpacialAttackSwordAnim.playOnce(angle / 2, 16, 0, 2062500);
-
-	if (swordAttackAnimCount == 3) {
-		playerAttackSwordAnim.playOnce(angle, 32, 1600000, 3300000);
-	}
-	else if (swordAttackAnimCount == 2) {
-		playerAttackSwordAnim.playOnce(angle, 32, 700000, 1500000);
-	}
-	else if (swordAttackAnimCount == 1) {
-		playerAttackSwordAnim.playOnce(angle, 32, 0, 800000);
-	}
-
+	//playerAttackBowAnim.loop(angle, 32, 0, 500000);
+	//playerAttackBowAnim.loop(angle, 32, 500000, 1800000);
+	//playerAttackBowAnim.loop(angle, 32, 1800000, 5000000);
+	PlayerAttack();
 	playerCommand();
 	tempPlayerStatueUpdate();
-	playerMove(pmr);
+	playerMove();
 
 }
 
@@ -356,12 +401,13 @@ void Player::Render()
 
 	gl.PushMatrix();
 
-	testFFmpeg.RenderTest();
+	playerIdle.RenderTest();
 	playerRunAnim.RenderTest();
 	playerDashAnim.RenderTest();
 	playerDashVFX.RenderTest();
 	playerAttackSwordAnim.RenderTest();
 	playerSpacialAttackSwordAnim.RenderTest();
+	playerAttackBowAnim.RenderTest();
 	gl.DrawTextureAuto(transformation, texture, tick, Point2D(0,0));
 
 	gl.PopMatrix();

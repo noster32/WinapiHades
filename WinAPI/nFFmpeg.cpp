@@ -238,12 +238,29 @@ void nFFmpeg::loop(uint pos, uint angle, uint min, uint max)
 	uint temp = pos * tempAngleVal;
 	uint temp2 = (pos + 1) * tempAngleVal;
 	uint tempTime = ((pts - vStream->start_time) * av_q2d(vStream->time_base) * AV_TIME_BASE);
-	cout << tempTime << endl;
 	temp2 -= 100000;
 	if (temp2 > duration)
 		temp2 == duration;
 
-	if (tempTime > temp + max)
+	if (tempTime > temp + max - 100000)
+	{
+		SeekTo(pos, angle, min);
+	}
+}
+
+void nFFmpeg::chargeLoop(uint pos, uint angle, uint min, uint max)
+{
+	if (pos >= angle)
+		pos -= 1;
+	uint tempAngleVal = duration / angle;
+	uint temp = pos * tempAngleVal;
+	uint temp2 = (pos + 1) * tempAngleVal;
+	uint tempTime = ((pts - vStream->start_time) * av_q2d(vStream->time_base) * AV_TIME_BASE);
+	temp2 -= 100000;
+	if (temp2 > duration)
+		temp2 == duration;
+
+	if (tempTime > temp + max - 100000)
 	{
 		SeekTo(pos, angle, min);
 	}

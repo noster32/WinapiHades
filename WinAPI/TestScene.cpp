@@ -38,8 +38,8 @@ void TestScene::Init()
 	vector<uint> uidsMobSpawn = gl.LoadMultipleTexturesPng("Resources/Images/Object/Anim/MobSpawn/MobSpawn", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uidsMobSpawn), "MobSpawn");
 
-	//Skelly.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
-	Skelly.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
+	Skelly.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
+	//Skelly.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
 	
 	nts.Add(gl.GenerateEmptyTexture(150, 150, 0xFFFFFFFF), "EnemyHitbox");
 	nts.Add(gl.GenerateEmptyTexture(182, 200, 0xFFFFFFFF), "PlayerAttack");

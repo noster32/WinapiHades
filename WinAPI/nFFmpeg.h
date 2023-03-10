@@ -57,6 +57,8 @@ public:
 	void loop(uint pos, uint angle);
 	void loop(uint pos, uint angle, uint min, uint max);
 
+	void chargeLoop(uint pos, uint angle, uint min, uint max);
+
 	void pause(uint pos, uint angle, uint point);
 
 	void playOnce(uint pos, uint angle, uint min, uint max);
@@ -68,6 +70,7 @@ public:
 
 	bool GetAnimPlaying() { return animPlaying; }
 	void SetAnimPlaying() { animPlaying = true; }
+	void SetAnimPlayingF() { animPlaying = false; }
 
 	void SetUpdateFrame(uint frame) { updateFrame = 1000000 / frame; }
 	uint GetUpdateFrame() { return updateFrame; }
