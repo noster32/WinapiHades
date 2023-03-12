@@ -196,3 +196,37 @@ bool SoundManager::isPauseSound(string keyName)
     return isPause;
 }
 
+uint SoundManager::getSoundLenght(string keyName)
+{
+    uint songlength;
+
+    int count = 0;
+    arrSoundIter iter = _mTotalSounds.begin();
+    for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+    {
+        if (keyName == iter->first)
+        {
+            _sound[count]->getLength(&songlength, FMOD_TIMEUNIT_MS);
+        }
+    }
+
+    return songlength;
+}
+
+uint SoundManager::getPlayingTime(string keyName)
+{
+    uint playingTime;
+
+    int count = 0;
+    arrSoundIter iter = _mTotalSounds.begin();
+    for (iter; iter != _mTotalSounds.end(); ++iter, count++)
+    {
+        if (keyName == iter->first)
+        {
+            _channel[count]->getPosition(&playingTime, FMOD_TIMEUNIT_MS);
+        }
+    }
+
+    return playingTime;
+}
+

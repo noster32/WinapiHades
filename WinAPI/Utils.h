@@ -278,12 +278,12 @@ struct Transformation {
 	Vector2D position;
 	Vector2D scale;
 	Angle rotate;
-	AnglePoint anglePoont;
+	AnglePoint anglePoint;
 	Anchor anchor;
 	Color2D color;
 	float alpha;
-	Transformation() : position(), scale(1.0f, 1.0f), rotate(), anchor(), alpha(1.0f), color(1.0f, 1.0f, 1.0f), anglePoont()  { }
-	Transformation(Vector2D _pos, Vector2D _sca, Angle _rot) : position(_pos), scale(_sca), rotate(_rot), anchor(), alpha(1.0f), color(1.0f, 1.0f, 1.0f), anglePoont() { }
+	Transformation() : position(), scale(1.0f, 1.0f), rotate(), anchor(), alpha(1.0f), color(1.0f, 1.0f, 1.0f), anglePoint()  { }
+	Transformation(Vector2D _pos, Vector2D _sca, Angle _rot) : position(_pos), scale(_sca), rotate(_rot), anchor(), alpha(1.0f), color(1.0f, 1.0f, 1.0f), anglePoint() { }
 };
 
 struct TextureGenerateParam {

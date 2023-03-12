@@ -9,6 +9,7 @@ enum playerStatus {
 	DASH,
 	MOVESTOP,
 	ATTACK,
+	ATTACK_END,
 	SPECIAL_ATTACK,
 	MAGIC,
 	CALL,
@@ -48,8 +49,15 @@ private:
 	nFFmpeg playerAttackSwordAnim;
 	nFFmpeg playerSpacialAttackSwordAnim;
 	nFFmpeg playerAttackBowAnim;
+	nFFmpeg playerSpecialAttackBowAnim;
+	nFFmpeg playerAttackFistAnim;
+	nFFmpeg playerSpecialAttackFistAnim;
+	nFFmpeg playerAttackSpearAnim;
+	nFFmpeg playerChargeAttackSpearAnim;
+
 
 	int angle;
+	int attackAngle;
 	int dashAngle;
 	int animLength;
 	int animDelay;
@@ -71,6 +79,9 @@ private:
 
 	Rect2D playerHitbox;
 	Rect2D playerAttackHitbox;
+
+	uint animCount;
+	bool soundPlayOnce;
 public:
 	uint texture;
 	uint renderOp;
@@ -86,6 +97,8 @@ public:
 
 	void playerCommand();
 	
+	Rect2D GetPlayerAttackHitBox() { return playerAttackHitbox; }
+	int GetPlayerAngle() { return attackAngle; }
 
 	Vector2D getPlayerPosition() { return playerIdle.transformation.position; }
 

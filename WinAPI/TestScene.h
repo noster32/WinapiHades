@@ -43,9 +43,13 @@ private:
 	Rect2D test1;
 	Rect2D test2;
 
+	Rect2D playerAttackRect;
+	Rect2D SkellyHitBoxRect;
 	bool start;
 
 	void MonSpawn();
+
+	void Combat();
 public:
 	void Init();
 

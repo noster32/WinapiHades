@@ -61,6 +61,9 @@ public:
 	bool isPlaySound(string keyName);
 	bool isPauseSound(string keyName);
 
+	uint getSoundLenght(string keyName);
+	uint getPlayingTime(string keyName);
+
 	SoundManager();
 	~SoundManager() {}
 };

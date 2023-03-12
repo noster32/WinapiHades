@@ -424,7 +424,7 @@ void GLAPI::Transform(const Transformation& tf)
 {
 	Vector2D pos = PxCoordToVertex2f(tf.position.VecToPoint());
 	glTranslatef(pos.x, pos.y, 0.0f);
-	glRotatef(tf.rotate.getDegree(), tf.anglePoont.x, tf.anglePoont.y, tf.anglePoont.z);
+	glRotatef(tf.rotate.getDegree(), tf.anglePoint.x, tf.anglePoint.y, tf.anglePoint.z);
 	glScalef(tf.scale.x, tf.scale.y, 1.0f);
 	glColor4f(tf.color.r, tf.color.g, tf.color.b, tf.alpha);
 }

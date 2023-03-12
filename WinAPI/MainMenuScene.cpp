@@ -6,13 +6,11 @@ void MainMenuScene::Init()
 	scene::AddSceneToMap(this, "MainMenu");
 
 	TextureGenerateParam param(TextureGenerateParam::LINEAR, TextureGenerateParam::LINEAR);
-	//SOUNDMANAGER->addSound("InSound", , false, false);
-	//SOUNDMANAGER->addSound("MainMenuBGM", "Resources/Sounds/01 No Escape 44khz 16bit HDK MSTR.wav", true, true);
 	SOUNDMANAGER->addSound("MainMenuBGM", "Resources/Sounds/MainMenu.wav", false, true);
-	//MainMenuIn.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
-	//MainMenuLoop.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
-	MainMenuIn.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
-	MainMenuLoop.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
+	MainMenuIn.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
+	MainMenuLoop.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
+	//MainMenuIn.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
+	//MainMenuLoop.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
 	MainMenuLoop.transformation.position.y -= 5.0f;
 	MainMenuLoop.transformation.scale -= 0.15f;
 	MainMenuLoop.SetDepth(21);
@@ -34,8 +32,8 @@ void MainMenuScene::Init()
 	RegisterObject(MainMenuLoop);
 	RegisterObject(startbutton);
 	RegisterObject(endbutton);
-	RegisterObject(testBox1);
-	RegisterObject(testBox2);
+	//RegisterObject(testBox1);
+	//RegisterObject(testBox2);
 
 	startbutton.texture = nts.Find("startButton");
 	startbutton.transformation.position = Vector2D(100, 300);
@@ -65,16 +63,16 @@ void MainMenuScene::OnUpdate()
 {
 	if (!start) {
 		start = true;
-		SOUNDMANAGER->play("MainMenuBGM", 0.0f);
-		MainMenuIn.SetAnimPlaying();
+		SOUNDMANAGER->play("MainMenuBGM", 0.5f);
+		//MainMenuIn.SetAnimPlaying();
 	}
 	if (!startInEnd) {
-		MainMenuIn.playOnce(0, 0, 0, 2666667);
-		if (!MainMenuIn.GetAnimPlaying())
-			startInEnd = true;
+		//MainMenuIn.playOnce(0, 0, 0, 2666667);
+		//if (!MainMenuIn.GetAnimPlaying())
+		//	startInEnd = true;
 	}
-	else
-		MainMenuLoop.loop();
+	
+	MainMenuLoop.loop();
 
 	//printf("test");
 
@@ -105,12 +103,12 @@ void MainMenuScene::OnUpdate()
 		printf("%f \n", testBox1.transformation.position.x);
 	}
 	
-	test = Rect2D(testBox1.transformation.position, 200, 100, testBox1.transformation.rotate.getDegree());
-	test2 = Rect2D(testBox2.transformation.position, 200, 100, testBox2.transformation.rotate.getDegree());
-	
-	if (test.IntersectRotatedRect2D(test2)) {
-		printf("Collision!\n");
-	}
+	//test = Rect2D(testBox1.transformation.position, 200, 100, testBox1.transformation.rotate.getDegree());
+	//test2 = Rect2D(testBox2.transformation.position, 200, 100, testBox2.transformation.rotate.getDegree());
+	//
+	//if (test.IntersectRotatedRect2D(test2)) {
+	//	printf("Collision!\n");
+	//}
 }
 
 void MainMenuScene::OnUpdateLoading()

@@ -11,6 +11,11 @@ void TestScene::MonSpawn()
 {		
 }
 
+void TestScene::Combat()
+{
+	
+}
+
 void TestScene::Init()
 {
 	srand(time(NULL));
@@ -26,6 +31,7 @@ void TestScene::Init()
 	SOUNDMANAGER->addSound("DeathRoom", "Resources/Sounds/DeathRoom.wav", false, true);
 	SOUNDMANAGER->addSound("DeathRoom1", "Resources/Sounds/DeathRoom1.wav", false, true);
 	SOUNDMANAGER->addSound("DeathRoom2", "Resources/Sounds/DeathRoom2.wav", false, true);
+	SOUNDMANAGER->addSound("SkellyHit", "Resources/Sounds/ZagreusCriticalFire2.wav", false, false);
 
 	vector<uint> OrbUids = gl.LoadMultipleTexturesPng("Resources/Images/Object/Anim/Orb/Orb", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(OrbUids), "Orb");
@@ -38,19 +44,17 @@ void TestScene::Init()
 	vector<uint> uidsMobSpawn = gl.LoadMultipleTexturesPng("Resources/Images/Object/Anim/MobSpawn/MobSpawn", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uidsMobSpawn), "MobSpawn");
 
-	Skelly.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
-	//Skelly.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
+	//Skelly.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
+	Skelly.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
 	
 	nts.Add(gl.GenerateEmptyTexture(150, 150, 0xFFFFFFFF), "EnemyHitbox");
-	nts.Add(gl.GenerateEmptyTexture(182, 200, 0xFFFFFFFF), "PlayerAttack");
+	nts.Add(gl.GenerateEmptyTexture(150, 50, 0xFFFFFFFF), "PlayerAttack");
 	nts.Add(gl.GenerateEmptyTexture(250, 100, 0xFFFFFFFF), "PlayerAttackUpDown");
 	
 	playerObjTest.SetTexture();
 	playerObjTest.SetFFmpeg(); 
 	playerObjTest.SetDepth(20);
 	RegisterObject(playerObjTest);
-
-	//RegisterObject(Skelly);
 
 	RegisterObject(Orb1);
 	RegisterObject(MobSpawn);
@@ -60,9 +64,11 @@ void TestScene::Init()
 	RegisterObject(testSprite);
 	RegisterObject(tempMap);
 	
-	RegisterObject(enemyHitbox);
-	RegisterObject(playerAttack);
+	//RegisterObject(enemyHitbox);
+	//RegisterObject(playerAttack);
 	RegisterObject(playerAttack2);
+
+	RegisterObject(Skelly);
 
 	RegisterObject(UpdateInPlayer);
 	//fade.alpha
@@ -71,7 +77,7 @@ void TestScene::Init()
 	UpdateInPlayer.SetDepth(20);
 	UpdateInPlayer.transformation.anchor = Anchor::CENTER;
 	UpdateInPlayer.transformation.position = Vector2D(2500, 800);
-	//애니메이션 여러개 만들어서 활 당기는중일때는 "bow뭐시기" 하고 쏘면 -> "bow발사" 이런식으로 재생
+	UpdateInPlayer.transformation.scale -= 0.1f;
 	fade.texture = nts.Find("fade");
 	fade.SetDepth(100);
 	fade.renderOp = RenderObject::FIT_TO_SCREEN;
@@ -85,14 +91,19 @@ void TestScene::Init()
 	Skelly.transformation.position = Vector2D(5000, 5000);
 	Skelly.transformation.anchor = Anchor::CENTER;
 	Skelly.transformation.scale -= 0.3f;
-	//Skelly.SetDepth(20);
+	Skelly.SetDepth(10000 - 256);
 	//Skelly.transformation.alpha = 0.5f;
 
 
-	//enemyHitbox.texture = nts.Find("EnemyHitbox");
-	//enemyHitbox.SetDepth(18);
-	//enemyHitbox.transformation.position = Skelly.transformation.position;
-	//enemyHitbox.transformation.anchor = Anchor::CENTER;
+	enemyHitbox.texture = nts.Find("EnemyHitbox");
+	enemyHitbox.SetDepth(10000);
+	enemyHitbox.transformation.position = Skelly.transformation.position;
+	enemyHitbox.transformation.anchor = Anchor::CENTER;
+
+	playerAttack.texture = nts.Find("PlayerAttack");
+	playerAttack.SetDepth(10000);
+	playerAttack.transformation.position = playerObjTest.transformation.position;
+	playerAttack.transformation.anchor = Anchor::CENTER;
 	
 	Orb1.texture = nts.Find("Orb");
 	Orb1.transformation.position = Vector2D(2100, 900);
@@ -126,12 +137,13 @@ void TestScene::OnUpdate()
 	playerObjTest.SetDepth(playerObjTest.GetPlayerDepth());
 	if (!start) {
 		start = true;
-		SOUNDMANAGER->play("DeathRoom", 0.6f);
-		SOUNDMANAGER->play("DeathRoom1", 0.6f);
-		SOUNDMANAGER->play("DeathRoom2", 0.6f);
+		SOUNDMANAGER->play("DeathRoom", 0.0f);
+		SOUNDMANAGER->play("DeathRoom1", 0.0f);
+		SOUNDMANAGER->play("DeathRoom2", 0.0f);
 	}
 	Orb1.enabled = true;
 	playerObjTest.enabled = true;
+	Skelly.SetEnable(true);
 
 	if (KEYMANAGER->isOnceKeyDown(VK_F2))
 		Skelly.transformation.color.SetColor(10.0f, 10.0f, 10.0f);
@@ -146,6 +158,22 @@ void TestScene::OnUpdate()
 	OrbAnim.playObjAnim(Orb1, 39, 2);
 
 	tempObjAnim.playObjAnim(testOrb, 39, 2);
+
+	playerAttack.transformation.position = Vector2D(2690, 970);
+	playerAttack.transformation.rotate = 50.0f;
+
+	playerAttackRect = Rect2D(playerAttack.transformation.position, 150, 50, 50.0f);
+	SkellyHitBoxRect = Rect2D(Vector2D(2730, 1000), 150, 150, 0.0f);
+	if (KEYMANAGER->isStayKeyDown(VK_LBUTTON) && playerAttackRect.IntersectRotatedRect2D(SkellyHitBoxRect)) {
+		printf("Hit\n");
+		if(SOUNDMANAGER->getPlayingTime("SkellyHit") >= SOUNDMANAGER->getSoundLenght("SkellyHit") || SOUNDMANAGER->getPlayingTime("SkellyHit") == 0)
+		SOUNDMANAGER->play("SkellyHit", 0.5f);
+	}
+	//if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON)) {
+	//	printf("Hit\n");
+	//	SOUNDMANAGER->play("SkellyHit", 0.5f);
+	//}
+
 }
 
 void TestScene::OnUpdateLoading()
@@ -185,8 +213,7 @@ void TestScene::OnRenderLoading()
 	//tempMap.Render();
 
 	masterSceneObject.transformation.position = Vector2D(-2500, -800);
-	masterSceneObject.Render();
-	
+	masterSceneObject.Render();	
 }
 
 void TestScene::OnRender()
