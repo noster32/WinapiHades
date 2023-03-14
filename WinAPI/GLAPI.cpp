@@ -44,14 +44,9 @@ void GLAPI::EnableOpenGL(HWND hwnd, HDC* hDC, HGLRC* hRC, Point2D windowSize)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	GLfloat aspect = (GLfloat)windowSize.x / (GLfloat)windowSize.y;
-	if (windowSize.x > windowSize.y) {
-		glOrtho(-1.0 * aspect, 1.0 * aspect, -1.0, 1.0, 1.0, -1.0);
-		this->viewportSize = Vector2D(2.0f * aspect, 2.0f);
-	}
-	else {
-		glOrtho(-1.0, 1.0, -1.0 / aspect, 1.0 / aspect, 1.0, -1.0);
-		this->viewportSize = Vector2D(2.0f, 2.0f / aspect);
-	}
+	glOrtho(-1.0 * aspect, 1.0 * aspect, -1.0, 1.0, 1.0, -1.0);
+	this->viewportSize = Vector2D(2.0f * aspect, 2.0f);
+
 	this->unitVertex2f = viewportSize / windowSize;
 	this->centerVertex2f = viewportSize / 2.0f;
 	glMatrixMode(GL_MODELVIEW);
@@ -798,7 +793,6 @@ Vector2D GLAPI::PxCoordToTexCoord2f(const Point2D& pixel, const uchar power)
 float GLAPI::PxCoordToTexCoord2fTest(const uint coord, const uint power)
 {
 	float tex = coord;
-	//tex /= (1 << power);
 	tex /= power;
 	return tex;
 }
