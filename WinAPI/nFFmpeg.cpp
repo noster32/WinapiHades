@@ -1,9 +1,6 @@
 #include "Stdafx.h"
 #include "nFFmpeg.h"
 
-
-
-
 nFFmpeg::nFFmpeg() : enable(true), animPlaying(false), bPause(false), animDone(false), updateFrame(1000000 / 60)
 					//,gl(GLAPI::GetInstance())
 {
@@ -23,9 +20,9 @@ bool nFFmpeg::load_frame(string filename)
 		return false;
 	}
 
-	cout << "Amount of streams: " << fmtCtx->nb_streams << endl;
-	duration = fmtCtx->duration;
-	cout << "Duration" << duration << endl;
+	//cout << "Amount of streams: " << fmtCtx->nb_streams << endl;
+	//duration = fmtCtx->duration;
+	//cout << "Duration" << duration << endl;
 
 	vidx = av_find_best_stream(fmtCtx, AVMEDIA_TYPE_VIDEO, -1, -1, NULL, 0);
 
@@ -67,8 +64,6 @@ bool nFFmpeg::load_frame(string filename)
 	}
 
 	video = gl.LoadTextureFFmpeg(glFrame->data[0], vCtx->width, vCtx->height);
-	//pBuf = gl.LoadPixelBufferFFmpeg(vCtx->width, vCtx->height);
-
 }
 
 bool nFFmpeg::readFrame()
@@ -113,8 +108,6 @@ bool nFFmpeg::readFrame()
 			
 		}
 		pts = avFrame->best_effort_timestamp;
-		//uint tempTime = ((pts - vStream->start_time) * av_q2d(vStream->time_base) * AV_TIME_BASE);
-		//cout << "pts: " << tempTime << endl;
 		av_packet_unref(packet);
 
 	} while (packet->stream_index != vidx);
@@ -155,23 +148,16 @@ void nFFmpeg::Render()
 	readFrame();
 	gl.DrawVideoTexture(transformation, vCtx->width, vCtx->height, video);
 
-	//vector<SceneObject*>& children = GetChildrenVector();
-	//vector<SceneObject*>::iterator iter;
-	//for (iter = children.begin(); iter != children.end(); iter++) {
-	//	(*iter)->Render();
-	//}
-
 	gl.PopMatrix();	
 }
 void nFFmpeg::RenderTest()
 {
+	if (!enable) return;
+
 	gl.PushMatrix();
 
-	if (enable)
-	{
-		readFrame();
-		gl.DrawVideoTexture(transformation, vCtx->width, vCtx->height, video);
-	}
+	readFrame();
+	gl.DrawVideoTexture(transformation, vCtx->width, vCtx->height, video);
 
 	gl.PopMatrix();
 }
@@ -181,21 +167,21 @@ void nFFmpeg::SeekTo(void)
 	av_seek_frame(fmtCtx, -1, vStream->start_time, AVSEEK_FLAG_FRAME);
 }
 
-void nFFmpeg::SeekTo(uint pos, uint angle)
+void nFFmpeg::SeekTo(uint pAngle, uint angle)
 {
 	uint tempAngleVal = duration / angle;
-	uint temp = pos * tempAngleVal;
+	uint temp = pAngle * tempAngleVal;
 
 	if (vCtx) avcodec_flush_buffers(vCtx);
 	av_seek_frame(fmtCtx, -1, temp, AVSEEK_FLAG_FRAME);
 }
 
-void nFFmpeg::SeekTo(uint pos, uint angle, uint min)
+void nFFmpeg::SeekTo(uint pAngle, uint angle, uint min)
 {
-	if (pos >= angle)
-		pos -= 1;
+	if (pAngle >= angle)
+		pAngle -= 1;
 	uint tempAngleVal = duration / angle;
-	uint temp = pos * tempAngleVal;
+	uint temp = pAngle * tempAngleVal;
 
 	if (vCtx) avcodec_flush_buffers(vCtx);
 	av_seek_frame(fmtCtx, -1, temp + min, AVSEEK_FLAG_FRAME);
@@ -204,21 +190,19 @@ void nFFmpeg::SeekTo(uint pos, uint angle, uint min)
 void nFFmpeg::loop(void)
 {
 	uint tempTime = ((pts - vStream->start_time) * av_q2d(vStream->time_base) * AV_TIME_BASE);
-	animPlaying = true;
 	if (tempTime >= duration - 100000)
 	{
 		SeekTo();
-		animPlaying = false;
 	}
 }
 
-void nFFmpeg::loop(uint pos, uint angle)
+void nFFmpeg::loop(uint pAngle, uint angle)
 {
-	if (pos >= angle)
-		pos -= 1;
+	if (pAngle >= angle)
+		pAngle -= 1;
 	uint tempAngleVal = duration / angle;
-	uint temp = pos * tempAngleVal;
-	uint temp2 = (pos + 1) * tempAngleVal;
+	uint temp = pAngle * tempAngleVal;
+	uint temp2 = (pAngle + 1) * tempAngleVal;
 	uint tempTime = ((pts - vStream->start_time) * av_q2d(vStream->time_base) * AV_TIME_BASE);
 	temp2 -= 100000;
 	if (temp2 >= duration)
@@ -226,17 +210,31 @@ void nFFmpeg::loop(uint pos, uint angle)
 	
 	if (tempTime > temp2)
 	{
-		SeekTo(pos, angle);	
+		SeekTo(pAngle, angle);
 	}
 }
 
-void nFFmpeg::loop(uint pos, uint angle, uint min, uint max)
+void nFFmpeg::loop(uint pAngle, uint angle, uint min, uint max)
 {
-	if (pos >= angle)
-		pos -= 1;
+	if (pAngle >= angle)
+		pAngle -= 1;
 	uint tempAngleVal = duration / angle;
-	uint temp = pos * tempAngleVal;
-	uint temp2 = (pos + 1) * tempAngleVal;
+	uint temp = pAngle * tempAngleVal;
+	uint tempTime = ((pts - vStream->start_time) * av_q2d(vStream->time_base) * AV_TIME_BASE);
+
+	if (tempTime > temp + max - 100000)
+	{
+		SeekTo(pAngle, angle, min);
+	}
+}
+
+void nFFmpeg::chargeLoop(uint pAngle, uint angle, uint min, uint max)
+{
+	if (pAngle >= angle)
+		pAngle -= 1;
+	uint tempAngleVal = duration / angle;
+	uint temp = pAngle * tempAngleVal;
+	uint temp2 = (pAngle + 1) * tempAngleVal;
 	uint tempTime = ((pts - vStream->start_time) * av_q2d(vStream->time_base) * AV_TIME_BASE);
 	temp2 -= 100000;
 	if (temp2 > duration)
@@ -244,25 +242,7 @@ void nFFmpeg::loop(uint pos, uint angle, uint min, uint max)
 
 	if (tempTime > temp + max - 100000)
 	{
-		SeekTo(pos, angle, min);
-	}
-}
-
-void nFFmpeg::chargeLoop(uint pos, uint angle, uint min, uint max)
-{
-	if (pos >= angle)
-		pos -= 1;
-	uint tempAngleVal = duration / angle;
-	uint temp = pos * tempAngleVal;
-	uint temp2 = (pos + 1) * tempAngleVal;
-	uint tempTime = ((pts - vStream->start_time) * av_q2d(vStream->time_base) * AV_TIME_BASE);
-	temp2 -= 100000;
-	if (temp2 > duration)
-		temp2 == duration;
-
-	if (tempTime > temp + max - 100000)
-	{
-		SeekTo(pos, angle, min);
+		SeekTo(pAngle, angle, min);
 	}
 }
 
@@ -287,12 +267,7 @@ void nFFmpeg::playOnce(uint pos, uint angle, uint min, uint max)
 		else
 			tempAngleVal = duration / angle;
 		uint temp = pos * tempAngleVal;
-		uint temp2 = (pos + 1) * tempAngleVal;
 		uint tempTime = ((pts - vStream->start_time) * av_q2d(vStream->time_base) * AV_TIME_BASE);
-		cout << tempTime << endl;
-		temp2 -= 100000;
-		if (temp2 > duration)
-			temp2 == duration;
 
 		if (tempTime >= temp + max - 100000)
 		{
@@ -301,6 +276,7 @@ void nFFmpeg::playOnce(uint pos, uint angle, uint min, uint max)
 		}
 	}
 }
+
 DWORD nFFmpeg::ffmpegThreadUpdateEntry()
 {
 	//return ffmpegThreadUpdate();

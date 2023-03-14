@@ -50,14 +50,14 @@ public:
 	void RenderTest();
 
 	void SeekTo(void);
-	void SeekTo(uint pos, uint angle);
-	void SeekTo(uint pos, uint angle, uint min);
+	void SeekTo(uint pAngle, uint angle);
+	void SeekTo(uint pAngle, uint angle, uint min);
 	
 	void loop(void);
-	void loop(uint pos, uint angle);
-	void loop(uint pos, uint angle, uint min, uint max);
+	void loop(uint pAngle, uint angle);
+	void loop(uint pAngle, uint angle, uint min, uint max);
 
-	void chargeLoop(uint pos, uint angle, uint min, uint max);
+	void chargeLoop(uint pAngle, uint angle, uint min, uint max);
 
 	void pause(uint pos, uint angle, uint point);
 

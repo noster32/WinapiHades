@@ -10,25 +10,30 @@ void Player::SetTexture()
 
 void Player::SetFFmpeg()
 {
-	//playerIdle.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
-	//playerRunAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
-	//playerDashAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
-	//playerDashVFX.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
-	//playerAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
-	//playerSpacialAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSwordParry_Bink.avi");
-	//playerAttackBowAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusBow_Bink.avi");
-	playerIdle.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
-	playerRunAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
-	playerDashAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
-	playerDashVFX.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
-	playerAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
-	playerSpacialAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSwordParry_Bink.avi");
-	playerAttackBowAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusBow_Bink.avi");
-	playerSpecialAttackBowAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusBowRapidFire_Bink.avi");
-	playerAttackFistAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusFistFlurryPunch_Bink.avi");
-	playerSpecialAttackFistAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusFistFlashKick_Bink.avi");
-	playerAttackSpearAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSpear_Bink.avi");
-	playerChargeAttackSpearAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSpearSpin_Bink.avi");
+	playerIdle.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
+	playerRunAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
+	playerDashAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
+	playerDashVFX.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
+	playerAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
+	playerSpacialAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSwordParry_Bink.avi");
+	playerAttackBowAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusBow_Bink.avi");
+	playerSpecialAttackBowAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusBowRapidFire_Bink.avi");
+	playerAttackFistAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusFistFlurryPunch_Bink.avi");
+	playerSpecialAttackFistAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusFistFlashKick_Bink.avi");
+	playerAttackSpearAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSpear_Bink.avi");
+	playerChargeAttackSpearAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSpearSpin_Bink.avi");
+	//playerIdle.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
+	//playerRunAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
+	//playerDashAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
+	//playerDashVFX.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
+	//playerAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
+	//playerSpacialAttackSwordAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSwordParry_Bink.avi");
+	//playerAttackBowAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusBow_Bink.avi");
+	//playerSpecialAttackBowAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusBowRapidFire_Bink.avi");
+	//playerAttackFistAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusFistFlurryPunch_Bink.avi");
+	//playerSpecialAttackFistAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusFistFlashKick_Bink.avi");
+	//playerAttackSpearAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSpear_Bink.avi");
+	//playerChargeAttackSpearAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusSpearSpin_Bink.avi");
 
 
 	playerIdle.transformation.position = Vector2D(2500, 800);
@@ -84,8 +89,6 @@ void Player::SetFFmpeg()
 	SOUNDMANAGER->addSound("SwordParry", "Resources/Sounds/ZagreusSwordParry.wav", false, false);
 	SOUNDMANAGER->addSound("BowRapidFire", "Resources/Sounds/ZagreusBowRapidFireAttack.wav", false, false);
 	
-	
-
 	mPlayerStatus.insert(make_pair(IDLE, "IDLE"));
 	mPlayerStatus.insert(make_pair(MOVE, "MOVE"));
 	mPlayerStatus.insert(make_pair(DASH, "DASH"));
@@ -99,7 +102,7 @@ void Player::SetFFmpeg()
 	mPlayerStatus.insert(make_pair(FISHING, "FISHING"));
 
 	ePlayerStatus = IDLE;
-	ePlayerWeapon = SWORD;
+	ePlayerWeapon = SPEAR;
 	soundPlayOnce = false;
 
 	//playerAttackHitbox = Rect2D()
@@ -424,19 +427,19 @@ void Player::PlayerAttack()
 				attackAnimMin = 0;
 
 			SOUNDMANAGER->play("SwordAttackSound1", 0.5f);
-			playerAttackSpearAnim.SeekTo(angle, 32, attackAnimMin);
+			playerAttackSpearAnim.SeekTo(angle * 2, 64, attackAnimMin);
 			playerAttackSpearAnim.SetAnimPlaying();
 			playerIdle.SeekTo(angle, 32);
 		}
 
 		if (swordAttackAnimCount == 3) {
-			playerAttackSwordAnim.playOnce(angle, 32, 1500000, 2200000);
+			playerAttackSwordAnim.playOnce(angle * 2, 64, 1500000, 2200000);
 		}
 		else if (swordAttackAnimCount == 2) {
-			playerAttackSwordAnim.playOnce(angle, 32, 800000, 1500000);
+			playerAttackSwordAnim.playOnce(angle * 2, 64, 800000, 1500000);
 		}
 		else if (swordAttackAnimCount == 1) {
-			playerAttackSwordAnim.playOnce(angle, 32, 0, 800000);
+			playerAttackSwordAnim.playOnce(angle * 2, 64, 0, 800000);
 		}
 	}
 	else if (ePlayerWeapon == GUN) {

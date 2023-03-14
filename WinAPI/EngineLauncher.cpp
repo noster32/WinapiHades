@@ -32,10 +32,6 @@ DWORD EngineLauncher::ThreadUpdateEntry(void)
     return instance->ThreadUpdate();
 }
 
-DWORD EngineLauncher::FFmpegThreadUpdateEntry(void)
-{
-    return instance->FFmpegThreadUpdate();
-}
 
 LRESULT EngineLauncher::WndProc(HWND hWnd, UINT IMessage, WPARAM wParam, LPARAM lParam)
 {
@@ -115,27 +111,6 @@ DWORD EngineLauncher::ThreadUpdate(void)
     }
     return 0;
 }
-
-DWORD EngineLauncher::FFmpegThreadUpdate(void)
-{
-    LARGE_INTEGER begin, end;
-    LARGE_INTEGER freq;
-    ulong elapsed, delay;
-
-    QueryPerformanceFrequency(&freq);
-    while (!engine.GetExitThread()) {
-        QueryPerformanceCounter(&begin);
-        ffmpeg->RenderTest();
-        QueryPerformanceCounter(&end);
-        elapsed = (end.QuadPart - begin.QuadPart) * 1000000 / freq.QuadPart;
-        if (ffmpeg->GetUpdateFrame() > elapsed) {
-            delay = (ffmpeg->GetUpdateFrame() - elapsed) / 1000;
-            Sleep(delay);
-        }
-    }
-    return 0;
-}
-
 
 int EngineLauncher::InternalLaunch()
 {

@@ -114,8 +114,6 @@ void GLAPI::EnableFreeType()
 				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-				
 			}
 			glBindTexture(GL_TEXTURE_2D, 0);
 		}
@@ -171,10 +169,6 @@ uint GLAPI::GenerateEmptyTexture(int width, int height, uint RGBA)
 
 uint GLAPI::LoadTextureFFmpeg(uint8_t* data, int width, int height)
 {
-	size_t u2 = 1; while (u2 < width) u2 *= 2;
-	size_t v2 = 1; while (v2 < height) v2 *= 2;
-	
-
 	GLuint id;
 	GLuint pboIds[2];
 	glGenTextures(1, &id);
@@ -214,18 +208,6 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 	if (!image)
 		return 0;
 
-	//POT resize
-	size_t u2 = 1; while (u2 < width) u2 *= 2;
-	size_t v2 = 1; while (v2 < height) v2 *= 2;
-
-	uint powerX = log2(u2);
-	uint powerY = log2(v2);
-	ulong tempX = pow(2, powerX);
-	ulong tempY = pow(2, powerY);
-	ulong eSize = width * height * 4;
-	ulong totalSize = tempX * tempY * 4;
-
-
 	GLuint id;
 	glGenTextures(1, &id);
 	glBindTexture(GL_TEXTURE_2D, id);
@@ -237,13 +219,8 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 	stbi_image_free(image);
 
 	TextureSource* dst = new TextureSource(id);
-	dst->texPowerOfX = powerX;
-	dst->texPowerOfY = powerY;
-	dst->totalSize = totalSize;
 	dst->width = width;
 	dst->height = height;
-	dst->size = eSize;
-	dst->coord = Vector2D((float)width / tempX, (float)height / tempY);
 	dst->range.rightTop = Point2D(width, height);
 
 	textureStorage.Add(dst);
@@ -389,7 +366,6 @@ void GLAPI::ClearTexture(const uint uid, const uint RGBA)
 	//texture update;
 	glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, ref.width, ref.height, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	delete data;
-	
 }
 
 
@@ -469,10 +445,6 @@ void GLAPI::DrawTextureAuto(const Transformation& tf, const uint uid, const ullo
 	lbVer = rtVer / -2.0f;
 	rtVer = rtVer / 2.0f;
 
-	//float leftTex = PxCoordToTexCoord2fTest(ref.range.leftBottom.x, ref.width);
-	//float rightTex = PxCoordToTexCoord2fTest(ref.range.rightTop.x, ref.width);
-	//float bottomTex = PxCoordToTexCoord2fTest(ref.range.leftBottom.y, ref.height);
-	//float topTex = PxCoordToTexCoord2fTest(ref.range.rightTop.y, ref.height);
 	float leftTex;
 	float rightTex;
 	float bottomTex;
@@ -637,13 +609,7 @@ void GLAPI::RenderText(string text, float x, float y, float scale)
 
 		float w = ch.Size.x * scale;
 		float h = ch.Size.y * scale;
-		/*
-		{ xpos,     ypos + h,   0.0f, 0.0f },     
-		{ xpos + w, ypos + h,   1.0f, 0.0f }
-		{ xpos + w, ypos,       1.0f, 1.0f },
-		{ xpos,     ypos,       0.0f, 1.0f },
 
-		*/
 		DrawQuadTexture(0.0f, 0.0f, 1.0f, 1.0f, xpos, ypos + h, xpos+w, ypos, ch.uid);
 		
 		x += (ch.Advance >> 6) * scale;

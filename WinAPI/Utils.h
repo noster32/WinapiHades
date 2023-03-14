@@ -128,16 +128,37 @@ struct Rect2D {
 	Rect2D(int left, int bottom, int right, int top) : leftBottom(Point2D(left, bottom)), rightTop(Point2D(right, top)) { }
 	Rect2D(Point2D lb, Point2D rt) : leftBottom(lb), rightTop(rt) { }
 	Rect2D(Vector2D center, int width, int height) : leftBottom(Point2D(center.x - width / 2, center.y - height / 2)), rightTop(Point2D(center.x + width / 2, center.y + height / 2)), center(center) { }
-	Rect2D(int centerX, int centerY, int width, int height, uchar center) : leftBottom(Point2D(centerX - width / 2, centerY - height / 2)), rightTop(Point2D(centerX + width / 2, centerY + height / 2)), center(Point2D(centerX, centerY)) { }
-	Rect2D(Point2D lb, Point2D rt, float rotate) : rLeftBottom(lb.x*cos(rotate * DEG_TO_RAD) - lb.y*sin(rotate * DEG_TO_RAD), lb.x*sin(rotate * DEG_TO_RAD) + lb.y*cos(rotate * DEG_TO_RAD)),
-												rLeftTop(lb.x*cos(rotate* DEG_TO_RAD) - rt.y*sin(rotate * DEG_TO_RAD), lb.x*sin(rotate* DEG_TO_RAD) + rt.y*cos(rotate * DEG_TO_RAD)),
-												rRightBottom(rt.x*cos(rotate* DEG_TO_RAD) - lb.y*sin(rotate * DEG_TO_RAD), rt.x*sin(rotate* DEG_TO_RAD) + lb.y*cos(rotate * DEG_TO_RAD)),
-												rRightTop(rt.x * cos(rotate* DEG_TO_RAD) - rt.y*sin(rotate * DEG_TO_RAD), rt.x*sin(rotate* DEG_TO_RAD) + rt.y*cos(rotate * DEG_TO_RAD)) { }
-	Rect2D(Vector2D center, int width, int height, float rotate) : rLeftBottom( center.x + ((center.x - width / 2) - center.x)* cos(rotate* DEG_TO_RAD) - ((center.y - height / 2) - center.y) * sin(rotate * DEG_TO_RAD), center.y + ((center.x - width / 2) - center.x) * sin(rotate* DEG_TO_RAD) + ((center.y - height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
-																rLeftTop(center.x + ((center.x - width / 2) - center.x) * cos(rotate * DEG_TO_RAD) - ((center.y + height / 2) - center.y) * sin(rotate * DEG_TO_RAD), center.y + ((center.x - width / 2) - center.x) * sin(rotate* DEG_TO_RAD) + ((center.y + height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
-																rRightBottom(center.x + ((center.x + width / 2) - center.x) * cos(rotate * DEG_TO_RAD) - ((center.y - height / 2) - center.y) * sin(rotate * DEG_TO_RAD), center.y + ((center.x + width / 2) - center.x) * sin(rotate * DEG_TO_RAD) + ((center.y - height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
-																rRightTop(center.x + ((center.x + width / 2) - center.x) * cos(rotate * DEG_TO_RAD) - ((center.y + height / 2) - center.y) * sin(rotate * DEG_TO_RAD), center.y + ((center.x + width / 2) - center.x) * sin(rotate * DEG_TO_RAD) + ((center.y + height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
-																center(center) { }
+	
+	Rect2D(int centerX, int centerY, int width, int height, uchar center) : 
+	leftBottom(Point2D(centerX - width / 2, centerY - height / 2)), rightTop(Point2D(centerX + width / 2, centerY + height / 2)), center(Point2D(centerX, centerY)) { }
+	
+	Rect2D(Point2D lb, Point2D rt, float rotate) : 
+	rLeftBottom(lb.x*cos(rotate * DEG_TO_RAD) - lb.y*sin(rotate * DEG_TO_RAD), lb.x*sin(rotate * DEG_TO_RAD) + lb.y*cos(rotate * DEG_TO_RAD)),
+	rLeftTop(lb.x*cos(rotate* DEG_TO_RAD) - rt.y*sin(rotate * DEG_TO_RAD), lb.x*sin(rotate* DEG_TO_RAD) + rt.y*cos(rotate * DEG_TO_RAD)),
+	rRightBottom(rt.x*cos(rotate* DEG_TO_RAD) - lb.y*sin(rotate * DEG_TO_RAD), rt.x*sin(rotate* DEG_TO_RAD) + lb.y*cos(rotate * DEG_TO_RAD)),
+	rRightTop(rt.x * cos(rotate* DEG_TO_RAD) - rt.y*sin(rotate * DEG_TO_RAD), rt.x*sin(rotate* DEG_TO_RAD) + rt.y*cos(rotate * DEG_TO_RAD)) { }
+
+	Rect2D(Vector2D center, int width, int height, float rotate) : 
+	rLeftBottom(center.x + ((center.x - width / 2) - center.x)* cos(rotate* DEG_TO_RAD) - 
+		((center.y - height / 2) - center.y) * sin(rotate * DEG_TO_RAD), center.y + 
+		((center.x - width / 2) - center.x) * sin(rotate* DEG_TO_RAD) + 
+		((center.y - height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
+
+	rLeftTop(center.x + ((center.x - width / 2) - center.x) * cos(rotate * DEG_TO_RAD) - 
+		((center.y + height / 2) - center.y) *  sin(rotate * DEG_TO_RAD),
+		center.y + ((center.x - width / 2) - center.x) * sin(rotate* DEG_TO_RAD) + 
+		((center.y + height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
+
+	rRightBottom(center.x + ((center.x + width / 2) - center.x) * cos(rotate * DEG_TO_RAD) - 
+		((center.y - height / 2) - center.y) * sin(rotate * DEG_TO_RAD), 
+		center.y + ((center.x + width / 2) - center.x) * sin(rotate * DEG_TO_RAD) + 
+		((center.y - height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
+
+	rRightTop(center.x + ((center.x + width / 2) - center.x) * cos(rotate * DEG_TO_RAD) - 
+		((center.y + height / 2) - center.y) * sin(rotate * DEG_TO_RAD), 
+		center.y + ((center.x + width / 2) - center.x) * sin(rotate * DEG_TO_RAD) +
+		((center.y + height / 2) - center.y) * cos(rotate * DEG_TO_RAD)),
+	center(center) { }
 
 	bool IntersectRect2D(const Rect2D& r) const {
 		return (leftBottom.x >= r.leftBottom.x && leftBottom.x <= r.rightTop.x && leftBottom.y >= r.leftBottom.y && leftBottom.y <= r.rightTop.y) ||
@@ -147,11 +168,13 @@ struct Rect2D {
 	}
 	bool IntersectRotatedRect2D(const Rect2D& r) const {
 		bool isGap = false, isCollision = false;
-		Vector2D Axis1, Axis2, Axis3, Axis4;
+		
 		Vector2D Represent1, Represent2, Represent3, Represent4;
 		Vector2D  rRepresent1, rRepresent2, rRepresent3, rRepresent4;
 		float RepresentCompare1, RepresentCompare2,	RepresentCompare3, RepresentCompare4;
 		float rRepresentCompare1, rRepresentCompare2, rRepresentCompare3, rRepresentCompare4;
+
+		Vector2D Axis1, Axis2, Axis3, Axis4;
 
 		Axis1.x = rRightTop.x - rLeftTop.x;
 		Axis1.y = rRightTop.y - rLeftTop.y;
@@ -187,7 +210,6 @@ struct Rect2D {
 			rRepresent4.x = ((r.rLeftBottom.x * axis.x + r.rLeftBottom.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.x;
 			rRepresent4.y = ((r.rLeftBottom.x * axis.x + r.rLeftBottom.y * axis.y) / (pow(axis.x, 2) + pow(axis.y, 2))) * axis.y;
 
-
 			RepresentCompare1 = Represent1.x * axis.x + Represent1.y * axis.y;
 			RepresentCompare2 = Represent2.x * axis.x + Represent2.y * axis.y;
 			RepresentCompare3 = Represent3.x * axis.x + Represent3.y * axis.y;
@@ -199,17 +221,19 @@ struct Rect2D {
 			rRepresentCompare4 = rRepresent4.x * axis.x + rRepresent4.y * axis.y;
 
 			
-			if(max({ rRepresentCompare1, rRepresentCompare2, rRepresentCompare3, rRepresentCompare4 }) >= max({ RepresentCompare1, RepresentCompare2, RepresentCompare3, RepresentCompare4 })) {
-				if (min({ rRepresentCompare1, rRepresentCompare2, rRepresentCompare3, rRepresentCompare4 }) >= max({ RepresentCompare1, RepresentCompare2, RepresentCompare3, RepresentCompare4 }))
+			if(max({ rRepresentCompare1, rRepresentCompare2, rRepresentCompare3, rRepresentCompare4 }) 
+				>= max({ RepresentCompare1, RepresentCompare2, RepresentCompare3, RepresentCompare4 })) {
+
+				if (min({ rRepresentCompare1, rRepresentCompare2, rRepresentCompare3, rRepresentCompare4 }) 
+					>= max({ RepresentCompare1, RepresentCompare2, RepresentCompare3, RepresentCompare4 }))
 					return false;
 			}
 			else {
-				if (max({ rRepresentCompare1, rRepresentCompare2, rRepresentCompare3, rRepresentCompare4 }) <= min({ RepresentCompare1, RepresentCompare2, RepresentCompare3, RepresentCompare4 }))
+				if (max({ rRepresentCompare1, rRepresentCompare2, rRepresentCompare3, rRepresentCompare4 }) 
+					<= min({ RepresentCompare1, RepresentCompare2, RepresentCompare3, RepresentCompare4 }))
 					return false;
 			}
 		}
-
-
 			return true;
 	}
 

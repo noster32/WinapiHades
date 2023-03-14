@@ -7,10 +7,10 @@ void MainMenuScene::Init()
 
 	TextureGenerateParam param(TextureGenerateParam::LINEAR, TextureGenerateParam::LINEAR);
 	SOUNDMANAGER->addSound("MainMenuBGM", "Resources/Sounds/MainMenu.wav", false, true);
-	MainMenuIn.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
-	MainMenuLoop.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
-	//MainMenuIn.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
-	//MainMenuLoop.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
+	//MainMenuIn.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
+	//MainMenuLoop.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
+	MainMenuIn.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
+	MainMenuLoop.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
 	MainMenuLoop.transformation.position.y -= 5.0f;
 	MainMenuLoop.transformation.scale -= 0.15f;
 	MainMenuLoop.SetDepth(21);

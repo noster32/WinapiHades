@@ -148,14 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="AssetIter.cpp" />
     <ClCompile Include="BossScene.cpp" />
-    <ClCompile Include="C3DMatrix.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="C3DVector.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="DeathArea.cpp" />
     <ClCompile Include="EngineLauncher.cpp" />
     <ClCompile Include="FontManager.cpp" />
@@ -191,14 +184,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="AssetIter.h" />
     <ClInclude Include="BossScene.h" />
-    <ClInclude Include="C3DMatrix.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="C3DVector.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="CommonMacroFunction.h" />
     <ClInclude Include="DeathArea.h" />
     <ClInclude Include="Engineapi.h" />

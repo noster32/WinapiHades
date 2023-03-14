@@ -33,10 +33,6 @@ HRESULT GameEngine::engineInitializer(EngineInit& param)
     gl.EnableFreeType();
     CustomInitialize();
     engineStateUpdate();
-
-    
-
-    
     return S_OK;
 }
 
