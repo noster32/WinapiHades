@@ -9,8 +9,8 @@ void MainMenuScene::Init()
 	SOUNDMANAGER->addSound("MainMenuBGM", "Resources/Sounds/MainMenu.wav", false, true);
 	//MainMenuIn.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
 	//MainMenuLoop.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
-	MainMenuIn.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
-	MainMenuLoop.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
+//	MainMenuIn.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuIn.avi");
+//	MainMenuLoop.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/MainMenuLoop.avi");
 	MainMenuLoop.transformation.position.y -= 5.0f;
 	MainMenuLoop.transformation.scale -= 0.15f;
 	MainMenuLoop.SetDepth(21);
@@ -29,11 +29,18 @@ void MainMenuScene::Init()
 	nts.Add(gl.LoadTexturePng("Resources/Images/Object/start.png", param), "startButton");
 	nts.Add(gl.LoadTexturePng("Resources/Images/Object/end.png", param), "endButton");
 
-	RegisterObject(MainMenuLoop);
-	RegisterObject(startbutton);
-	RegisterObject(endbutton);
+	nts.Add(gl.LoadTexturePng("Resources/Images/Object/idle.png", param), "temp");
+
+	RegisterObject(testImg);
+
+	//RegisterObject(MainMenuLoop);
+	//RegisterObject(startbutton);
+	//RegisterObject(endbutton);
 	//RegisterObject(testBox1);
 	//RegisterObject(testBox2);
+
+	testImg.texture = nts.Find("temp");
+	testImg.transformation.position = Vector2D(300, 300);
 
 	startbutton.texture = nts.Find("startButton");
 	startbutton.transformation.position = Vector2D(100, 300);
@@ -72,7 +79,7 @@ void MainMenuScene::OnUpdate()
 		//	startInEnd = true;
 	}
 	
-	MainMenuLoop.loop();
+	//MainMenuLoop.loop();
 
 	//printf("test");
 

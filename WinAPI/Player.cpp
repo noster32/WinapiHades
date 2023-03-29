@@ -10,18 +10,18 @@ void Player::SetTexture()
 
 void Player::SetFFmpeg()
 {
-	playerIdle.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
-	playerRunAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
-	playerDashAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
-	playerDashVFX.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
-	playerAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
-	playerSpacialAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSwordParry_Bink.avi");
-	playerAttackBowAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusBow_Bink.avi");
-	playerSpecialAttackBowAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusBowRapidFire_Bink.avi");
-	playerAttackFistAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusFistFlurryPunch_Bink.avi");
-	playerSpecialAttackFistAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusFistFlashKick_Bink.avi");
-	playerAttackSpearAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSpear_Bink.avi");
-	playerChargeAttackSpearAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSpearSpin_Bink.avi");
+	//playerIdle.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
+	//playerRunAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
+	//playerDashAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
+	//playerDashVFX.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusDashVFX_Bink.avi");
+	//playerAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSword_Bink.avi");
+	//playerSpacialAttackSwordAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSwordParry_Bink.avi");
+	//playerAttackBowAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusBow_Bink.avi");
+	//playerSpecialAttackBowAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusBowRapidFire_Bink.avi");
+	//playerAttackFistAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusFistFlurryPunch_Bink.avi");
+	//playerSpecialAttackFistAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusFistFlashKick_Bink.avi");
+	//playerAttackSpearAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSpear_Bink.avi");
+	//playerChargeAttackSpearAnim.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/ZagreusSpearSpin_Bink.avi");
 	//playerIdle.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusIdle_Bink.avi");
 	//playerRunAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusRun_Bink.avi");
 	//playerDashAnim.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/ZagreusDash_Bink.avi");
@@ -551,26 +551,26 @@ void Player::playerUpdate()
 	animCount++;
 	uint tempDepth = playerIdle.transformation.position.x + playerIdle.transformation.position.y;
 	
-	playerIdle.loop(angle, 32);
-	playerRunAnim.loop(angle * 2, 64);
-	playerDashAnim.playOnce(angle / 2, 16, 0, 1500000);
-	playerDashVFX.playOnce(angle / 2, 16, 0, 1500000);
-	
-	if (ePlayerWeapon == SWORD) {
-		playerSpacialAttackSwordAnim.playOnce(angle / 2, 16, 0, 2062500);
-	}
-	else if (ePlayerWeapon == BOW) {
-		playerSpecialAttackBowAnim.playOnce(angle / 2, 16, 0, 2333333);
-	}
-	else if (ePlayerWeapon == FIST) {
-		playerSpecialAttackFistAnim.playOnce(angle / 2, 16, 0, 2333333);
-	}
+	//playerIdle.loop(angle, 32);
+	//playerRunAnim.loop(angle * 2, 64);
+	//playerDashAnim.playOnce(angle / 2, 16, 0, 1500000);
+	//playerDashVFX.playOnce(angle / 2, 16, 0, 1500000);
+	//
+	//if (ePlayerWeapon == SWORD) {
+	//	playerSpacialAttackSwordAnim.playOnce(angle / 2, 16, 0, 2062500);
+	//}
+	//else if (ePlayerWeapon == BOW) {
+	//	playerSpecialAttackBowAnim.playOnce(angle / 2, 16, 0, 2333333);
+	//}
+	//else if (ePlayerWeapon == FIST) {
+	//	playerSpecialAttackFistAnim.playOnce(angle / 2, 16, 0, 2333333);
+	//}
 
 	//playerAttackSpearAnim.loop(angle, 32, 0, 4400000);
 	//playerAttackSpearAnim.loop(angle, 32, 0, 800000);
 	//playerAttackSpearAnim.loop(angle, 32, 800000, 1500000);
 	//playerAttackSpearAnim.loop(angle * 2, 64, 1500000, 2200000);
-	PlayerAttack();
+	//PlayerAttack();
 	playerCommand();
 	tempPlayerStatueUpdate();
 	playerMove();
@@ -582,16 +582,16 @@ void Player::playerUpdate()
 		}
 	}
 	
-	if (ePlayerStatus == MOVE) {
-		if (!soundPlayOnce) {
-			SOUNDMANAGER->play("footstep", 0.2f);
-			soundPlayOnce = true;
-		}
-	}
-	else {
-		SOUNDMANAGER->pause("footstep");
-		soundPlayOnce = false;
-	}
+	//if (ePlayerStatus == MOVE) {
+	//	if (!soundPlayOnce) {
+	//		SOUNDMANAGER->play("footstep", 0.2f);
+	//		soundPlayOnce = true;
+	//	}
+	//}
+	//else {
+	//	SOUNDMANAGER->pause("footstep");
+	//	soundPlayOnce = false;
+	//}
 
 	if (KEYMANAGER->isOnceKeyDown(VK_F1)) {
 		ePlayerWeapon = SWORD;
@@ -614,17 +614,17 @@ void Player::Render()
 
 	gl.PushMatrix();
 
-	playerIdle.RenderTest();
-	playerRunAnim.RenderTest();
-	playerDashAnim.RenderTest();
-	playerDashVFX.RenderTest();
-	playerAttackSwordAnim.RenderTest();
-	playerSpacialAttackSwordAnim.RenderTest();
-	playerAttackBowAnim.RenderTest();
-	playerSpecialAttackBowAnim.RenderTest();
-	playerAttackFistAnim.RenderTest();
-	playerSpecialAttackFistAnim.Render();
-	playerAttackSpearAnim.RenderTest();
+	//playerIdle.RenderTest();
+	//playerRunAnim.RenderTest();
+	//playerDashAnim.RenderTest();
+	//playerDashVFX.RenderTest();
+	//playerAttackSwordAnim.RenderTest();
+	//playerSpacialAttackSwordAnim.RenderTest();
+	//playerAttackBowAnim.RenderTest();
+	//playerSpecialAttackBowAnim.RenderTest();
+	//playerAttackFistAnim.RenderTest();
+	//playerSpecialAttackFistAnim.Render();
+	//playerAttackSpearAnim.RenderTest();
 	gl.DrawTextureAuto(transformation, texture, tick, Point2D(0,0));
 
 	gl.PopMatrix();

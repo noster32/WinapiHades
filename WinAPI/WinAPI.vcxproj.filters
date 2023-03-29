@@ -145,6 +145,12 @@
     <ClCompile Include="Player.cpp">
       <Filter>MainGame\Zagreus</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerImgVer.cpp">
+      <Filter>MainGame\Zagreus</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerImg.cpp">
+      <Filter>MainGame\Zagreus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonMacroFunction.h">
@@ -247,6 +253,12 @@
       <Filter>MainGame\Map</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
+      <Filter>MainGame\Zagreus</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerImgVer.h">
+      <Filter>MainGame\Zagreus</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerImg.h">
       <Filter>MainGame\Zagreus</Filter>
     </ClInclude>
   </ItemGroup>

@@ -44,7 +44,10 @@ void TestScene::Init()
 	vector<uint> uidsMobSpawn = gl.LoadMultipleTexturesPng("Resources/Images/Object/Anim/MobSpawn/MobSpawn", ".png", 3, param);
 	nts.Add(gl.BuildAnimation(uidsMobSpawn), "MobSpawn");
 
-	Skelly.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
+	vector<uint> APNGTest = gl.LoadMultipleTexturesAPNG("Resources/Images/Character/animated2.png", param);
+	nts.Add(gl.BuildAnimation(APNGTest), "APNG");
+
+	//Skelly.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
 	//Skelly.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
 	
 	nts.Add(gl.GenerateEmptyTexture(150, 150, 0xFFFFFFFF), "EnemyHitbox");
@@ -56,6 +59,7 @@ void TestScene::Init()
 	playerObjTest.SetDepth(20);
 	RegisterObject(playerObjTest);
 
+	RegisterObject(testAPNG);
 	RegisterObject(Orb1);
 	RegisterObject(MobSpawn);
 
@@ -68,7 +72,7 @@ void TestScene::Init()
 	//RegisterObject(playerAttack);
 	RegisterObject(playerAttack2);
 
-	RegisterObject(Skelly);
+	//RegisterObject(Skelly);
 
 	RegisterObject(UpdateInPlayer);
 	//fade.alpha
@@ -117,6 +121,10 @@ void TestScene::Init()
 	MobSpawn.SetDepth(21);
 	MobSpawn.transformation.anchor = Anchor::CENTER;
 
+	testAPNG.texture = nts.Find("APNG");
+	testAPNG.transformation.position = Vector2D(2000, 1000);
+	testAPNG.SetDepth(20);
+
 	masterSceneObject.transformation.anchor = Anchor::CENTER;
 	start = false;
 }
@@ -154,7 +162,7 @@ void TestScene::OnUpdate()
 	MobSpawnAnim.playObjAnimOnce(MobSpawn, 62, 1);
 	if(MobSpawnAnim.GetAnimDone())
 		Skelly.transformation.position = Vector2D(2730, 1000);
-	Skelly.loop();
+	//Skelly.loop();
 	OrbAnim.playObjAnim(Orb1, 39, 2);
 
 	tempObjAnim.playObjAnim(testOrb, 39, 2);

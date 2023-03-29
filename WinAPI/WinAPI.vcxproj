@@ -166,6 +166,8 @@
     <ClCompile Include="MasterSceneObject.cpp" />
     <ClCompile Include="nFFmpeg.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerImg.cpp" />
+    <ClCompile Include="PlayerImgVer.cpp" />
     <ClCompile Include="RenderObject.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="SceneObject.cpp" />
@@ -204,6 +206,8 @@
     <ClInclude Include="MasterSceneObject.h" />
     <ClInclude Include="nFFmpeg.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerImg.h" />
+    <ClInclude Include="PlayerImgVer.h" />
     <ClInclude Include="RandomFunction.h" />
     <ClInclude Include="RenderObject.h" />
     <ClInclude Include="scene.h" />

@@ -34,6 +34,7 @@ public:
 
 	uint GenerateEmptyTexture(int width, int height, uint RGBA);
 	uint LoadTexturePng(string fileName, TextureGenerateParam param);
+	uint LoadTextureAPNG(uint8_t* data, uint width, uint height, TextureGenerateParam param);
 	uint LoadTexturePngAnim(string fileName, TextureGenerateParam param, uint animWidth, uint animheight);
 	uint LoadTextureFFmpeg(uint8_t* data, int width, int height);
 	uint LoadPixelBufferFFmpeg(const int width, const int height);
@@ -45,6 +46,7 @@ public:
 	void ClearTexture(const uint uid, const uint RGBA);
 	
 	vector<uint> LoadMultipleTexturesPng(string prefix, string suffix, uint digit, TextureGenerateParam param);
+	vector<uint> LoadMultipleTexturesAPNG(string fileName, TextureGenerateParam param);
 	const TextureSource& GetTextureInformation(const uint uid) { return textureStorage.Find(uid); }
 
 	void ClearBuffer() { glClear(GL_COLOR_BUFFER_BIT); }

@@ -2,6 +2,7 @@
 #include "GLAPI.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#include "uc_apng_loader.h"
 
 const int charWidthMid = 17;
 const int charWidthBig = 33;
@@ -223,6 +224,27 @@ uint GLAPI::LoadTexturePng(string fileName, TextureGenerateParam param)
 	return dst->uid;
 }
 
+uint GLAPI::LoadTextureAPNG(uint8_t* data, uint width, uint height, TextureGenerateParam param)
+{
+	GLuint id;
+	glGenTextures(1, &id);
+	glBindTexture(GL_TEXTURE_2D, id);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, param.GetMinFilter());
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param.GetMagFilter());
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	
+	TextureSource* dst = new TextureSource(id);
+	dst->width = width;
+	dst->height = height;
+	dst->range.rightTop = Point2D(width, height);
+
+	textureStorage.Add(dst);
+
+	return dst->uid;
+}
+
 uint GLAPI::LoadTexturePngAnim(string fileName, TextureGenerateParam param, uint animWidth, uint animheight)
 {
 	int width, height, nrChannels;
@@ -386,6 +408,27 @@ vector<uint> GLAPI::LoadMultipleTexturesPng(string prefix, string suffix, uint d
 			break;
 		uids.push_back(uid);
 		index++;
+	}
+
+	return uids;
+}
+
+vector<uint> GLAPI::LoadMultipleTexturesAPNG(string fileName, TextureGenerateParam param)
+{
+	auto loader = uc::apng::create_file_loader(fileName);
+	vector<uc::apng::frame> frames;
+	vector<uint> uids;
+
+	while (loader.has_frame())
+	{
+		frames.push_back(loader.next_frame());
+	}
+
+	for (auto&& frame : frames)
+	{
+		uint uid = LoadTextureAPNG(frame.image.data(), frame.image.width(), frame.image.height(), param);
+		
+		uids.push_back(uid);
 	}
 
 	return uids;
@@ -790,10 +833,10 @@ Vector2D GLAPI::PxCoordToTexCoord2f(const Point2D& pixel, const uchar power)
 	return tex;
 }
 
-float GLAPI::PxCoordToTexCoord2fTest(const uint coord, const uint power)
+float GLAPI::PxCoordToTexCoord2fTest(const uint coord, const uint length)
 {
 	float tex = coord;
-	tex /= power;
+	tex /= length;
 	return tex;
 }
 

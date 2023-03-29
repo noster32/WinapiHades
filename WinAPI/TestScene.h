@@ -8,6 +8,7 @@ class TestScene : public scene
 private:
 	NamedTextureStorage nts;
 	
+	RenderObject testAPNG;
 	RenderObject fade;
 	RenderObject bg;
 	RenderObject test;

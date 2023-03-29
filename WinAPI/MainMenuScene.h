@@ -11,6 +11,7 @@ private:
 	RenderObject endbutton;
 	RenderObject testBox1;
 	RenderObject testBox2;
+	RenderObject testImg;
 
 	nFFmpeg MainMenuIn;
 	nFFmpeg MainMenuLoop;
