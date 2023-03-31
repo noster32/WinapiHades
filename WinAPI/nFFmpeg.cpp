@@ -207,6 +207,7 @@ void nFFmpeg::loop(uint pAngle, uint angle)
 	temp2 -= 100000;
 	if (temp2 >= duration)
 		temp2 == duration;
+	cout << tempTime << endl;
 	
 	if (tempTime > temp2)
 	{

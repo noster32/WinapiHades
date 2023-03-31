@@ -9,19 +9,14 @@ private:
 
 	RenderObject startbutton;
 	RenderObject endbutton;
-	RenderObject testBox1;
-	RenderObject testBox2;
-	RenderObject testImg;
 
-	nFFmpeg MainMenuIn;
 	nFFmpeg MainMenuLoop;
 	
 	Rect2D startbuttonInter;
+	Rect2D stopbuttonInter; 
 	bool start;
 	bool startInEnd;
 
-	Rect2D test;
-	Rect2D test2;
 public:
 	void Init();
 

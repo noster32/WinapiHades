@@ -148,8 +148,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="BossScene.cpp" />
-    <ClCompile Include="DeathArea.cpp" />
     <ClCompile Include="EngineLauncher.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GameEngine.cpp" />
@@ -159,7 +157,6 @@
     <ClCompile Include="IWindowMessage.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="JsonSaveLoader.cpp" />
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="MapManager.cpp" />
@@ -172,7 +169,6 @@
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="SoundManager.cpp" />
-    <ClCompile Include="SoundScene.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -186,9 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="BossScene.h" />
     <ClInclude Include="CommonMacroFunction.h" />
-    <ClInclude Include="DeathArea.h" />
     <ClInclude Include="Engineapi.h" />
     <ClInclude Include="EngineLauncher.h" />
     <ClInclude Include="FontManager.h" />
@@ -199,7 +193,6 @@
     <ClInclude Include="IWindowMessage.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="JsonSaveLoader.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="MapManager.h" />
@@ -214,7 +207,6 @@
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="SingletonBase.h" />
     <ClInclude Include="SoundManager.h" />
-    <ClInclude Include="SoundScene.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Stdafx.h" />

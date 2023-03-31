@@ -35,9 +35,6 @@
     <Filter Include="API FrameWork\OpenGL">
       <UniqueIdentifier>{3fc251f6-28ba-4eb2-96ec-5358635262a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="API FrameWork\Json">
-      <UniqueIdentifier>{ddc9ec70-eaff-49b4-99a8-fef34c8f6349}</UniqueIdentifier>
-    </Filter>
     <Filter Include="API FrameWork\Scene">
       <UniqueIdentifier>{6922d1d0-d391-4aaa-9110-56397f08af84}</UniqueIdentifier>
     </Filter>
@@ -82,9 +79,6 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>API FrameWork\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="SoundScene.cpp">
-      <Filter>MainGame</Filter>
-    </ClCompile>
     <ClCompile Include="MapManager.cpp">
       <Filter>API FrameWork\MapTool</Filter>
     </ClCompile>
@@ -93,9 +87,6 @@
     </ClCompile>
     <ClCompile Include="GameEngine.cpp">
       <Filter>API FrameWork\GameCore</Filter>
-    </ClCompile>
-    <ClCompile Include="JsonSaveLoader.cpp">
-      <Filter>API FrameWork\Json</Filter>
     </ClCompile>
     <ClCompile Include="EngineLauncher.cpp">
       <Filter>API FrameWork</Filter>
@@ -134,12 +125,6 @@
       <Filter>MainGame\Map</Filter>
     </ClCompile>
     <ClCompile Include="TestScene.cpp">
-      <Filter>MainGame\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="BossScene.cpp">
-      <Filter>MainGame\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="DeathArea.cpp">
       <Filter>MainGame\Map</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
@@ -186,9 +171,6 @@
     <ClInclude Include="SoundManager.h">
       <Filter>API FrameWork\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="SoundScene.h">
-      <Filter>MainGame</Filter>
-    </ClInclude>
     <ClInclude Include="MapManager.h">
       <Filter>API FrameWork\MapTool</Filter>
     </ClInclude>
@@ -197,9 +179,6 @@
     </ClInclude>
     <ClInclude Include="GameEngine.h">
       <Filter>API FrameWork\GameCore</Filter>
-    </ClInclude>
-    <ClInclude Include="JsonSaveLoader.h">
-      <Filter>API FrameWork\Json</Filter>
     </ClInclude>
     <ClInclude Include="EngineLauncher.h">
       <Filter>API FrameWork</Filter>
@@ -244,12 +223,6 @@
       <Filter>MainGame\Map</Filter>
     </ClInclude>
     <ClInclude Include="TestScene.h">
-      <Filter>MainGame\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="BossScene.h">
-      <Filter>MainGame\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="DeathArea.h">
       <Filter>MainGame\Map</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">

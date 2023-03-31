@@ -28,15 +28,6 @@ enum playerWeapon {
 
 class Player : public RenderObject
 {
-private:
-	enum RenderingOption {
-		TEXTURE_SIZE = (1 << 0),
-		GIVEN_SIZE = (1 << 1),
-		STRETCH_HOR = (1 << 2),
-		STRETCH_VER = (1 << 3),
-		FIT_TO_SCREEN = (STRETCH_HOR | STRETCH_VER),
-		FIT_TO_SCREEN_KEEP_RATIO = (1 << 4)
-	};
 private:	
 	map<playerStatus, string> mPlayerStatus;
 	playerStatus ePlayerStatus;
@@ -54,7 +45,6 @@ private:
 	nFFmpeg playerSpecialAttackFistAnim;
 	nFFmpeg playerAttackSpearAnim;
 	nFFmpeg playerChargeAttackSpearAnim;
-
 
 	int angle;
 	int attackAngle;
@@ -103,7 +93,6 @@ public:
 	Vector2D getPlayerPosition() { return playerIdle.transformation.position; }
 
 	Player() : renderOp(RenderObject::TEXTURE_SIZE) { }
-	void SetTexture();
 	void SetFFmpeg();
 
 	int GetPlayerDepth() { return playerIdle.transformation.position.x + (playerIdle.transformation.position.y - 112); }

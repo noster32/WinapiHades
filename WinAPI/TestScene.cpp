@@ -47,14 +47,12 @@ void TestScene::Init()
 	vector<uint> APNGTest = gl.LoadMultipleTexturesAPNG("Resources/Images/Character/animated2.png", param);
 	nts.Add(gl.BuildAnimation(APNGTest), "APNG");
 
-	//Skelly.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
-	//Skelly.load_frame("G:/SteamLibrary/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
+	Skelly.load_frame("C:/Program Files (x86)/Steam/steamapps/common/Hades/Content/Movies/Test/SkellyAssistTrait_Bink.avi");
 	
 	nts.Add(gl.GenerateEmptyTexture(150, 150, 0xFFFFFFFF), "EnemyHitbox");
 	nts.Add(gl.GenerateEmptyTexture(150, 50, 0xFFFFFFFF), "PlayerAttack");
 	nts.Add(gl.GenerateEmptyTexture(250, 100, 0xFFFFFFFF), "PlayerAttackUpDown");
 	
-	playerObjTest.SetTexture();
 	playerObjTest.SetFFmpeg(); 
 	playerObjTest.SetDepth(20);
 	RegisterObject(playerObjTest);
@@ -72,7 +70,7 @@ void TestScene::Init()
 	//RegisterObject(playerAttack);
 	RegisterObject(playerAttack2);
 
-	//RegisterObject(Skelly);
+	RegisterObject(Skelly);
 
 	RegisterObject(UpdateInPlayer);
 	//fade.alpha
@@ -162,7 +160,7 @@ void TestScene::OnUpdate()
 	MobSpawnAnim.playObjAnimOnce(MobSpawn, 62, 1);
 	if(MobSpawnAnim.GetAnimDone())
 		Skelly.transformation.position = Vector2D(2730, 1000);
-	//Skelly.loop();
+	Skelly.loop();
 	OrbAnim.playObjAnim(Orb1, 39, 2);
 
 	tempObjAnim.playObjAnim(testOrb, 39, 2);
@@ -177,11 +175,6 @@ void TestScene::OnUpdate()
 		if(SOUNDMANAGER->getPlayingTime("SkellyHit") >= SOUNDMANAGER->getSoundLenght("SkellyHit") || SOUNDMANAGER->getPlayingTime("SkellyHit") == 0)
 		SOUNDMANAGER->play("SkellyHit", 0.5f);
 	}
-	//if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON)) {
-	//	printf("Hit\n");
-	//	SOUNDMANAGER->play("SkellyHit", 0.5f);
-	//}
-
 }
 
 void TestScene::OnUpdateLoading()
